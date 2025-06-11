@@ -8,14 +8,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BCAS Website</title>
-  <link rel="stylesheet" href="/stylesheets/global.css">
+  <link rel="stylesheet" href="./stylesheets/global.css">
   <link rel="stylesheet" href="/stylesheets/index.css">
 </head>
 <body>
 
   <header>
     <nav>
-      <a href="/" aria-label="BCAS Logo"><img src="logo.png" alt="BCAS Logo" /></a>
+      <a href="#" aria-label="BCAS Logo">
+        <img src="https://placehold.co/600x400" alt="BCAS Logo" />
+      </a>
       <ul>
         <li><a href="/">Programmes</a></li>
         <li><a href="">About BCAS</a></li>
@@ -35,3 +37,8 @@
   <footer>
     <p>&copy; <?php echo date("Y"); ?> BCAS Campus. All rights reserved.</p>
   </footer>
+
+  <script type='module' src='./cf-admin/dependencies/cfusion/cfusion.js'></script>
+
+</body>
+</html>

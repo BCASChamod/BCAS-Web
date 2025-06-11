@@ -3,15 +3,11 @@
   font-family: 'NexaBold';
   src:
     url('../../resources/font/Lexend.woff') format('woff'),
-    url('../../resources/font/NexaBold.ttf.svg#NexaBold') format('svg'),
-    url('../../resources/font/NexaBold.ttf.eot?#iefix') format('embedded-opentype');
-  font-weight: normal;
-  font-style: normal;
 }
 
 :root {
   /* fonts */
-  --font-main: 'NexaBold', sans-serif;
+  --font-main: 'Outfit', sans-serif;
   --font-alt:  'Nunito', sans-serif;
 
   /* ——— Light theme RGB values ——— */
@@ -38,3 +34,4 @@
   --dark-active:     186,20,26;     /* same as light-active */
   --dark-warning:    255,0,0;       /* red */
 }
+
