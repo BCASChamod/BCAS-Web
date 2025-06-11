@@ -1,0 +1,89 @@
+{
+    "home": {
+      "title": "Career Compass | Professional Certification Courses",
+      "meta": [
+        { "name": "description", "content": "" },
+        { "name": "keywords", "content": "" },
+        { "name": "robots", "content": "index, follow" },
+        { "name": "author", "content": "" },
+        { "property": "og:title", "content": "" },
+        { "property": "og:description", "content": "" },
+        { "property": "og:type", "content": "" },
+        { "property": "og:url", "content": "" },
+        { "property": "og:image", "content": "" },
+        { "property": "og:locale", "content": "" },
+        { "property": "og:site_name", "content": "" }
+      ],
+      "link": [
+        { "rel": "shortcut icon", "href": "./resources/favicon/favicon.ico", "type": "image/x-icon" },
+        { "rel": "apple-touch-icon", "sizes": "180x180", "href": "./resources/favicon/apple-touch-icon.png" },
+        { "rel": "icon", "type": "image/png", "sizes": "32x32", "href": "./resources/favicon/favicon-32x32.png" },
+        { "rel": "icon", "type": "image/png", "sizes": "16x16", "href": "./resources/favicon/favicon-16x16.png" },
+        { "rel": "manifest", "href": "./resources/favicon/site.webmanifest" },
+        { "rel": "preconnect", "href": "https://careercompass.com" },
+        { "rel": "preconnect", "href": "https://fonts.googleapis.com" },
+        { "rel": "preconnect", "href": "https://fonts.gstatic.com", "crossorigin": "true" }
+      ],
+      "script": [
+        {
+          "type": "application/ld+json",
+          "content": {
+            "@context": "https://schema.org",
+            "@type": "EducationalOrganization",
+            "name": "Career Compass",
+            "url": "https://yourwebsite.com",
+            "logo": "https://yourwebsite.com/images/logo.png",
+            "description": "Professional certification courses to help you achieve career growth and success.",
+            "sameAs": [
+              "https://facebook.com/yourpage",
+              "https://linkedin.com/company/yourpage"
+            ]
+          }
+        }
+      ]
+    },
+    "about": {
+      "title": "About | Career Compass",
+      "meta": [
+        { "name": "description", "content": "" },
+        { "name": "keywords", "content": "" },
+        { "name": "robots", "content": "index, follow" },
+        { "name": "author", "content": "" },
+        { "property": "og:title", "content": "" },
+        { "property": "og:description", "content": "" },
+        { "property": "og:type", "content": "" },
+        { "property": "og:url", "content": "" },
+        { "property": "og:image", "content": "" },
+        { "property": "og:locale", "content": "" },
+        { "property": "og:site_name", "content": "" }
+      ],
+      "link": [
+        { "rel": "shortcut icon", "href": "../resources/favicon/favicon.ico", "type": "image/x-icon" },
+        { "rel": "apple-touch-icon", "sizes": "180x180", "href": "../resources/favicon/apple-touch-icon.png" },
+        { "rel": "icon", "type": "image/png", "sizes": "32x32", "href": "../resources/favicon/favicon-32x32.png" },
+        { "rel": "icon", "type": "image/png", "sizes": "16x16", "href": "../resources/favicon/favicon-16x16.png" },
+        { "rel": "manifest", "href": "../resources/favicon/site.webmanifest" },
+        { "rel": "preconnect", "href": "https://careercompass.com" },
+        { "rel": "preconnect", "href": "https://fonts.googleapis.com" },
+        { "rel": "preconnect", "href": "https://fonts.gstatic.com", "crossorigin": "true" }
+      ],
+      "script": [
+        {
+          "type": "application/ld+json",
+          "content": {
+            "@context": "https://schema.org",
+            "@type": "EducationalOrganization",
+            "name": "Career Compass",
+            "url": "https://careercompass.com",
+            "logo": "https://yourwebsite.com/images/logo.png",
+            "description": "Professional certification courses to help you achieve career growth and success.",
+            "sameAs": [
+              "https://facebook.com/yourpage",
+              "https://linkedin.com/company/yourpage"
+            ]
+          }
+        }
+      ]
+    }
+  }
+  

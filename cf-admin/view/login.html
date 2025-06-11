@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+</head>
+<body>
+  <h2>Login</h2>
+  <form id="loginForm" method="post">
+    <input type="text" id="username" placeholder="Username" required /><br />
+    <input type="password" id="password" placeholder="Password" required /><br />
+    <button type="submit">Login</button>
+  </form>
+  <p id="message"></p>
+
+<script>
+  let csrfToken = '';
+
+  async function getCsrfToken() {
+    const res = await fetch('../server/scripts/php/csrf.php');
+    const data = await res.json();
+    csrfToken = data.csrf_token;
+  }
+
+  getCsrfToken();
+
+  document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!username || !password) {
+      document.getElementById('message').innerText = 'Both fields are required.';
+      return;
+    }
+
+    try {
+      const res = await fetch('../server/scripts/php/auth.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ username, password, csrf_token: csrfToken })
+      });
+
+      if (!res.ok) throw new Error('Network error');
+
+      const data = await res.json();
+
+      if (data.success) {
+        document.getElementById('message').style.color = 'green';
+        document.getElementById('message').innerText = 'Login successful! Redirecting...';
+        setTimeout(() => location.href = '../index.php', 1000);
+      } else {
+        document.getElementById('message').style.color = 'red';
+        document.getElementById('message').innerText = data.message || 'Invalid credentials.';
+      }
+    } catch (err) {
+      document.getElementById('message').innerText = 'Server error or invalid response.';
+      console.error('Login error:', err);
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Block direct access to all PHP files inside this folder except auth.php
+
+# Prevent directory listing
+Options -Indexes
+
+# Disable server signature
+ServerSignature Off

@@ -1,0 +1,10 @@
+/* lightmod.css */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-clr:        var(--light-bg);
+    --offbg-clr:     var(--light-offbg);
+    --main-clr:      var(--light-main);
+    --alt-clr:       var(--light-alt);
+    --txt-clr:       var(--light-text);
+  }
+}

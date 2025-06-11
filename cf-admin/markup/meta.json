@@ -1,0 +1,10 @@
+{
+    "meta": {
+        "title": "Add Blog",
+        "description": "A page to add new blogs with title, content, snippet, author, and other details.",
+        "keywords": ["blog", "create", "content", "add", "author"],
+        "viewport": "width=device-width, initial-scale=1.0",
+        "charset": "UTF-8",
+        "author": "Your Name or Organization"
+    }
+}

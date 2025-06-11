@@ -1,0 +1,153 @@
+<!-- You know what do to chamod "data-cms-editable="true""-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live HTML Editor</title>
+    <!-- Include Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; }
+        .editor_panel {
+            display: flex;
+            background-color: #f4f4f4;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+        .editor_panel button {
+            border: none;
+            background-color: #fff;
+            padding: 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .editor_panel button:hover {
+            background-color: #e0e0e0;
+        }
+        #editor {
+            margin-top: 10px; /* Space for the panel */
+            padding: 10px;
+            height: calc(100vh - 60px); /* Adjust for the panel height */
+            overflow-y: auto; /* Scroll if content exceeds */
+            border: 1px solid #ccc; /* Add border for visibility */
+            white-space: pre-wrap; /* Preserve whitespace */
+            background: #fff; /* Background color for editor */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Toolbar -->
+<header class="editor_panel">
+    <button id="edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+    <button id="bold-btn" title="Bold"><i class="fas fa-bold"></i></button>
+    <button id="italic-btn" title="Italic"><i class="fas fa-italic"></i></button>
+    <button id="underline-btn" title="Underline"><i class="fas fa-underline"></i></button>
+    <button id="bullet-btn" title="Bullet Points"><i class="fas fa-list-ul"></i></button>
+    <button id="numbered-btn" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+    <button id="color-btn" title="Text Color"><i class="fas fa-paint-brush"></i></button>
+    <button id="font-size-btn" title="Font Size"><i class="fas fa-text-height"></i></button>
+    <button id="justify-btn" title="Justify"><i class="fas fa-align-justify"></i></button>
+    <button id="save-btn" title="Save Changes"><i class="fas fa-save"></i></button>
+</header>
+
+<!-- Editable Div for HTML Content -->
+<div id="editor" contenteditable="false"></div>
+
+<!-- Include jQuery for AJAX requests -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    const filePath = '../../sample.html'; // Path to your HTML file
+
+    // Load content from the HTML file into the editable div
+    async function loadContent() {
+        const response = await fetch('http://localhost/revamps/cf-admin/server/scripts/php/htmlloader.php?file=' + encodeURIComponent(filePath));
+        const html = await response.text();
+        $('#editor').html(html); // Load HTML content into the editable div
+    }
+
+    // Save the content of the editable div back to the HTML file
+    async function saveContent() {
+        // Remove contenteditable attributes before saving
+        $('#editor *').removeAttr('contenteditable'); // Ensure all contenteditable attributes are removed
+
+        const content = $('#editor').html(); // Get content from the editable div
+        const response = await fetch('http://localhost/revamps/cf-admin/server/scripts/php/htmlsave.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ file: filePath, content: content })
+        });
+        const result = await response.text();
+        alert(result); // Show result of saving process
+
+        // Set contenteditable to false after saving
+        $('#editor').attr('contenteditable', 'false');
+    }
+
+    // Button Event Listeners for Formatting Commands
+    document.getElementById('edit-btn').addEventListener('click', () => {
+        // Make only elements with data-cms-editable="true" editable
+        $('#editor *').each(function() {
+            if ($(this).attr('data-cms-editable') === 'true') {
+                $(this).attr('contenteditable', 'true'); // Enable editing for editable elements
+            } else {
+                $(this).attr('contenteditable', 'false'); // Disable editing for non-editable elements
+            }
+        });
+
+        $('#editor').attr('contenteditable', 'true'); // Enable editing in the editor
+    });
+
+    document.getElementById('bold-btn').addEventListener('click', () => {
+        document.execCommand('bold');
+    });
+
+    document.getElementById('italic-btn').addEventListener('click', () => {
+        document.execCommand('italic');
+    });
+
+    document.getElementById('underline-btn').addEventListener('click', () => {
+        document.execCommand('underline');
+    });
+
+    document.getElementById('bullet-btn').addEventListener('click', () => {
+        document.execCommand('insertUnorderedList');
+    });
+
+    document.getElementById('numbered-btn').addEventListener('click', () => {
+        document.execCommand('insertOrderedList');
+    });
+
+    document.getElementById('justify-btn').addEventListener('click', () => {
+        document.execCommand('justifyFull'); // Justify text
+    });
+
+    document.getElementById('color-btn').addEventListener('click', () => {
+        const color = prompt("Enter a text color (e.g., red, #f00):");
+        if (color) {
+            document.execCommand('foreColor', false, color);
+        }
+    });
+
+    document.getElementById('font-size-btn').addEventListener('click', () => {
+        const size = prompt("Enter a font size (e.g., 10px, 1.5em):");
+        if (size) {
+            document.execCommand('fontSize', false, '7'); // Use a span with size '7'
+            const fontSizeElements = document.querySelectorAll('#editor span[style*="font-size"]');
+            fontSizeElements.forEach(el => {
+                el.style.fontSize = size; // Apply custom font size
+            });
+        }
+    });
+
+    document.getElementById('save-btn').addEventListener('click', saveContent);
+
+    // Load content when the page loads
+    window.onload = loadContent;
+</script>
+</body>
+</html>

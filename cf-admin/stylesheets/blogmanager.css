@@ -1,0 +1,119 @@
+body {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+
+.dashboard {
+    margin: auto;
+    width: 90%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px var(--def-shadow-clr);
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--def-clr-shadec);
+}
+
+.dashboard-header h1 {
+    font-size: 1rem;
+    color: var(--def-txt-clr);
+}
+
+.dashboard-main {
+    margin-top: 20px;
+}
+
+.blog-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: var(--def-offbg);
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px var(--def-shadow-clr);
+    transition: outline 1s ease;
+}
+
+.blog-item div:nth-of-type(1) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.blog-item:hover {
+    outline: 0.5px solid var(--def-txt-clr);
+    outline-offset: 4px;
+}
+
+.blog-item h2 {
+    font-size: 1rem;
+    color: var(--def-txt-clr);
+    margin: 0;
+}
+
+.blog-item p {
+    font-size: 0.8rem;
+    color: var(--def-txt-clr);
+    margin: 0;
+    opacity: 0.7;
+    width: 60%;
+    max-width: 55ch;
+    height: 2ch;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.blog-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: var(--def-clr-shadec);
+    margin: 20px 0;
+}
+
+.secondary-btn {
+    background: var(--def-alt-clr);
+    color: var(--def-txtinvert-clr);
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.danger-btn {
+    background: red;
+    color: var(--def-txtinvert-clr);
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+
+@media (max-width: 768px) {
+    
+    .dashboard-header {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .blog-item {
+        flex-direction: row;
+        gap: 10px;
+    }
+}

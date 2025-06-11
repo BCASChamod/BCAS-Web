@@ -1,0 +1,40 @@
+/* theme.css */
+@font-face {
+  font-family: 'NexaBold';
+  src:
+    url('../../resources/font/Lexend.woff') format('woff'),
+    url('../../resources/font/NexaBold.ttf.svg#NexaBold') format('svg'),
+    url('../../resources/font/NexaBold.ttf.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  /* fonts */
+  --font-main: 'NexaBold', sans-serif;
+  --font-alt:  'Nunito', sans-serif;
+
+  /* ——— Light theme RGB values ——— */
+  --light-bg:        239,239,239;   /* #efefef */
+  --light-offbg:     255,255,255;   /* #ffffff */
+  --light-main:      191,23,37;     /* #BF1725 */
+  --light-alt:       11,67,140;     /* #0B438C */
+  --light-text:      13,13,13;      /* #0D0D0D */
+  --light-invert:    255,255,255;   /* #ffffff */
+  --light-shadow:    0,0,0;         /* for rgba(var(--def-shadow),0.2) */
+  --light-disabled:  100,100,100;   /* rgb(100,100,100) */
+  --light-active:    186,20,26;     /* #BA141A */
+  --light-warning:   255,0,0;       /* red */
+
+  /* ——— Dark theme RGB values ——— */
+  --dark-bg:         13,13,13;      /* #0D0D0D */
+  --dark-offbg:      30,30,30;      /* #1e1e1e */
+  --dark-main:       214,144,13;    /* #d6900d */
+  --dark-alt:        0,255,65;      /* #00FF41 */
+  --dark-text:       255,255,255;   /* #ffffff */
+  --dark-invert:     13,13,13;      /* #0D0D0D */
+  --dark-shadow:     13,13,13;      /* for rgba(var(--def-shadow),0.5) */
+  --dark-disabled:   100,100,100;   /* rgb(100,100,100) */
+  --dark-active:     186,20,26;     /* same as light-active */
+  --dark-warning:    255,0,0;       /* red */
+}

@@ -1,0 +1,211 @@
+/* #region Defaults */
+ 
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: var(--main-font);
+        line-height: 1.6;
+    }
+
+    html, body {
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, var(--dark--bg-clr), var(--dark--offbg-clr));
+        color: #ffffff;
+        overflow: hidden;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+
+
+/* #endregion */
+
+/* #region Header */
+
+    header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 150px;
+        display: flex;
+        justify-content: space-between;
+        background-color: var(--def-offbg);
+        box-shadow: 0px 10px 10px #0000004d;
+        padding: 20px;
+        z-index: 99;
+    }
+
+    header p {
+        text-align: right;
+    }
+
+    .main-panel {
+        position: absolute;
+        display: flex;
+        bottom: 0;
+        justify-content: space-evenly;
+        width: 100%;
+        align-items: center;
+        padding: 10px 25px;
+        gap: 20px;
+    }
+
+/* #endregion */
+
+main {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    margin-top: 200px;
+}
+
+.side-panel-container {
+    width: 20%;
+    min-width: 100px;
+    height: calc(100vh - 250px);
+    padding: 25px;
+    margin: 0 10px;
+    background: #0000004d;
+    box-shadow: inset 0px 0px 15px #0000004d;
+    border-left: 2px solid var(--def-clr-shadeb);
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    z-index: 999;
+}
+
+.side-panel-container ul {
+    list-style: none;
+    color: var(--def-main-clr);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.side-panel-container ul li:hover {
+    text-decoration: underline;
+}
+
+.popup-container {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    pointer-events: visible;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.600);
+    backdrop-filter: blur(10px);
+    z-index: 999;
+}
+
+.popup {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 250px;
+    width: 400px;
+    background-color: var(--def-offbg);
+    box-shadow: 0px 0px 10px var(--dark--shadow-clr);
+}
+
+
+
+/* #region Panel Styling */
+
+    .maincard-container {
+        position: relative;
+        height: calc(100vh - 250px);
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        overflow-y: scroll;
+        padding-bottom: 200px;
+    }
+
+    .option-panel {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 20px;
+        padding: 20px;
+        box-sizing: border-box;
+        border: 2px solid var(--def-main-clr);
+        border-radius: 25px;
+        background: rgba(141, 141, 141, 0.151);
+    }
+
+    .option-panel .list-labels {
+        flex: 1 1 25%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .option-panel .list-options {
+        flex: 1 1 70%;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .option-panel .list-options ul {
+        list-style: none;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap; /* Wrap items for responsiveness */
+        gap: 15px;
+        justify-content: center; /* Center items */
+    }
+
+    .option-panel .list-options ul li {
+        margin: 5px 0;
+        padding: 10px;
+        flex: 1 1 calc(30% - 10px);
+        max-width: 500px;
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: #ffffff;
+        transition: all 0.3s ease-in-out;
+        text-align: center;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    .option-panel .list-options ul li:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    }
+
+/* #endregion */
+
+
+/* #region Footer */
+footer {
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+}
+
+
+/* #endregion */

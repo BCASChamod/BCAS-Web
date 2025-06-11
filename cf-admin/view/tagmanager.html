@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit JSON Data</title>
+</head>
+<body>
+    <h1>Edit JSON Data</h1>
+    <label for="pageSelector">Select Page:</label>
+    <select id="pageSelector" onchange="populateData()">
+    </select>
+    
+    <div id="content">
+        <div id="metaTags">
+            <h1>Meta Tags</h1>
+            <div id="metaTagContainer"></div>
+        </div>
+        <div id="linkTags">
+            <h1>Link Tags</h1>
+            <div id="linkTagContainer"></div>
+        </div>
+        <button onclick="saveData()">Save</button>
+    </div>
+    
+    <script src="./scripts/meta_manager.js"></script>
+</body>
+</html>
