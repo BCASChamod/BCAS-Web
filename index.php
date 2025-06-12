@@ -16,7 +16,7 @@
   <header>
     <nav>
       <a href="#" aria-label="BCAS Logo">
-        <img src="https://placehold.co/600x400" alt="BCAS Logo" />
+        <img id="logo" src="" alt="BCAS Logo" />
       </a>
       <ul>
         <li><a href="/">Programmes</a></li>
