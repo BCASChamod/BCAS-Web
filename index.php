@@ -9,14 +9,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BCAS Website</title>
   <link rel="stylesheet" href="./stylesheets/global.css">
-  <link rel="stylesheet" href="/stylesheets/index.css">
+  <!-- <link rel="stylesheet" href="./stylesheets/index.css"> -->
 </head>
 <body>
 
   <header>
     <nav>
       <a href="#" aria-label="BCAS Logo">
-        <img id="logo" src="" alt="BCAS Logo" />
+        <img id="logo" src="" alt="" />
       </a>
       <ul>
         <li><a href="/">Programmes</a></li>

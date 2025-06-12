@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     function loadMedia() {
-        fetch('http://localhost/careercompass/cf_admin/scripts/mediahandler.php')
+        fetch('http://localhost/bcas-web/cf-admin/server/scripts/php/mediahandler.php')
             .then(response => response.json())
             .then(mediaData => {
                 const mediaElements = document.querySelectorAll('img, video');

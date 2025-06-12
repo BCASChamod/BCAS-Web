@@ -1,7 +1,7 @@
 <?php
 require './config.php';
 
-$sql = "SELECT id, type, element_id, src, alt, srcset, name, is_active FROM medialibrary"; 
+$sql = "SELECT id, type, element_id, src, alt, srcset, name, is_active FROM media_library"; 
 $result = $conn->query($sql);
 
 $mediaData = array();
