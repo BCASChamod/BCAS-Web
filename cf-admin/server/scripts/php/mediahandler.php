@@ -1,5 +1,5 @@
 <?php
-require 'db.php';
+require './config.php';
 
 $sql = "SELECT id, type, element_id, src, alt, srcset, name, is_active FROM medialibrary"; 
 $result = $conn->query($sql);
