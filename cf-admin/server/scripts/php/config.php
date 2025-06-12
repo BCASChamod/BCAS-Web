@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$dbname = 're_revamps';
+$host = '34.195.57.198:3306';
+$user = 'dev-conn';
+$password = 'IlnEoi*q87N^8ibl';
+$dbname = 'sandbox_bcas';
 
 $conn = new mysqli($host, $user, $password, $dbname);
 
