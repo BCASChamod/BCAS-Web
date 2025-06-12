@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 600">
+  <g id="uuid-7c842317-76db-4c34-bfd2-54602981863d" data-name="item">
+    <path d="M141.5,131.82c0-3.45-2.69-6.24-6-6.24s-6,2.79-6,6.24c0,2.52,1.44,4.68,3.5,5.67v178.91l2.5,2.6,2.5-2.6v-178.91c2.06-.99,3.5-3.15,3.5-5.67Z" style="fill: #ba141a;"/>
+    <g id="uuid-fca0f912-d20b-4f8f-a1be-ef911f45faa0" data-name="Text">
+      <text transform="translate(113.82 119.42)" style="font-family: Outfit-SemiBold, Outfit; font-size: 20px; font-variation-settings: &apos;wght&apos; 600; font-weight: 600;"><tspan x="0" y="0">1999</tspan></text>
+      <text transform="translate(80.58 343.25)" style="font-family: Outfit-Medium, Outfit; font-size: 10px; font-variation-settings: &apos;wght&apos; 500; font-weight: 500;"><tspan x="0" y="0">Event Name - Link B</tspan><tspan x="89.84" y="0" style="letter-spacing: -.03em;">r</tspan><tspan x="93.77" y="0">ea</tspan><tspan x="104.91" y="0" style="letter-spacing: -.03em;">k</tspan><tspan x="109.74" y="0">s </tspan><tspan x="-.31" y="12">Epa, Ove</tspan><tspan x="40.33" y="12" style="letter-spacing: -.02em;">r</tspan><tspan x="44.42" y="12" style="letter-spacing: 0em;">fl</tspan><tspan x="50.77" y="12" style="letter-spacing: -.01em;">o</tspan><tspan x="56.28" y="12">w P</tspan><tspan x="71.86" y="12" style="letter-spacing: -.03em;">r</tspan><tspan x="75.79" y="12">evention</tspan></text>
+    </g>
+  </g>
+  <g id="uuid-3d729068-8057-4511-9c4d-b1c22d15bce1" data-name="item">
+    <path d="M294.5,466.76c0,3.45,2.69,6.24,6,6.24s6-2.79,6-6.24c0-2.52-1.44-4.68-3.5-5.67v-178.91l-2.5-2.6-2.5,2.6v178.91c-2.06.99-3.5,3.15-3.5,5.67Z" style="fill: #ba141a;"/>
+    <g id="uuid-96e4e498-ecc7-4277-b33f-dca37324ca61" data-name="Text">
+      <text transform="translate(277.1 502.42)" style="font-family: Outfit-SemiBold, Outfit; font-size: 20px; font-variation-settings: &apos;wght&apos; 600; font-weight: 600;"><tspan x="0" y="0">2001</tspan></text>
+      <text transform="translate(244.58 245.25)" style="font-family: Outfit-Medium, Outfit; font-size: 10px; font-variation-settings: &apos;wght&apos; 500; font-weight: 500;"><tspan x="0" y="0">Event Name - Link B</tspan><tspan x="89.84" y="0" style="letter-spacing: -.03em;">r</tspan><tspan x="93.77" y="0">ea</tspan><tspan x="104.91" y="0" style="letter-spacing: -.03em;">k</tspan><tspan x="109.74" y="0">s </tspan><tspan x="-.31" y="12">Epa, Ove</tspan><tspan x="40.33" y="12" style="letter-spacing: -.02em;">r</tspan><tspan x="44.42" y="12" style="letter-spacing: 0em;">fl</tspan><tspan x="50.77" y="12" style="letter-spacing: -.01em;">o</tspan><tspan x="56.28" y="12">w P</tspan><tspan x="71.86" y="12" style="letter-spacing: -.03em;">r</tspan><tspan x="75.79" y="12">evention</tspan></text>
+    </g>
+  </g>
+  <g id="uuid-6b10a12e-9386-48a3-bbbd-a329a47d56c1" data-name="main-branch">
+    <rect x="25" y="295" width="1450" height="10" rx="5" ry="5" style="fill: #013b82;"/>
+  </g>
+</svg>
