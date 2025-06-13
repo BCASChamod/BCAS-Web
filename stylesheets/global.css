@@ -25,6 +25,7 @@ nav ul {
     padding: 0;
     cursor: pointer;
 }
+
 nav ul li a {
     text-decoration: none;
     color: rgba(var(--txt-clr), 0.4) !important;
@@ -60,4 +61,46 @@ nav ul li a:hover {
 nav ul li a:hover::after {
     width: 100%;
     opacity: 1;
+}
+
+.theme-switch {
+  opacity: 0;
+  position: absolute;
+}
+
+.theme-switch-label {
+  background-color: #303030;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  width: 50px;
+  height: 26px;
+  border-radius: 50px;
+  position: relative;
+  padding: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.theme-switch:checked + .theme-switch-label {
+    background-color: #090631;
+}
+
+.fa-moon {color: #f1c40f;}
+
+.fa-sun-bright {color: #e08e0a;}
+
+.theme-switch-label .ball {
+  background-color: #fff;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  border-radius: 50%;
+  transition: transform 0.2s linear;
+}
+
+.theme-switch:checked + .theme-switch-label .ball {
+  transform: translateX(24px);
 }

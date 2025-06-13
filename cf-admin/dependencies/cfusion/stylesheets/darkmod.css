@@ -1,11 +1,2 @@
 @import url('./theme.css');
 /* darkmod.css */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-clr:        var(--dark-bg);
-    --offbg-clr:     var(--dark-offbg);
-    --main-clr:      var(--dark-main);
-    --alt-clr:       var(--dark-alt);
-    --txt-clr:       var(--dark-text);
-  }
-}

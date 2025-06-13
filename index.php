@@ -13,32 +13,20 @@
 </head>
 <body>
 
-  <header>
-    <nav>
-      <a href="#" aria-label="BCAS Logo">
-        <img id="logo" src="" alt="" />
-      </a>
-      <ul>
-        <li><a href="/">Programmes</a></li>
-        <li><a href="">About BCAS</a></li>
-        <li><a href="">Student Life</a></li>
-        <li><a href="">Help & Support</a></li>
-        <li><a href="">Insights</a></li>
-      </ul>
-    </nav>
-  </header>
-
   <main>
-    <section>
+    <section id="landing">
+      <div class="landing-bg">
+        <img src="" alt="">
+      </div>
 
     </section>
   </main>
 
-  <footer>
-    <p>&copy; <?php echo date("Y"); ?> BCAS Campus. All rights reserved.</p>
-  </footer>
 
+
+  <script src="./scripts/js/index.js"></script>
   <script type='module' src='./cf-admin/dependencies/cfusion/cfusion.js'></script>
+  <script src="./scripts/js/global.js"></script>
 
 </body>
 </html>

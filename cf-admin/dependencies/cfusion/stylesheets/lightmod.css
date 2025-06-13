@@ -1,12 +1,19 @@
 @import url('./theme.css');
 
 /* lightmod.css */
-@media (prefers-color-scheme: light) {
-  :root {
+  :root[data-theme='light'] {
     --bg-clr:        var(--light-bg);
     --offbg-clr:     var(--light-offbg);
     --main-clr:      var(--light-main);
     --alt-clr:       var(--light-alt);
     --txt-clr:       var(--light-text);
   }
-}
+
+/* darkmod.css */
+  :root[data-theme='dark'] {
+    --bg-clr:        var(--dark-bg);
+    --offbg-clr:     var(--dark-offbg);
+    --main-clr:      var(--dark-main);
+    --alt-clr:       var(--dark-alt);
+    --txt-clr:       var(--dark-text);
+  }
