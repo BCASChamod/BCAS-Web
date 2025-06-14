@@ -1,4 +1,4 @@
-(async function() {
+export async function showLoadingOverlay() {
 
   function waitForBody() {
     return new Promise((resolve) => {
@@ -27,7 +27,7 @@
   iframe.style.height = '100vh';
   iframe.style.zIndex = '9999';
   iframe.style.border = 'none';
-  iframe.src = 'http://localhost/careercompass/pages/loading.html';
+  iframe.src = 'http://localhost/bcas-web/cf-admin/dependencies/cfusion/html/loader.html';
 
   document.body.appendChild(iframe);
 
@@ -53,8 +53,9 @@
                 iframe.style.opacity = '0';
                 setTimeout(() => {
                     iframe.remove();
-                      window.name = "loaded";
+                    window.name = "loaded";
                     console.log("Page Fully Loaded!");
+                    document.documentElement.setAttribute("data-loaded", "true");
                 }, 500);
             }
         } else {
@@ -64,6 +65,6 @@
     }
 
     checkMediaSrc();
-});
+  });
 
-})();
+}

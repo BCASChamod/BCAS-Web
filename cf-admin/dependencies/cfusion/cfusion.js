@@ -1,14 +1,19 @@
+import { initializeTheme, setupThemeSwitch } from './scripts/theme.js';
 import { injectHeader, injectFooter } from './scripts/template.js';
 import { injectDependencies } from './scripts/inject_deps.js';
 import { loadMedia, checkAllMediaElements } from './scripts/media_handler.js';
+import { showLoadingOverlay } from './scripts/loading.js';
 
+initializeTheme();
+// setupThemeSwitch(document.getElementById('themeSwitch'));
 loadMedia();
 checkAllMediaElements();
 injectDependencies('fontawesome', 'cfusion', 'gsap');
+showLoadingOverlay();
 console.log("CFusion Initiated!");
 
-const endpoint = document.documentElement.getAttribute('data-endpoint');
-if (endpoint === 'cms') {
+const side = document.documentElement.getAttribute('data-side');
+if (side === 'client') {
     // No Injections
 } else {
     injectHeader();
@@ -70,23 +75,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Initial call to load media data and set src attributes
     loadMedia();
 
-    // MutationObserver to detect new img or video elements added to the DOM
+
     const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
             if (mutation.type === 'childList') {
                 mutation.addedNodes.forEach(node => {
                     if (node.tagName === 'IMG' || node.tagName === 'VIDEO') {
-                        loadMedia();  // Re-run loadMedia when new img or video elements are added
+                        loadMedia();
                     }
                 });
             }
         }
     });
 
-    // Start observing the document for changes
     observer.observe(document.body, { childList: true, subtree: true });
 
 });

@@ -1,14 +1,17 @@
 nav {
+    position: fixed;
+    top: 0;
     background-color: rgb(var(--offbg-clr));
     display: flex;
     flex-direction: row;
-    width: 95%;
+    width: 90%;
     justify-content: space-between;
     align-items: center;
-    padding: 0rem 1rem;
+    padding: 0rem 2rem;
     border-radius: 2rem;
-    margin: 1rem auto;
+    margin: 1rem 5%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 99;
 }
 nav a img {
     width: clamp(100px, 10vw, 150px);

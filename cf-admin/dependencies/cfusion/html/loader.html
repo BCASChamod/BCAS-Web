@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html data-side="client">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading</title>
+    <meta name="robots" content="noindex">
+    <style>
+        body {
+            background: rgb(var(--offbg-clr));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            opacity: 0;
+            margin: 0;
+            overflow: hidden;
+            transition: background 500ms ease;
+        }
+        .gsap-loader {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gsap-dot {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgb(175, 5, 5);
+            opacity: 0.8;
+            box-shadow: 0 0 16px #ff3d0055;
+            transition: all 500ms ease;
+        }
+    </style>
+    <script type="module" src="../cfusion.js"></script> 
+</head>
+<body>
+    <div class="gsap-loader">
+        <div class="gsap-dot"></div>
+        <div class="gsap-dot"></div>
+        <div class="gsap-dot"></div>
+        <div class="gsap-dot"></div>
+        <div class="gsap-dot"></div>
+        <div class="gsap-dot"></div>
+    </div>
+    <script>
+    setTimeout(() => {
+        document.querySelector('body').style.opacity = '1';
+    }, 200);
+
+    window.addEventListener('load', () => {
+        const dots = document.querySelectorAll('.gsap-dot');
+        const radius = 15;
+        const center = 50;
+        dots.forEach((dot, i) => {
+            const angle = (i / dots.length) * Math.PI * 2;
+            dot.style.left = `${center + Math.cos(angle) * radius - 9}px`;
+            dot.style.top = `${center + Math.sin(angle) * radius - 9}px`;
+        });
+        gsap.to('.gsap-dot', {
+            scale: 0.4,
+            backgroundColor: '#fff',
+            opacity: 1,
+            yoyo: true,
+            repeat: -1,
+            stagger: {
+                each: 0.12,
+                yoyo: true,
+                repeat: -1
+            },
+            duration: 0.5,
+            ease: "power1.inOut"
+        });
+        gsap.to('.gsap-loader', {
+            rotate: 360,
+            repeat: -1,
+            duration: 2.2,
+            ease: "linear"
+        });
+        gsap.to('.gsap-loader', {
+            scale: 1.2,
+            yoyo: true,
+            repeat: -1,
+            duration: 1.1,
+            ease: "sine.inOut"
+        });
+    });
+    </script>   
+</body>
+</html>
