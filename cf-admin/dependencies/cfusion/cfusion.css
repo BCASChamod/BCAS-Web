@@ -1,6 +1,5 @@
 @import url('http://localhost/bcas-web/cf-admin/dependencies/cfusion/stylesheets/theme.css');
 @import url('http://localhost/bcas-web/cf-admin/dependencies/cfusion/stylesheets/lightmod.css');
-@import url('http://localhost/bcas-web/cf-admin/dependencies/cfusion/stylesheets/darkmod.css');
 
 :root {
     --h-size: 30px;
@@ -25,7 +24,7 @@ html, body {
     font-family: var(--main-font);
     -webkit-font-smoothing: antialiased;
     color: rgb(var(--txt-clr));
-    background: rgb(var(--offbg-clr));
+    background: rgb(var(--bg-clr));
 }
 
 a:visited, a:active, a:link {

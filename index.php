@@ -46,19 +46,31 @@
         <div class="card card--wide">BCAS Campus</div>
       </div>
     </section>
+  <div class="content-wrapper">
+    <section class="grd-con short-about" id="shortAbout">
+      <div class="grd-item short-about-image">
+        <img id="bcasBuilding" src="" alt="" />
+      </div>
+      <div class="grd-item short-about-text">
+        <h2>25 Years of Excellence in Education</h2>
+        <p>
+          For over 25 years, BCAS has been shaping futures with a strong commitment to quality education and student success. Our institution provides students with a unique blend of character development and academic vision, empowering them to pursue rewarding careers. By working closely with industry partners, BCAS ensures students gain real-world skills and valuable experience. It’s the perfect place to start your journey toward a successful and impactful future.
+        </p>
+      </div>
+    </section>
 
     <section class="awards-section">
       <h2 class="timeline-header">
         Consistently Recognized for Excellence in Education
       </h2>
-      <div id="timeline" class="award-timeline">
+      <div id="timelineContainer" class="award-timeline">
         <svg id="Timeline" class="timeline-svg" style="width: 3444px; height: 600px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 391.43">
           <g id="item-up" class="timeline-item">
             <path id="Pointer" class="svg-inneritem" d="M82.52,217.37h-10V69.99c0-2.76,2.24-5,5-5h0c2.76,0,5,2.24,5,5v147.38ZM82.52,217.37h-10l5,7.62,5-7.62Z"/>
             <text class="svg-innertext" transform="translate(38.69 259.31)"><tspan x="0" y="0">2000</tspan></text>
             <text class="svg-innersubtext" transform="translate(93.2 75.22)"><tspan x="0" y="0">Founding of BCAS</tspan></text>
           </g>
-          <g id="item-down" class="timeline-item">
+          <g id="item-down" class="timeline-item"> 
             <path id="Pointer-2" data-name="Pointer" class="svg-inneritem" d="M292.71,178.37h10v147.38c0,2.76-2.24,5-5,5h0c-2.76,0-5-2.24-5-5v-147.38ZM292.71,178.37h10s-5-7.62-5-7.62l-5,7.62Z"/>
             <text class="svg-innertext" transform="translate(263.09 167.43)"><tspan x="0" y="0">2010</tspan></text>
             <text class="svg-innersubtext" transform="translate(133.68 290.82)"><tspan x="0" y="0">Performance excellence</tspan><tspan x="26.42" y="16.8">The fastest growing</tspan><tspan x="-18.79" y="33.6">Edexcel Center in Sri Lanka</tspan></text>
@@ -73,7 +85,7 @@
             <text class="svg-innertext" transform="translate(582.41 167.43)"><tspan x="0" y="0">2013 </tspan></text>
             <text class="svg-innersubtext" transform="translate(632.42 310.56)"><tspan x="0" y="0">“BTEC Gold Partner” </tspan><tspan x="0" y="16.8">presented by Edexcel - UK</tspan></text>
           </g>
-          <g id="item-up-3" data-name="item-up">
+          <g id="item-up-3" data-name="item-up" class="timeline-item">
             <path id="Pointer-5" data-name="Pointer" class="svg-inneritem" d="M843.95,215.8h-10V11.27c0-2.76,2.24-5,5-5h0c2.76,0,5,2.24,5,5v204.52ZM843.95,215.8h-10l5,10.48,5-10.48Z"/>
             <text class="svg-innertext" transform="translate(805.2 259.31)"><tspan x="0" y="0">2014</tspan></text>
             <text class="svg-innersubtext" transform="translate(855.66 25.66)"><tspan x="0" y="0">The Education Service Excellence </tspan><tspan x="0" y="16.8">Award by United Nations Decade </tspan><tspan x="0" y="33.6">of Education for sustainable </tspan><tspan x="0" y="50.4">Development (UN-DESD)</tspan></text>
@@ -95,7 +107,7 @@
             <path class="svg-separator {" d="M1358.62,50.46h195.29c.77,0,1.4.63,1.4,1.4h0c0,.77-.63,1.4-1.4,1.4h-195.29v-2.8h0Z"/>
           </g>
           <g id="item-down-4" data-name="item-down" class="timeline-item">
-            <path id="Pointer-8" data-name="Pointer" class="svg-inneritem" d="M1615.58,181.26h10v205.16c0,2.76-2.24,5-5,5h0c-2.76,0-5-2.24-5-5v-205.16ZM1615.58,181.26h10s-5-10.51-5-10.51l-5,10.51Z"/>
+            <path id="Pointer-8" data-name="Pointer-down" class="svg-inneritem" d="M1615.58,181.26h10v205.16c0,2.76-2.24,5-5,5h0c-2.76,0-5-2.24-5-5v-205.16ZM1615.58,181.26h10s-5-10.51-5-10.51l-5,10.51Z"/>
             <text class="svg-innertext" transform="translate(1588.09 167.43)"><tspan x="0" y="0">2017</tspan></text>
             <text class="svg-innersubtext" transform="translate(1634.73 346.56)"><tspan x="0" y="0">Best Employer Branch Award</tspan></text>
             <text class="svg-innersubtext" transform="translate(1634.73 381.34)"><tspan x="0" y="0">Gold Award Pearson, UK</tspan></text>
@@ -138,6 +150,7 @@
     </section>
 
     <section class="dummy"></section>
+  </div>
   </main>
 
 

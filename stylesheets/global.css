@@ -1,3 +1,41 @@
+/* Global Styling */
+
+main {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  color: rgb(var(--txt-clr));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.grd-con {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  padding: 1rem;
+}
+
+@media (max-width: 600px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 1600px;
+  background-color: rgb(var(--offbg-clr));
+  border-radius: 3rem;
+  margin-top: 4rem auto;
+}
+/* #endregion */
+
+/* #region Navigation */
+
 nav {
     position: fixed;
     top: 0;
@@ -107,3 +145,5 @@ nav ul li a:hover::after {
 .theme-switch:checked + .theme-switch-label .ball {
   transform: translateX(24px);
 }
+
+/* #endregion */
