@@ -1,5 +1,26 @@
 /* Global Styling */
 
+@keyframes shadow-source {
+    from {
+        box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.2);
+    }
+    to {
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* 
+    animation: shadow-source 1s ease;
+    animation-timeline: view();
+    animation-range-start: cover 100px;
+    animation-range-end: cover calc(100% + 100px);
+*/
+
+.container-def {
+  width: 100%;
+  max-width: 1200px;
+}
+
 main {
   position: relative;
   width: 100%;

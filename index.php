@@ -1,5 +1,10 @@
 <?php
-// index.php
+require './cf-admin/server/scripts/php/config.php';
+
+  $btnBarStmt = $conn->prepare("SELECT id, label, custom_styles, action, action_rest, helptext FROM ui_elements WHERE source = 'landing_btnbar' AND is_active = 1");
+  $btnBarStmt->execute();
+  $btnBarResult = $btnBarStmt->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -8,6 +13,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BCAS Website</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./stylesheets/global.css">
   <link rel="stylesheet" href="./stylesheets/index.css">
 </head>
@@ -24,18 +30,56 @@
         </div>
         <img id="landingSubjects" src="" alt="">
       </div>
+      <div id="btnBar" class="btn-bar">
+        <?php
+          while ($row = $btnBarResult->fetch_assoc()) {
+            if (isset($row['is_active']) && !$row['is_active']) {
+              continue;
+            }
+            $actionAttr = '';
+            if ($row['action'] === 'link') {
+              $actionAttr = 'onclick="location.href=\'' . htmlspecialchars($row['action_rest']) . '\'"';
+            } elseif ($row['action'] === 'custom_javascript') {
+              $actionAttr = 'onclick="' . htmlspecialchars($row['action_rest']) . '"';
+            }
+            $customStyles = '';
+            if (!empty($row['custom_styles'])) {
+              $styles = json_decode($row['custom_styles'], true);
+              if (is_array($styles)) {
+          foreach ($styles as $key => $value) {
+            $cssKey = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $key));
+            $customStyles .= htmlspecialchars($cssKey) . ': ' . htmlspecialchars($value) . '; ';
+          }
+              }
+            }
+            if (!empty($customStyles)) {
+              $customStyles = 'style="' . trim($customStyles) . '" ';
+            }
+            $helptext = !empty($row['helptext']) ? ' title="' . htmlspecialchars($row['helptext']) . '"' : '';
+            echo '<button class="" ' . $customStyles . $actionAttr . $helptext . '>' . htmlspecialchars($row['label']) . '</button>';
+          }
+          $btnBarStmt->close();
+        ?>
+      </div>
+      </div>
     </section>
 
-    <section id="searchSection" class="search-section">
+<section id="searchSection" class="search-section container-fluid">
+  <div class="row align-items-center">
+    <div class="col-md-8">
       <div class="search-bar">
         <input type="text" id="searchInput" placeholder="Search..." />
         <button id="searchButton"><i class="fa-solid fa-magnifying-glass"></i></button>
       </div>
+    </div>
+    <div class="col-md-4 text-end">
       <div class="cta-section">
         <h4>Explore your journey with BCAS</h4>
         <button>Start Now</button>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
     <section class="menu-section">
       <h2>Explore BCAS</h2>
@@ -46,6 +90,7 @@
         <div class="card card--wide">BCAS Campus</div>
       </div>
     </section>
+    
   <div class="content-wrapper">
     <section class="grd-con short-about" id="shortAbout">
       <div class="grd-item short-about-image">
