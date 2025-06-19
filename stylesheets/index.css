@@ -269,6 +269,7 @@
         align-items: center;
         outline: inset 2px solid red;
         width: 100%;
+        min-height: 80vh;
     }
     
     .timeline-header {

@@ -194,6 +194,15 @@ require './cf-admin/server/scripts/php/config.php';
       </div>
     </section>
 
+    <section class="grd-con" id="testimonials">
+      <div class="grd-item testimonials-video">
+        <video data-lazy="true" data-src="http://localhost/bcas-web/resources/uploads/videos/testimonials_1.webm" src=""></video>
+      </div>
+      <div class="grd-item testimonials-text">
+        <h2>One Story Closer to a Dream Career</h2>
+        <p>Watch how our students turn their dreams into real career paths through practical learning, expert guidance, and industry-relevant skills at BCAS Campus.</p>
+    </section>
+
     <section class="dummy"></section>
   </div>
   </main>

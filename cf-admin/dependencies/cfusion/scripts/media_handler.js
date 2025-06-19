@@ -36,23 +36,18 @@ export function loadMedia() {
 
 export function checkAllMediaElements() {
     console.log("Media checking...");
-    // Select all img and video elements that do not have the data-lazy attribute set to true
     const mediaElements = document.querySelectorAll('img:not([data-lazy="true"]), video:not([data-lazy="true"])');
-
     let allLoaded = true;
 
-    // Iterate over each media element
     mediaElements.forEach(element => {
-        // Check if the element does not have the data-lazy attribute and its src is not set
         if (!element.hasAttribute('data-lazy') && !element.src) {
             allLoaded = false;
-            loadMedia();  // Re-load media if any element is missing src
+            loadMedia();
             console.log("Media Element is not loaded!");
         }
     });
 
-    // If not all media elements are loaded, check again after 1 second
     if (!allLoaded) {
-        setTimeout(checkAllMediaElements, 1000);  // Check again after 1 second
+        setTimeout(checkAllMediaElements, 1000);
     }
 }
