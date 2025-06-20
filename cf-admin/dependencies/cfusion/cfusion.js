@@ -8,7 +8,7 @@ initializeTheme();
 // setupThemeSwitch(document.getElementById('themeSwitch'));
 loadMedia();
 checkAllMediaElements();
-injectDependencies('fontawesome', 'cfusion', 'gsap');
+injectDependencies('fontawesome', 'cfusion', 'gsap', 'bootstrap');
 showLoadingOverlay();
 console.log("CFusion Initiated!");
 
@@ -89,7 +89,5 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
-
     observer.observe(document.body, { childList: true, subtree: true });
-
 });
