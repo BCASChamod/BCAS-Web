@@ -10,11 +10,24 @@
 }
 
 /* 
+    box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.2);
     animation: shadow-source 1s ease;
     animation-timeline: view();
     animation-range-start: cover 100px;
     animation-range-end: cover calc(100% + 100px);
 */
+
+h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: rgb(var(--main-clr));
+}
+
+h3 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: rgb(var(--main-clr));
+}
 
 .container-def {
   width: 100%;
@@ -51,6 +64,7 @@ main {
   max-width: 1600px;
   background-color: rgb(var(--offbg-clr));
   border-radius: 3rem;
+  padding: 2rem 0.5rem;
   margin-top: 4rem auto;
 }
 /* #endregion */

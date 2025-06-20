@@ -43,13 +43,13 @@
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
-        color: #fff;
         opacity: 0;
         transition: opacity 500ms ease;
         z-index: 2;
     }
 
     .landing-bg .landing-text h2 {
+        color: #fff;
         font-size: 2.3rem;
         font-weight: 500;
         text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.8);
@@ -169,8 +169,6 @@
         width: 100%;
         max-width: 1200px;
         font-size: 2.5rem;
-        font-weight: 800;
-        color: rgb(var(--main-clr));
         justify-self: left;
         padding: 0 20px;
     }
@@ -227,7 +225,11 @@
     border-radius: 25px;
     overflow: hidden;
     margin: 1rem 0;
-    box-shadow: 5px -5px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.2);
+    animation: shadow-source 1s ease;
+    animation-timeline: view();
+    animation-range-start: cover 100px;
+    animation-range-end: cover calc(100% + 100px);
 }
 
 .short-about-image img {
@@ -245,9 +247,6 @@
 }
 
 .short-about-text h2 {
-    font-size: 3rem;
-    font-weight: 700;
-    color: rgb(var(--main-clr));
     margin-bottom: 1rem;
 }
 
@@ -333,19 +332,130 @@
 .testimonial-section {
     position: relative;
     display: flex;
+    gap: 2rem;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     width: 100%;
 }
 
+.testimonial-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(var(--offbg-clr), 0.8);
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.2);
+    animation: shadow-source 1s ease;
+    animation-timeline: view();
+    animation-range-start: cover 100px;
+    animation-range-end: cover calc(100% + 100px);
+    max-width: 400px;
+    margin: 1rem 0;
+}
+
+.caption-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.caption-controls .fa-closed-captioning {
+  font-size: 1.2rem;
+    color: color-mix(in srgb, rgb(var(--main-clr)) 80%, black 20%);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.caption-controls .fa-closed-captioning:hover {
+    color: color-mix(in srgb, rgb(var(--main-clr)) 100%, black 0%);
+}
+
+#videoCaption {
+  appearance: none;
+  padding: 0.3rem 1.5rem 0.3rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path fill='%23666' d='M0 0l5 6 5-6z'/></svg>") no-repeat right 0.6rem center;
+  background-size: 0.6rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.testimonial-controls > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.fa-volume {
+    font-size: 1.2rem;
+    color: color-mix(in srgb, rgb(var(--main-clr)) 80%, black 20%);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.fa-volume:hover {
+    color: color-mix(in srgb, rgb(var(--main-clr)) 100%, black 0%);
+}
+
+#videoVolume {
+  margin: 0;
+  vertical-align: middle;
+}
+#videoVolume:focus {
+  outline: none;
+}
+
+#videoVolume::-webkit-slider-runnable-track {
+  height: 6px;
+
+  border-radius: 3px;
+}
+#videoVolume::-moz-range-track {
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+}
+
+#videoVolume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: color-mix(in srgb, rgb(var(--main-clr)) 80%, black 20%);
+  margin-top: -4px;
+  transition: background 0.2s, transform 0.2s;
+}
+#videoVolume::-webkit-slider-thumb:hover {
+  background: color-mix(in srgb, rgb(var(--main-clr)) 100%, black 0%);
+  transform: scale(1.2);
+}
+#videoVolume::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: color-mix(in srgb, rgb(var(--main-clr)) 80%, black 20%);
+  transition: background 0.2s, transform 0.2s;
+}
+#videoVolume::-moz-range-thumb:hover {
+  background: color-mix(in srgb, rgb(var(--main-clr)) 100%, black 0%);
+  transform: scale(1.2);
+}
+
 .testimonial-video {
-    flex: 2;
+    flex: 3;
     min-width: 640px;
     min-height: 360px;
     aspect-ratio: 16 / 9;
     border-radius: 10px;
     overflow: hidden;
+    box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.2);
+    animation: shadow-source 1s ease;
+    animation-timeline: view();
+    animation-range-start: cover 100px;
+    animation-range-end: cover calc(100% + 100px);
 }
 
 .testimonial-video video {
@@ -355,7 +465,19 @@
 }
 
 .testimonial-text {
-    flex: 1;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    gap: 0.5rem;
+}
+
+.seekbar-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    padding: 1rem 0;
 }
 
 

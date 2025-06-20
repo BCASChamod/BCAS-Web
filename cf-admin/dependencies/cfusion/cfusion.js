@@ -8,7 +8,7 @@ initializeTheme();
 // setupThemeSwitch(document.getElementById('themeSwitch'));
 loadMedia();
 checkAllMediaElements();
-injectDependencies('fontawesome', 'cfusion', 'gsap', 'bootstrap');
+injectDependencies('fontawesome', 'cfusion', 'gsap', 'bootstrapGrid');
 showLoadingOverlay();
 console.log("CFusion Initiated!");
 
@@ -20,31 +20,38 @@ if (side === 'client') {
     injectFooter();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
+        const lazyElements = document.querySelectorAll("[data-lazy='true']");
 
-    const lazyElements = document.querySelectorAll("[data-lazy='true']");
-    
-    lazyElements.forEach(element => {
-        const isVideo = element.tagName.toLowerCase() === "video";
-        const source = isVideo ? element.querySelector("source") : element;
-        const mediaSrc = source.getAttribute("data-src");
-    
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    if (isVideo) {
-                        source.setAttribute("src", mediaSrc);
-                        element.load();
-                    } else {
-                        source.setAttribute("src", mediaSrc);
+        lazyElements.forEach(element => {
+            const isVideo = element.tagName.toLowerCase() === "video";
+
+            // If it's a video, get the data-src from the <video> tag instead
+            const mediaSrc = isVideo 
+                ? element.getAttribute("data-src") 
+                : element.getAttribute("data-src");
+
+            const source = isVideo ? element.querySelector("source") : element;
+
+            if (!mediaSrc) return; // Skip if there's no data-src
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (isVideo) {
+                            source.setAttribute("src", mediaSrc);
+                            element.load();
+                        } else {
+                            element.setAttribute("src", mediaSrc);
+                        }
+                        observer.disconnect();
                     }
-                    observer.disconnect();
-                }
+                });
             });
+
+            observer.observe(element);
         });
-    
-        observer.observe(element);
-    });
+
 
     const forms = document.querySelectorAll('form');
 

@@ -86,6 +86,37 @@ function animateLanding() {
         });
 }
 
+  const video = document.getElementById('testimonialVideo');
+          const seekbar = document.getElementById('testimonialSeekbar');
+          let seeking = false;
+
+          video.addEventListener('loadedmetadata', function() {
+            seekbar.max = video.duration;
+          });
+
+          video.addEventListener('timeupdate', function() {
+            if (!seeking) {
+              seekbar.value = video.currentTime;
+            }
+          });
+
+          seekbar.addEventListener('input', function() {
+            seeking = true;
+            video.currentTime = seekbar.value;
+          });
+
+          seekbar.addEventListener('change', function() {
+            seeking = false;
+          });
+
+          function updateSeekbar() {
+            if (!seeking && !video.paused && !video.ended) {
+              seekbar.value = video.currentTime;
+            }
+            requestAnimationFrame(updateSeekbar);
+          }
+          updateSeekbar();
+
 function tlBranchAnim() {
     const items = document.querySelectorAll('.timeline-item');
 
@@ -194,3 +225,68 @@ const aiobserver = new MutationObserver((mutationsList) => {
 });
 
 aiobserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-loaded'] });
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const video   = document.getElementById("testimonialVideo");
+    const select  = document.getElementById("testCaption");
+    const volumeControl = document.getElementById("videoVolume");
+    const volumeIndicator = document.getElementById("volumeIndicator");
+
+    // Caption selection
+    Array.from(video.textTracks).forEach(track => {
+        track.mode = "disabled";
+    });
+
+    select.addEventListener("change", () => {
+        const lang = select.value;
+        Array.from(video.textTracks).forEach(track => {
+            if (track.language === lang) {
+                track.mode = "showing";
+            } else {
+                track.mode = "disabled";
+            }
+        });
+    });
+
+    // Volume control
+    video.muted = true;
+    video.volume = 0;
+    updateIcon(0);
+
+    volumeControl.addEventListener("input", () => {
+        const vol = parseFloat(volumeControl.value);
+        video.volume = vol;
+        video.muted = vol === 0;
+        updateIcon(vol);
+    });
+
+    function updateIcon(vol) {
+        if (vol === 0) {
+            volumeIndicator.classList.remove("fa-volume", "fa-volume-low", "fa-volume-high");
+            volumeIndicator.classList.add("fa-volume-xmark");
+        } else if (vol > 0 && vol <= 0.5) {
+            volumeIndicator.classList.remove("fa-volume-xmark", "fa-volume-high");
+            volumeIndicator.classList.add("fa-volume-low");
+            volumeIndicator.classList.remove("fa-volume");
+        } else {
+            volumeIndicator.classList.remove("fa-volume-xmark", "fa-volume-low");
+            volumeIndicator.classList.add("fa-volume-high");
+            volumeIndicator.classList.remove("fa-volume");
+        }
+    }
+
+    // Update icon on slider move (for immediate feedback)
+    volumeControl.addEventListener("input", () => {
+        const vol = parseFloat(volumeControl.value);
+        video.volume = vol;
+        video.muted = vol === 0;
+        updateIcon(vol);
+    });
+
+    // Also update icon if volume is changed programmatically
+    video.addEventListener("volumechange", () => {
+        updateIcon(video.volume);
+    });
+});

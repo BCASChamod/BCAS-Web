@@ -21,12 +21,12 @@ export function injectDependencies(...deps) {
         'http://localhost/bcas-web/cf-admin/dependencies/gsap/ScrollTrigger.min.js',
       ],
     },
-    bootstrap: {
+    bootstrapGrid: {
       css: [
-        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
+        'http://localhost/bcas-web/cf-admin/dependencies/bootstrap/bootstrap-grid.css',
       ],
       js: [
-        'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js'
+        ''
       ],
     }
   };

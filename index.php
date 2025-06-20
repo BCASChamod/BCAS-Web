@@ -13,12 +13,10 @@ require './cf-admin/server/scripts/php/config.php';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BCAS Website</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./stylesheets/global.css">
   <link rel="stylesheet" href="./stylesheets/index.css">
 </head>
 <body>
-
   <main>
     <section id="landing" class="landing">
       <div class="landing-bg">
@@ -195,18 +193,38 @@ require './cf-admin/server/scripts/php/config.php';
     </section>
 
     <section class="grd-con testimonial-section" id="testimonials">
-      <div class="grd-item testimonial-video">
-        <video data-lazy="true" data-src="http://localhost/bcas-web/resources/uploads/videos/testimonials_1.webm" src="http://localhost/bcas-web/resources/uploads/videos/testimonials_1.webm" autoplay muted loop>
-          <track kind="captions" src="http://localhost/bcas-web/resources/uploads/captions/testimonials_1.vtt" srclang="en" label="English" default>
-          <track kind="captions" src="http://localhost/bcas-web/resources/uploads/captions/si-testimonials_1.vtt" srclang="si" label="Sinhala" >
-          <track kind="captions" src="http://localhost/bcas-web/resources/uploads/captions/ta-testimonials_1.vtt" srclang="ta" label="Tamil" >
-          Sorry, your browser doesn't support embedded videos.
-        </video>
-      </div>
       <div class="grd-item testimonial-text">
         <h2>One Story Closer to a Dream Career</h2>
         <p>Watch how our students turn their dreams into real career paths through practical learning, expert guidance, and industry-relevant skills at BCAS Campus.</p>
-    </section>
+        <div class="testimonial-controls">
+          <div class="caption-controls">
+            <i class="fa-solid fa-closed-captioning"></i>
+            <select id="testCaption" name="captions" id="videoCaption">
+              <option value="" selected>Select CC</option>
+              <option value="en">English</option>
+              <option value="si">සිංහල</option>
+              <option value="ta">தமிழ்</option>
+            </select>
+          </div>
+          <div>
+          <i id="volumeIndicator" class="fa-solid fa-volume"></i>
+          <input type="range" id="videoVolume" min="0" max="1" value="0" step="0.01">
+          </div>
+        </div>
+        <div class="seekbar-container">
+          <input type="range" id="testimonialSeekbar" min="0" max="100" value="0" step="0.01" style="width: 100%;">
+        </div>
+      </div>
+      <div class="grd-item testimonial-video">
+        <video id="testimonialVideo" data-lazy="true" data-src="http://localhost/bcas-web/resources/uploads/videos/testimonials_1.webm" autoplay muted>
+          <source type="video/webm">
+          <track kind="captions" src="http://localhost/bcas-web/resources/uploads/captions/testimonials_1.vtt" srclang="en" label="English" default>
+          <track kind="captions" src="http://localhost/bcas-web/resources/uploads/captions/si-testimonials_1.vtt" srclang="si" label="Sinhala">
+          <track kind="captions" src="http://localhost/bcas-web/resources/uploads/captions/ta-testimonials_1.vtt" srclang="ta" label="Tamil">
+          Sorry, your browser doesn't support embedded videos.
+        </video>
+      </div>
+      </section>
   </div>
   </main>
 
