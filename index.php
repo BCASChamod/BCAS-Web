@@ -15,6 +15,7 @@ require './cf-admin/server/scripts/php/config.php';
   <title>BCAS Website</title>
   <link rel="stylesheet" href="./stylesheets/global.css">
   <link rel="stylesheet" href="./stylesheets/index.css">
+
 </head>
 <body>
   <main>
@@ -82,10 +83,36 @@ require './cf-admin/server/scripts/php/config.php';
     <section class="menu-section">
       <h2>Explore BCAS</h2>
       <div class="main-menu">
-        <div class="card card--big">Our Programmes</div>
-        <div class="card card--top1">Open Day Highlights</div>
-        <div class="card card--top2">Talk to a Counselor</div>
-        <div class="card card--wide">BCAS Campus</div>
+        <div class="card card--big">
+          <div class="text-content">
+            <p>Explore</p>
+            <h2>Our Programmes</h2>
+          </div>
+          <img id="programmesMain" src="" alt="">
+        </div>
+        <div class="card card--top1">
+          <div class="text-content">
+            <p>Latest Event</p>
+            <h2>Open Day Highlights</h2>
+          </div>
+          <img id="programmesMain" src="" alt="">
+        </div>
+
+        <div class="card card--top2">
+          <div class="text-content">
+            <p>Talk to a</p>
+            <h2>Student Counselor</h2>
+          </div>
+          <img id="programmesMain" src="" alt="">
+        </div>
+
+        <div class="card card--wide">
+          <div class="text-content">
+            <p>Our Story</p>
+            <h2>BCAS Campus</h2>
+          </div>
+          <img id="programmesMain" src="" alt="">
+        </div>
       </div>
     </section>
     
@@ -224,8 +251,32 @@ require './cf-admin/server/scripts/php/config.php';
           Sorry, your browser doesn't support embedded videos.
         </video>
       </div>
-      </section>
+    </section>
   </div>
+
+  <section class="guidance-section">
+    <!-- <div class="guidance-content">
+      <h2>Guidance for Your Future</h2>
+      <p>At BCAS, we believe in nurturing the potential of every student. Our expert counselors are here to guide you through your educational journey, helping you make informed decisions about your future.</p>
+      <button class="btn btn-primary">Talk to a Counselor</button>
+    </div> -->
+    <div class="form-container">
+        <div class="left-panel">
+          <div class="left-panel-content">
+            <h1>Need Guidance?</h1>
+            <p>Let’s talk about your future.<br>Fill out the form & we’ll reach out to guide you.</p>
+          </div>
+          <div class="image-placeholder">
+            <img class="form-pending" src="./resources/assets/images/form-image.png" alt="">
+            <img class="form-success" src="./resources/assets/images/form-image-success.png" alt="">
+          </div>
+        </div>
+        <div id="formArea" data-submission="pre" class="form-section">
+        
+        </div>
+    </div>
+
+  </section>
   </main>
 
 

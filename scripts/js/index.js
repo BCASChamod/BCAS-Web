@@ -290,3 +290,155 @@ document.addEventListener("DOMContentLoaded", () => {
         updateIcon(video.volume);
     });
 });
+
+
+
+// Video Overlay
+
+function addVideoOverlay() {
+    const video = document.querySelector("video");
+    const videoParent = video.parentElement;
+
+    // Remove existing overlay if present
+    const existingOverlay = videoParent.querySelector('.testimonial-video-overlay');
+    if (existingOverlay) {
+        existingOverlay.remove();
+    }
+
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.className = 'testimonial-video-overlay';
+    overlay.innerHTML = '<span>Click to replay</span>';
+
+    // Style overlay
+    Object.assign(overlay.style, {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontFamily: '"Font Awesome 6 Pro", "Font Awesome 6 Free", "FontAwesome", sans-serif',
+        fontWeight: '900',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        right: '0',
+        bottom: '0',
+        fontSize: '2rem',
+        color: '#fff',
+        textShadow: '2px 2px 8px rgba(0,0,0,0.7)',
+        background: 'rgba(0,0,0,0.5)',
+        backdropFilter: 'blur(10px)',
+        cursor: 'pointer',
+        zIndex: 10
+    });
+
+    if (getComputedStyle(videoParent).position === 'static') {
+        videoParent.style.position = 'relative';
+    }
+
+    overlay.addEventListener('click', () => {
+        video.currentTime = 0;
+        video.play();
+        removeVideoOverlay();
+    });
+
+    videoParent.appendChild(overlay);
+}
+
+function removeVideoOverlay() {
+    const video = document.querySelector("video");
+    const videoParent = video.parentElement;
+    const overlay = videoParent.querySelector('.testimonial-video-overlay');
+    if (overlay) {
+        overlay.remove();
+    }
+}
+
+function toggleVideoOverlay() {
+    const video = document.querySelector("video");
+    if (video.ended) {
+        addVideoOverlay();
+    } else {
+        removeVideoOverlay();
+    }
+}
+
+// Attach overlay logic to the testimonial video
+document.addEventListener("DOMContentLoaded", () => {
+    const video = document.getElementById("testimonialVideo");
+    if (!video) return;
+
+    video.addEventListener('ended', addVideoOverlay);
+    video.addEventListener('play', removeVideoOverlay);
+    video.addEventListener('seeked', () => {
+        if (!video.ended) removeVideoOverlay();
+    });
+});
+
+
+
+const formArea = document.getElementById('formArea');
+let formStatus = formArea.getAttribute('data-submission') || 'pre';
+
+if (formStatus === 'pre') {
+    document.querySelector('.form-success').classList.add('hidden');
+    document.querySelector('.form-pending').classList.add('visible');
+    formArea.innerHTML = `
+        <form>
+            <div>
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" />
+            </div>
+            <div>
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" />
+            </div>
+
+            <div class="full-width">
+                <label for="qualification">Your Highest Academic Qualification</label>
+                <input type="text" id="qualification" />
+            </div>
+
+            <div class="full-width">
+                <label for="programme">Interested Programme</label>
+                <input type="text" id="programme" />
+            </div>
+
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" />
+            </div>
+            <div>
+                <label for="branch">Closest Branch</label>
+                <input type="text" id="branch" />
+            </div>
+
+            <div class="full-width">
+                <label for="contact">Contact Number</label>
+                <input type="text" id="contact" />
+            </div>
+
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="consent" />
+                <label for="consent"><small>I consent to communications from BCAS Campus. <a href="#" style="color: #007bff;">Learn more</a></small></label>
+            </div>
+
+            <div class="form-buttons">
+                <input type="text" id="ip" hidden/>
+                <button type="reset" class="new-form">New Form</button>
+                <button type="submit" class="submit">Submit</button>
+            </div>
+        </form>
+        `;
+    } else {
+        document.querySelector('.form-success').classList.add('visible');
+        document.querySelector('.form-pending').classList.add('hidden');
+        formArea.innerHTML = `  <div class="success-message">
+                        <h1>Inquired Successfully</h1>
+                        <p>One of our experienced counsellors will be in touch with you soon to guide you through your educational journey</p>
+                        <form>
+                        <div class="form-buttons">
+                            <button type="reset" class="new-form">New Form</button>
+                        </div>
+                        </form>
+                    </div>`;
+    };

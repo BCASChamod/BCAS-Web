@@ -44,7 +44,7 @@ p {
 
 /* #region Form Styling */
 
-form {
+/* form {
     width: calc(100% - 50px);
     margin: 10px auto;
     padding: 10px;
@@ -149,7 +149,7 @@ form button:hover,
 form input[type="submit"]:hover, 
 form input[type="reset"]:hover {
     filter: brightness(0.8);
-}
+} */
 
 /* #endregion */
 

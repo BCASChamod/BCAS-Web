@@ -17,6 +17,23 @@
     animation-range-end: cover calc(100% + 100px);
 */
 
+.active {
+  display: block;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.deactivated {
+  display: none;
+}
+
+.visible {
+  opacity: 1;
+}
+
+
 h2 {
   font-size: 3rem;
   font-weight: 800;

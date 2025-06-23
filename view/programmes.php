@@ -189,61 +189,7 @@ $totalPages = ceil($totalProducts / $productsPerPage);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Programs</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .program-type {
-            cursor: pointer;
-            margin-bottom: 10px;
-            color: #0066cc;
-            text-decoration: underline;
-        }
-        .program-type.active {
-            font-weight: bold;
-        }
-        #course_filter ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        #course_filter li {
-            margin-bottom: 10px;
-        }
-        #course_filter a {
-            text-decoration: none;
-            color: #333;
-        }
-        #course_filter a:hover {
-            text-decoration: underline;
-        }
-        .dimmed {
-            opacity: 0.5;
-            color: #999;
-        }
-        .filter-group {
-            margin-bottom: 20px;
-        }
-        .filter-group h3 {
-            margin-bottom: 10px;
-        }
-        .filter-option {
-            margin-bottom: 8px;
-            transition: all 0.3s ease;
-        }
-        .disabled-option {
-            opacity: 0.5;
-            color: #999;
-            pointer-events: none;
-        }
-        .forced-selection {
-            background-color: #f0f8ff;
-            padding: 5px;
-            border-radius: 4px;
-        }
-        .default-category {
-            background-color: #f0f8ff;
-            border-radius: 4px;
-            padding: 2px 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="../stylesheets/programmes.css">
 </head>
 <body>
     <div class="container-fluid">
@@ -446,15 +392,12 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                 }
             }
             
-            // Update UI
             updateUIForProgramType();
             updateAllDimming();
             
-            // Reload with cleared filters
             loadCourseList();
         }
 
-        // Function to load course list with current filters
         function loadCourseList(page = 1) {
             const form = document.getElementById('filter-form');
             const formData = new FormData(form);
@@ -465,7 +408,6 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                 params.set(name, value);
             }
             
-            // For Postgraduate, force level to "other"
             if (params.get('type') === 'Postgraduate') {
                 params.set('level', 'other');
             }
