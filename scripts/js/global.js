@@ -28,3 +28,22 @@ const observer = new MutationObserver((mutations, obs) => {
 
 observer.observe(document.body, { childList: true, subtree: true });
 
+
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.card').forEach(card => {
+    const overlay = document.querySelector('.main-overlay');
+    if (!overlay) return;
+    card.addEventListener('mouseover', () => {
+      overlay.style.display = "block";
+      setTimeout(() => {
+        overlay.style.opacity = 0.5;
+      }, 200);
+    });
+    card.addEventListener('mouseout', () => {
+      overlay.style.opacity = 0;
+      setTimeout(() => {
+      overlay.style.display = "none";
+      }, 200);
+    });
+  });
+});

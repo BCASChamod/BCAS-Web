@@ -18,50 +18,51 @@ require './cf-admin/server/scripts/php/config.php';
 
 </head>
 <body>
+  <div id="mainOverlay" class="main-overlay"></div>
   <main>
-    <section id="landing" class="landing">
-      <div class="landing-bg">
-        <img id="landingBg" src="" alt="">
-        <div id="landingText" class="landing-text">
-          <h2>
-            Empowering tommorow's leaders through<br><span>World-Class Education</span>
-          </h2>
-        </div>
-        <img id="landingSubjects" src="" alt="">
+  <section id="landing" class="landing">
+    <div class="landing-bg">
+      <img id="landingBg" src="" alt="">
+      <div id="landingText" class="landing-text">
+        <h2>
+          Empowering tommorow's leaders through<br><span>World-Class Education</span>
+        </h2>
       </div>
-      <div id="btnBar" class="btn-bar">
-        <?php
-          while ($row = $btnBarResult->fetch_assoc()) {
-            if (isset($row['is_active']) && !$row['is_active']) {
-              continue;
-            }
-            $actionAttr = '';
-            if ($row['action'] === 'link') {
-              $actionAttr = 'onclick="location.href=\'' . htmlspecialchars($row['action_rest']) . '\'"';
-            } elseif ($row['action'] === 'custom_javascript') {
-              $actionAttr = 'onclick="' . htmlspecialchars($row['action_rest']) . '"';
-            }
-            $customStyles = '';
-            if (!empty($row['custom_styles'])) {
-              $styles = json_decode($row['custom_styles'], true);
-              if (is_array($styles)) {
-          foreach ($styles as $key => $value) {
-            $cssKey = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $key));
-            $customStyles .= htmlspecialchars($cssKey) . ': ' . htmlspecialchars($value) . '; ';
+      <img id="landingSubjects" src="" alt="">
+    </div>
+    <div id="btnBar" class="btn-bar">
+      <?php
+        while ($row = $btnBarResult->fetch_assoc()) {
+          if (isset($row['is_active']) && !$row['is_active']) {
+            continue;
           }
-              }
-            }
-            if (!empty($customStyles)) {
-              $customStyles = 'style="' . trim($customStyles) . '" ';
-            }
-            $helptext = !empty($row['helptext']) ? ' title="' . htmlspecialchars($row['helptext']) . '"' : '';
-            echo '<button class="" ' . $customStyles . $actionAttr . $helptext . '>' . htmlspecialchars($row['label']) . '</button>';
+          $actionAttr = '';
+          if ($row['action'] === 'link') {
+            $actionAttr = 'onclick="location.href=\'' . htmlspecialchars($row['action_rest']) . '\'"';
+          } elseif ($row['action'] === 'custom_javascript') {
+            $actionAttr = 'onclick="' . htmlspecialchars($row['action_rest']) . '"';
           }
-          $btnBarStmt->close();
-        ?>
-      </div>
-      </div>
-    </section>
+          $customStyles = '';
+          if (!empty($row['custom_styles'])) {
+            $styles = json_decode($row['custom_styles'], true);
+            if (is_array($styles)) {
+        foreach ($styles as $key => $value) {
+          $cssKey = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $key));
+          $customStyles .= htmlspecialchars($cssKey) . ': ' . htmlspecialchars($value) . '; ';
+        }
+            }
+          }
+          if (!empty($customStyles)) {
+            $customStyles = 'style="' . trim($customStyles) . '" ';
+          }
+          $helptext = !empty($row['helptext']) ? ' title="' . htmlspecialchars($row['helptext']) . '"' : '';
+          echo '<button class="" ' . $customStyles . $actionAttr . $helptext . '>' . htmlspecialchars($row['label']) . '</button>';
+        }
+        $btnBarStmt->close();
+      ?>
+    </div>
+    </div>
+  </section>
 
 <section id="searchSection" class="search-section container-fluid">
   <div class="row align-items-center">
@@ -95,7 +96,7 @@ require './cf-admin/server/scripts/php/config.php';
             <p>Latest Event</p>
             <h2>Open Day Highlights</h2>
           </div>
-          <img id="programmesMain" src="" alt="">
+          <img id="latestEvent" src="" alt="">
         </div>
 
         <div class="card card--top2">
@@ -103,7 +104,7 @@ require './cf-admin/server/scripts/php/config.php';
             <p>Talk to a</p>
             <h2>Student Counselor</h2>
           </div>
-          <img id="programmesMain" src="" alt="">
+          <img id="talkToCounselor" src="" alt="">
         </div>
 
         <div class="card card--wide">
@@ -111,7 +112,7 @@ require './cf-admin/server/scripts/php/config.php';
             <p>Our Story</p>
             <h2>BCAS Campus</h2>
           </div>
-          <img id="programmesMain" src="" alt="">
+          <img id="aboutUs" src="" alt="">
         </div>
       </div>
     </section>

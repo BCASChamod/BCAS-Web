@@ -249,11 +249,11 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                         <h3>Are you after?</h3>
                         <div class="filter-option <?= $programType === 'Postgraduate' ? 'disabled-option' : '' ?>">
                             <input type="radio" id="after_o" name="level" value="after_o" <?= in_array('after_o', $levelFilter) ? 'checked' : '' ?> <?= $programType === 'Postgraduate' ? 'disabled' : '' ?>>
-                            <label for="after_o">After O Level</label>
+                            <label for="after_o">O Level</label>
                         </div>
                         <div class="filter-option <?= $programType === 'Postgraduate' ? 'disabled-option' : '' ?>">
                             <input type="radio" id="after_a" name="level" value="after_a" <?= in_array('after_a', $levelFilter) ? 'checked' : '' ?> <?= $programType === 'Postgraduate' ? 'disabled' : '' ?>>
-                            <label for="after_a">After A Level</label>
+                            <label for="after_a">A Level</label>
                         </div>
                         <div class="filter-option <?= $programType === 'Postgraduate' ? 'disabled-option' : '' ?>">
                             <input type="radio" id="diploma" name="level" value="diploma" <?= in_array('diploma', $levelFilter) ? 'checked' : '' ?> <?= $programType === 'Postgraduate' ? 'disabled' : '' ?>>
@@ -375,14 +375,17 @@ $totalPages = ceil($totalProducts / $productsPerPage);
 
         // Function to clear filters
         function clearFilters() {
-            // Uncheck all radio buttons except forced selections
-            document.querySelectorAll('input[type="radio"]:not([name="level"][value=" "]):not([disabled])').forEach(radio => {
+            // Uncheck all radio buttons
+            document.querySelectorAll('input[type="radio"]:not([name="level"][value="other"]):not([disabled])').forEach(radio => {
                 radio.checked = false;
             });
             
             // For Postgraduate, set defaults
             const programType = document.getElementById('filter-type').value;
             if (programType === 'Postgraduate') {
+                // Set level to "other"
+                document.querySelector('input[name="level"][value="other"]').checked = true;
+                
                 // Set default category to School of Business
                 if (businessCategoryId) {
                     const categoryRadio = document.querySelector(`input[name="category"][value="${businessCategoryId}"]`);
@@ -412,24 +415,19 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                 params.set('level', 'other');
             }
             
-            // Add pagination
+            // Add pagination and AJAX flag
             params.set('page', page);
-            
-            // Create clean URL for browser history
-            const cleanUrl = '?' + params.toString();
+            params.set('ajax', '1');
             
             // Update URL without reloading page
-            history.pushState(null, '', cleanUrl);
-            
-            // Add ajax param only for the fetch request
-            const fetchParams = new URLSearchParams(params);
-            fetchParams.set('ajax', '1');
+            history.pushState(null, '', '?' + params.toString());
             
             // Fetch course list
-            fetch('?' + fetchParams.toString())
+            fetch('?' + params.toString())
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('course_filter').innerHTML = data;
+                    // Update dimming after content loads
                     updateAllDimming();
                 });
         }
@@ -496,6 +494,7 @@ $totalPages = ceil($totalProducts / $productsPerPage);
             // Listen to level filter changes
             document.querySelectorAll('input[name="level"]:not(:disabled)').forEach(radio => {
                 radio.addEventListener('change', () => {
+                    // Update dimming immediately
                     dimNonSelectedOptions('level');
                     loadCourseList();
                 });
@@ -504,11 +503,13 @@ $totalPages = ceil($totalProducts / $productsPerPage);
             // Listen to category filter changes
             document.querySelectorAll('input[name="category"]').forEach(radio => {
                 radio.addEventListener('change', () => {
+                    // Update dimming immediately
                     dimNonSelectedOptions('category');
                     loadCourseList();
                 });
             });
         });
     </script>
+    <script src="../cf-admin/dependencies/cfusion/"></script>
 </body>
 </html>
