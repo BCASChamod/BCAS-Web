@@ -1,189 +1,403 @@
 <?php
-    require '../cf-admin/server/scripts/php/config.php';
+require '../cf-admin/server/scripts/php/config.php';
+
+// Get URL parameters
+$programType = isset($_GET['type']) ? $_GET['type'] : 'Undergraduate';
+$categoryFilter = isset($_GET['categories']) ? (array)$_GET['categories'] : [];
+$levelFilter = isset($_GET['levels']) ? (array)$_GET['levels'] : [];
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$isAjax = isset($_GET['ajax']);
+$productsPerPage = 10;
+
+// Define level order for sorting
+$levelOrder = [
+    'Certificate' => 1,
+    'Foundation' => 2,
+    'Diploma' => 3,
+    'HND' => 4,
+    'BSc' => 5,
+    'Msc' => 6,
+    'Pgdip' => 7
+];
+
+// Function to get filtered products with sorting
+function getFilteredProducts($conn, $programType, $categories, $levels, $page, $perPage, $levelOrder) {
+    $offset = ($page - 1) * $perPage;
     
-    // Get URL parameters
-    $programType = isset($_GET['type']) ? $_GET['type'] : '';
-    $categoryId = isset($_GET['category_id']) ? $_GET['category_id'] : '';
-    $isAjax = isset($_GET['ajax']);
-    $featuredPage = isset($_GET['featured_page']) ? (int)$_GET['featured_page'] : 1;
-    $productsPerPage = 10;
+    $query = "SELECT p.id, p.name FROM products p 
+              JOIN categories c ON p.category_id = c.id 
+              WHERE p.program_type = ?";
     
-    // [Keep all your existing functions here - getCategories, getProducts, getCategoryName]
+    $params = [$programType];
+    $types = 's';
     
-    // Handle AJAX requests
-    if ($isAjax) {
-        if (isset($_GET['featured'])) {
-            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-            $offset = ($page - 1) * $productsPerPage;
-            
-            // Get total count of products
-            $countQuery = "SELECT COUNT(*) as total FROM products";
-            $countResult = mysqli_query($conn, $countQuery);
-            $totalProducts = mysqli_fetch_assoc($countResult)['total'];
-            $totalPages = ceil($totalProducts / $productsPerPage);
-            
-            // Get paginated products
-            $featuredQuery = "SELECT id, name FROM products LIMIT $offset, $productsPerPage";
-            $featuredResult = mysqli_query($conn, $featuredQuery);
-            
-            echo '<div>
-                <h2>Featured Programs</h2>
-                <div>
-                    <ul>';
-                        if ($featuredResult && mysqli_num_rows($featuredResult) > 0) {
-                            while ($row = mysqli_fetch_assoc($featuredResult)) {
-                                echo "<li><a href='product_detail.php?id=".htmlspecialchars($row['id'])."'>".htmlspecialchars($row['name'])."</a></li>";
-                            }
-                        } else {
-                            echo '<p>No featured programs found.</p>';
-                        }
-            echo '    </ul>
-                </div>
-                <div class="pagination">';
-                    if ($page > 1) {
-                        echo '<button onclick="loadFeaturedPage('.($page - 1).')">Previous</button>';
-                    }
-                    if ($page < $totalPages) {
-                        echo '<button onclick="loadFeaturedPage('.($page + 1).')">Next</button>';
-                    }
-            echo '  </div>
-            </div>
-            <div>
-                <h2>Browse Categories</h2>
-                <div>
-                    <ul>';
-                        $categoriesQuery = "SELECT id, name FROM categories";
-                        $categoriesResult = mysqli_query($conn, $categoriesQuery);
-                        if ($categoriesResult && mysqli_num_rows($categoriesResult) > 0) {
-                            while ($row = mysqli_fetch_assoc($categoriesResult)) {
-                                echo "<li><span onclick=\"loadContent('category_id=".htmlspecialchars($row['id'])."')\">".htmlspecialchars($row['name'])."</span></li>";
-                            }
-                        } else {
-                            echo '<p>No categories found.</p>';
-                        }
-            echo '    </ul>
-                </div>
-            </div>';
-            exit;
+    // Apply level filters
+    if (!empty($levels)) {
+        $levelConditions = [];
+        foreach ($levels as $level) {
+            if ($level === 'after_o') {
+                $levelConditions[] = "(p.level = 'Certificate' OR p.level = 'Foundation')";
+            } elseif ($level === 'after_a') {
+                $levelConditions[] = "(p.level = 'HND' OR p.level = 'Diploma')";
+            } elseif ($level === 'diploma') {
+                $levelConditions[] = "(p.level = 'HND' OR p.level = 'Diploma')";
+            } elseif ($level === 'other') {
+                // Show all levels
+            }
         }
-        // [Keep your existing AJAX handling code for categories and products]
+        
+        if (!empty($levelConditions)) {
+            $query .= " AND (" . implode(" OR ", $levelConditions) . ")";
+        }
     }
+    
+    // Apply category filters
+    if (!empty($categories)) {
+        $placeholders = implode(',', array_fill(0, count($categories), '?'));
+        $query .= " AND p.category_id IN ($placeholders)";
+        $params = array_merge($params, $categories);
+        $types .= str_repeat('i', count($categories));
+    }
+    
+    // Add sorting by level
+    $query .= " ORDER BY CASE p.level ";
+    foreach ($levelOrder as $level => $order) {
+        $query .= "WHEN '$level' THEN $order ";
+    }
+    $query .= "ELSE 99 END"; // Default for other levels
+    
+    // Add pagination
+    $query .= " LIMIT ? OFFSET ?";
+    $params[] = $perPage;
+    $params[] = $offset;
+    $types .= 'ii';
+    
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, $types, ...$params);
+    mysqli_stmt_execute($stmt);
+    return mysqli_stmt_get_result($stmt);
+}
+
+// Function to get total count of filtered products
+function getTotalFilteredProducts($conn, $programType, $categories, $levels) {
+    $query = "SELECT COUNT(*) as total FROM products p WHERE p.program_type = ?";
+    $params = [$programType];
+    $types = 's';
+    
+    // Apply level filters
+    if (!empty($levels)) {
+        $levelConditions = [];
+        foreach ($levels as $level) {
+            if ($level === 'after_o') {
+                $levelConditions[] = "(p.level = 'Certificate' OR p.level = 'Foundation')";
+            } elseif ($level === 'after_a') {
+                $levelConditions[] = "(p.level = 'HND' OR p.level = 'Diploma')";
+            } elseif ($level === 'diploma') {
+                $levelConditions[] = "(p.level = 'HND' OR p.level = 'Diploma')";
+            } elseif ($level === 'other') {
+                // Show all levels
+            }
+        }
+        
+        if (!empty($levelConditions)) {
+            $query .= " AND (" . implode(" OR ", $levelConditions) . ")";
+        }
+    }
+    
+    // Apply category filters
+    if (!empty($categories)) {
+        $placeholders = implode(',', array_fill(0, count($categories), '?'));
+        $query .= " AND p.category_id IN ($placeholders)";
+        $params = array_merge($params, $categories);
+        $types .= str_repeat('i', count($categories));
+    }
+    
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, $types, ...$params);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = $result->fetch_assoc();
+    return $row['total'];
+}
+
+// Get all categories for the filter form
+$categoriesQuery = "SELECT id, name FROM categories";
+$categoriesResult = mysqli_query($conn, $categoriesQuery);
+$allCategories = [];
+if ($categoriesResult) {
+    while ($row = mysqli_fetch_assoc($categoriesResult)) {
+        $allCategories[] = $row;
+    }
+}
+
+// Handle AJAX request for course list
+if ($isAjax) {
+    // Get filtered products
+    $filteredProducts = getFilteredProducts($conn, $programType, $categoryFilter, $levelFilter, $page, $productsPerPage, $levelOrder);
+    $totalProducts = getTotalFilteredProducts($conn, $programType, $categoryFilter, $levelFilter);
+    $totalPages = ceil($totalProducts / $productsPerPage);
+    
+    // Output the course list HTML
+    if ($filteredProducts && mysqli_num_rows($filteredProducts) > 0) {
+        echo '<ul>';
+        while ($product = mysqli_fetch_assoc($filteredProducts)) {
+            // Only show product name as clickable link
+            echo '<li><a href="product_detail.php?id=' . $product['id'] . '">' . 
+                 htmlspecialchars($product['name']) . '</a></li>';
+        }
+        echo '</ul>';
+        
+        // Pagination
+        echo '<div>';
+        if ($page > 1) {
+            echo '<button onclick="handlePagination(' . ($page - 1) . ')">Previous</button>';
+        }
+        if ($page < $totalPages) {
+            echo '<button onclick="handlePagination(' . ($page + 1) . ')">Next</button>';
+        }
+        echo '</div>';
+    } else {
+        echo '<p>No programs found matching your criteria.</p>';
+    }
+    exit;
+}
+
+// For initial page load, get products without AJAX
+$filteredProducts = getFilteredProducts($conn, $programType, $categoryFilter, $levelFilter, $page, $productsPerPage, $levelOrder);
+$totalProducts = getTotalFilteredProducts($conn, $programType, $categoryFilter, $levelFilter);
+$totalPages = ceil($totalProducts / $productsPerPage);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Programs</title>
-    <link rel="stylesheet" href="http://localhost/bcas-web/stylesheets/global.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .pagination {
-            margin-top: 1rem;
-            display: flex;
-            gap: 1rem;
-        }
-        .pagination button {
-            padding: 0.5rem 1rem;
+        .program-type {
             cursor: pointer;
+            margin-bottom: 10px;
+            color: #0066cc;
+            text-decoration: underline;
+        }
+        .program-type.active {
+            font-weight: bold;
+        }
+        #course_filter ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        #course_filter li {
+            margin-bottom: 10px;
+        }
+        #course_filter a {
+            text-decoration: none;
+            color: #333;
+        }
+        #course_filter a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <main>
-        <section>
-            <div>
-                <h1>Programs</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-md-8">
+                <!-- Program Type Selection -->
+                <div class="row">
+                    <div class="col">
+                        <h1 class="program-type <?= $programType === 'Undergraduate' ? 'active' : '' ?>" 
+                            onclick="loadContent('type=Undergraduate')">
+                            Undergraduate
+                        </h1>
+                        <h1 class="program-type <?= $programType === 'Postgraduate' ? 'active' : '' ?>" 
+                            onclick="loadContent('type=Postgraduate')">
+                            Postgraduate
+                        </h1>
+                    </div>
+                </div>
+                
+                <!-- Course Filter Results -->
+                <div class="row" id="course_filter">
+                    <div class="col">
+                        <h2><?= htmlspecialchars($programType) ?> Programs</h2>
+                        <?php if ($filteredProducts && mysqli_num_rows($filteredProducts) > 0): ?>
+                            <ul>
+                                <?php while ($product = mysqli_fetch_assoc($filteredProducts)): ?>
+                                    <!-- Only show product name as clickable link -->
+                                    <li><a href="product_detail.php?id=<?= $product['id'] ?>">
+                                        <?= htmlspecialchars($product['name']) ?>
+                                    </a></li>
+                                <?php endwhile; ?>
+                            </ul>
+                            
+                            <!-- Pagination -->
+                            <div>
+                                <?php if ($page > 1): ?>
+                                    <button onclick="handlePagination(<?= $page - 1 ?>)">Previous</button>
+                                <?php endif; ?>
+                                
+                                <?php if ($page < $totalPages): ?>
+                                    <button onclick="handlePagination(<?= $page + 1 ?>)">Next</button>
+                                <?php endif; ?>
+                            </div>
+                        <?php else: ?>
+                            <p>No programs found matching your criteria.</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
             
-            <!-- Program Type Selection -->
-            <div id="program-types">
-                <h1 onclick="loadContent('type=Undergraduate')">Undergraduate</h1>
-                <h1 onclick="loadContent('type=Postgraduate')">Postgraduate</h1>
+            <!-- Right Column - Filter Form -->
+            <div class="col-md-4">
+                <form id="filter-form">
+                    <input type="hidden" name="type" id="filter-type" value="<?= $programType ?>">
+                    
+                    <h3>Are you after?</h3>
+                    <div>
+                        <input type="checkbox" id="after_o" name="levels[]" value="after_o" <?= in_array('after_o', $levelFilter) ? 'checked' : '' ?>>
+                        <label for="after_o">O Level</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="after_a" name="levels[]" value="after_a" <?= in_array('after_a', $levelFilter) ? 'checked' : '' ?>>
+                        <label for="after_a">A Level</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="diploma" name="levels[]" value="diploma" <?= in_array('diploma', $levelFilter) ? 'checked' : '' ?>>
+                        <label for="diploma">Diploma</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="other" name="levels[]" value="other" <?= in_array('other', $levelFilter) ? 'checked' : '' ?>>
+                        <label for="other">Other</label>
+                    </div>
+                    
+                    <h3>Select Field Of Study</h3>
+                    <?php foreach ($allCategories as $category): ?>
+                        <div>
+                            <input type="checkbox" id="cat_<?= $category['id'] ?>" name="categories[]" value="<?= $category['id'] ?>" <?= in_array($category['id'], $categoryFilter) ? 'checked' : '' ?>>
+                            <label for="cat_<?= $category['id'] ?>"><?= htmlspecialchars($category['name']) ?></label>
+                        </div>
+                    <?php endforeach; ?>
+                    
+                    <button type="button" onclick="applyFilters()">Submit</button>
+                    <button type="button" onclick="clearFilters()">Clear Filters</button>
+                </form>
             </div>
-
-            <!-- Main Content Area -->
-            <div id="main-content">
-                <?php if (!$programType && !$categoryId): ?>
-                    <!-- Featured Programs and Categories Section -->
-                    <section id="featured-section">
-                        <!-- Content loaded via AJAX -->
-                    </section>
-                <?php endif; ?>
-            </div>
-        </section>
-    </main>
+        </div>
+    </div>
 
     <script>
-        // Function to load featured content with pagination
-        function loadFeaturedPage(page) {
-            fetch(`programmes.php?ajax=1&featured=1&page=${page}`)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('featured-section').innerHTML = data;
-                    // Update URL without reload
-                    history.pushState(null, null, `programmes.php?featured_page=${page}`);
-                });
-        }
-        
-        // Function to update URL and load content
+        // Function to load program type
         function loadContent(params) {
-            // Update browser URL without reload
-            const newUrl = params ? `programmes.php?${params}` : 'programmes.php';
-            history.pushState(null, null, newUrl);
-            
-            // Parse parameters
+            // Update URL without reload
             const urlParams = new URLSearchParams(params);
             const type = urlParams.get('type');
-            const categoryId = urlParams.get('category_id');
             
-            if (!type && !categoryId) {
-                // Show featured section when back to home
-                document.getElementById('main-content').innerHTML = `
-                    <section id="featured-section">
-                        <!-- Featured content will be reloaded from server -->
-                    </section>
-                `;
-                loadFeaturedPage(1);
-            } else if (type && !categoryId) {
-                // Fetch categories via AJAX
-                fetchCategories(type);
-            } else if (type && categoryId) {
-                // Fetch products via AJAX
-                fetchProducts(type, categoryId);
-            } else if (categoryId && !type) {
-                // Handle direct category clicks from featured section
-                fetchCategoryProducts(categoryId);
+            // Update UI
+            document.querySelectorAll('.program-type').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            if (type === 'Undergraduate') {
+                document.querySelector('.program-type:first-child').classList.add('active');
+            } else if (type === 'Postgraduate') {
+                document.querySelector('.program-type:nth-child(2)').classList.add('active');
             }
+            
+            // Update hidden field
+            document.getElementById('filter-type').value = type;
+            
+            // Load courses with current filters
+            loadCourseList();
         }
-        
-        // [Keep your existing fetchCategories, fetchProducts, fetchCategoryProducts functions]
-        
-        // Handle back/forward browser buttons
+
+        // Function to apply filters
+        function applyFilters() {
+            loadCourseList();
+        }
+
+        // Function to clear filters
+        function clearFilters() {
+            // Uncheck all checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Reload with cleared filters
+            loadCourseList();
+        }
+
+        // Function to load course list with current filters
+        function loadCourseList(page = 1) {
+            const form = document.getElementById('filter-form');
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+            
+            // Add form data to params
+            for (const [name, value] of formData.entries()) {
+                if (name === 'levels[]' || name === 'categories[]') {
+                    params.append(name, value);
+                } else {
+                    params.set(name, value);
+                }
+            }
+            
+            // Add pagination and AJAX flag
+            params.set('page', page);
+            params.set('ajax', '1');
+            
+            // Update URL without reloading page
+            history.pushState(null, '', '?' + params.toString());
+            
+            // Fetch course list
+            fetch('?' + params.toString())
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('course_filter').innerHTML = data;
+                });
+        }
+
+        // Handle pagination clicks
+        function handlePagination(page) {
+            loadCourseList(page);
+        }
+
+        // Handle browser back/forward
         window.addEventListener('popstate', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const featuredPage = urlParams.get('featured_page');
+            const params = new URLSearchParams(window.location.search);
+            const type = params.get('type');
+            const page = params.get('page') || 1;
             
-            if (featuredPage) {
-                loadFeaturedPage(parseInt(featuredPage));
-            } else {
-                loadContent(window.location.search.substring(1));
+            // Update UI
+            if (type) {
+                document.querySelectorAll('.program-type').forEach(el => {
+                    el.classList.remove('active');
+                });
+                if (type === 'Undergraduate') {
+                    document.querySelector('.program-type:first-child').classList.add('active');
+                } else if (type === 'Postgraduate') {
+                    document.querySelector('.program-type:nth-child(2)').classList.add('active');
+                }
+                document.getElementById('filter-type').value = type;
             }
-        });
-        
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const type = urlParams.get('type');
-            const categoryId = urlParams.get('category_id');
-            const featuredPage = urlParams.get('featured_page');
             
-            if (featuredPage) {
-                loadFeaturedPage(parseInt(featuredPage));
-            } else if (type || categoryId) {
-                loadContent(window.location.search.substring(1));
-            } else {
-                loadFeaturedPage(1);
-            }
+            // Update checkboxes
+            const levels = params.getAll('levels[]');
+            const categories = params.getAll('categories[]');
+            
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                if (checkbox.name === 'levels[]') {
+                    checkbox.checked = levels.includes(checkbox.value);
+                } else if (checkbox.name === 'categories[]') {
+                    checkbox.checked = categories.includes(checkbox.value);
+                }
+            });
+            
+            // Reload course list
+            loadCourseList(page);
         });
     </script>
 </body>
