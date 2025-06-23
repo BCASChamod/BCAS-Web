@@ -3,14 +3,14 @@ require '../cf-admin/server/scripts/php/config.php';
 
 // Get URL parameters
 $programType = isset($_GET['type']) ? $_GET['type'] : 'Undergraduate';
-$categoryFilter = isset($_GET['categories']) ? (array)$_GET['categories'] : [];
-$levelFilter = isset($_GET['levels']) ? (array)$_GET['levels'] : [];
+$categoryFilter = isset($_GET['category']) ? [$_GET['category']] : []; // Single category
+$levelFilter = isset($_GET['level']) ? [$_GET['level']] : []; // Single level
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $isAjax = isset($_GET['ajax']);
 $productsPerPage = 10;
 
 // Define level order for sorting
-$levelOrder = [
+$ugLevelOrder = [
     'Certificate' => 1,
     'Foundation' => 2,
     'Diploma' => 3,
@@ -20,43 +20,61 @@ $levelOrder = [
     'Pgdip' => 7
 ];
 
+$pgLevelOrder = [
+    'Pgdip' => 1,
+    'Msc' => 2,
+    'Certificate' => 3,
+    'Foundation' => 4,
+    'Diploma' => 5,
+    'HND' => 6,
+    'BSc' => 7
+];
+
 // Function to get filtered products with sorting
 function getFilteredProducts($conn, $programType, $categories, $levels, $page, $perPage, $levelOrder) {
     $offset = ($page - 1) * $perPage;
     
-    $query = "SELECT p.id, p.name FROM products p 
+    $query = "SELECT p.id, p.name, p.level FROM products p 
               JOIN categories c ON p.category_id = c.id 
               WHERE p.program_type = ?";
     
     $params = [$programType];
     $types = 's';
     
-    // Apply level filters
+    // Apply level filters - special handling for Postgraduate
     if (!empty($levels)) {
         $levelConditions = [];
         foreach ($levels as $level) {
-            if ($level === 'after_o') {
-                $levelConditions[] = "(p.level = 'Certificate' OR p.level = 'Foundation')";
-            } elseif ($level === 'after_a') {
-                $levelConditions[] = "(p.level = 'HND' OR p.level = 'Diploma')";
-            } elseif ($level === 'diploma') {
-                $levelConditions[] = "(p.level = 'HND' OR p.level = 'Diploma')";
-            } elseif ($level === 'other') {
-                // Show all levels
+            if ($programType === 'Postgraduate') {
+                // For Postgraduate, only show programs that fall under "other"
+                $levelConditions[] = "(p.level = 'Msc' OR p.level = 'Pgdip')";
+            } else {
+                // Undergraduate filtering
+                if ($level === 'after_o') {
+                    $levelConditions[] = "(p.level = 'Certificate' OR p.level = 'Foundation')";
+                } elseif ($level === 'after_a') {
+                    $levelConditions[] = "(p.level = 'HND' OR p.level = 'Diploma')";
+                } elseif ($level === 'diploma') {
+                    $levelConditions[] = "(p.level = 'HND' OR p.level = 'Diploma')";
+                } elseif ($level === 'other') {
+                    $levelConditions[] = "(p.level = 'BSc' OR p.level = 'Msc' OR p.level = 'Pgdip')";
+                }
             }
         }
         
         if (!empty($levelConditions)) {
             $query .= " AND (" . implode(" OR ", $levelConditions) . ")";
         }
+    } elseif ($programType === 'Postgraduate') {
+        // Default level filter for Postgraduate - show only higher level programs
+        $query .= " AND (p.level = 'Msc' OR p.level = 'Pgdip')";
     }
     
     // Apply category filters
     if (!empty($categories)) {
-        $placeholders = implode(',', array_fill(0, count($categories), '?'));
-        $query .= " AND p.category_id IN ($placeholders)";
-        $params = array_merge($params, $categories);
-        $types .= str_repeat('i', count($categories));
+        $query .= " AND p.category_id = ?";
+        $params[] = $categories[0];
+        $types .= 'i';
     }
     
     // Add sorting by level
@@ -84,32 +102,40 @@ function getTotalFilteredProducts($conn, $programType, $categories, $levels) {
     $params = [$programType];
     $types = 's';
     
-    // Apply level filters
+    // Apply level filters - special handling for Postgraduate
     if (!empty($levels)) {
         $levelConditions = [];
         foreach ($levels as $level) {
-            if ($level === 'after_o') {
-                $levelConditions[] = "(p.level = 'Certificate' OR p.level = 'Foundation')";
-            } elseif ($level === 'after_a') {
-                $levelConditions[] = "(p.level = 'HND' OR p.level = 'Diploma')";
-            } elseif ($level === 'diploma') {
-                $levelConditions[] = "(p.level = 'HND' OR p.level = 'Diploma')";
-            } elseif ($level === 'other') {
-                // Show all levels
+            if ($programType === 'Postgraduate') {
+                // For Postgraduate, only show programs that fall under "other"
+                $levelConditions[] = "(p.level = 'Msc' OR p.level = 'Pgdip')";
+            } else {
+                // Undergraduate filtering
+                if ($level === 'after_o') {
+                    $levelConditions[] = "(p.level = 'Certificate' OR p.level = 'Foundation')";
+                } elseif ($level === 'after_a') {
+                    $levelConditions[] = "(p.level = 'HND' OR p.level = 'Diploma')";
+                } elseif ($level === 'diploma') {
+                    $levelConditions[] = "(p.level = 'HND' OR p.level = 'Diploma')";
+                } elseif ($level === 'other') {
+                    $levelConditions[] = "(p.level = 'BSc' OR p.level = 'Msc' OR p.level = 'Pgdip')";
+                }
             }
         }
         
         if (!empty($levelConditions)) {
             $query .= " AND (" . implode(" OR ", $levelConditions) . ")";
         }
+    } elseif ($programType === 'Postgraduate') {
+        // Default level filter for Postgraduate - show only higher level programs
+        $query .= " AND (p.level = 'Msc' OR p.level = 'Pgdip')";
     }
     
     // Apply category filters
     if (!empty($categories)) {
-        $placeholders = implode(',', array_fill(0, count($categories), '?'));
-        $query .= " AND p.category_id IN ($placeholders)";
-        $params = array_merge($params, $categories);
-        $types .= str_repeat('i', count($categories));
+        $query .= " AND p.category_id = ?";
+        $params[] = $categories[0];
+        $types .= 'i';
     }
     
     $stmt = mysqli_prepare($conn, $query);
@@ -129,6 +155,9 @@ if ($categoriesResult) {
         $allCategories[] = $row;
     }
 }
+
+// Determine level order based on program type
+$levelOrder = ($programType === 'Postgraduate') ? $pgLevelOrder : $ugLevelOrder;
 
 // Handle AJAX request for course list
 if ($isAjax) {
@@ -258,31 +287,41 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                     
                     <h3>Are you after?</h3>
                     <div>
-                        <input type="checkbox" id="after_o" name="levels[]" value="after_o" <?= in_array('after_o', $levelFilter) ? 'checked' : '' ?>>
-                        <label for="after_o">O Level</label>
+                        <input type="radio" id="after_o" name="level" value="after_o" 
+                            <?= in_array('after_o', $levelFilter) ? 'checked' : '' ?>
+                            <?= $programType === 'Postgraduate' ? 'disabled' : '' ?>>
+                        <label for="after_o" <?= $programType === 'Postgraduate' ? 'style="color:#ccc"' : '' ?>>After O Level</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="after_a" name="levels[]" value="after_a" <?= in_array('after_a', $levelFilter) ? 'checked' : '' ?>>
-                        <label for="after_a">A Level</label>
+                        <input type="radio" id="after_a" name="level" value="after_a" 
+                            <?= in_array('after_a', $levelFilter) ? 'checked' : '' ?>
+                            <?= $programType === 'Postgraduate' ? 'disabled' : '' ?>>
+                        <label for="after_a" <?= $programType === 'Postgraduate' ? 'style="color:#ccc"' : '' ?>>After A Level</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="diploma" name="levels[]" value="diploma" <?= in_array('diploma', $levelFilter) ? 'checked' : '' ?>>
-                        <label for="diploma">Diploma</label>
+                        <input type="radio" id="diploma" name="level" value="diploma" 
+                            <?= in_array('diploma', $levelFilter) ? 'checked' : '' ?>
+                            <?= $programType === 'Postgraduate' ? 'disabled' : '' ?>>
+                        <label for="diploma" <?= $programType === 'Postgraduate' ? 'style="color:#ccc"' : '' ?>>Diploma</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="other" name="levels[]" value="other" <?= in_array('other', $levelFilter) ? 'checked' : '' ?>>
+                        <input type="radio" id="other" name="level" value="other" 
+                            <?= in_array('other', $levelFilter) || $programType === 'Postgraduate' ? 'checked' : '' ?>
+                            <?= $programType === 'Postgraduate' ? 'onclick="return false;"' : '' ?>>
                         <label for="other">Other</label>
+                        <?php if ($programType === 'Postgraduate'): ?>
+                            <span style="font-size: 0.8em; color: #666;">(Postgraduate programs always fall under "Other")</span>
+                        <?php endif; ?>
                     </div>
                     
                     <h3>Select Field Of Study</h3>
                     <?php foreach ($allCategories as $category): ?>
                         <div>
-                            <input type="checkbox" id="cat_<?= $category['id'] ?>" name="categories[]" value="<?= $category['id'] ?>" <?= in_array($category['id'], $categoryFilter) ? 'checked' : '' ?>>
+                            <input type="radio" id="cat_<?= $category['id'] ?>" name="category" value="<?= $category['id'] ?>" <?= in_array($category['id'], $categoryFilter) ? 'checked' : '' ?>>
                             <label for="cat_<?= $category['id'] ?>"><?= htmlspecialchars($category['name']) ?></label>
                         </div>
                     <?php endforeach; ?>
                     
-                    <button type="button" onclick="applyFilters()">Submit</button>
                     <button type="button" onclick="clearFilters()">Clear Filters</button>
                 </form>
             </div>
@@ -314,16 +353,16 @@ $totalPages = ceil($totalProducts / $productsPerPage);
             loadCourseList();
         }
 
-        // Function to apply filters
-        function applyFilters() {
-            loadCourseList();
-        }
-
         // Function to clear filters
         function clearFilters() {
-            // Uncheck all checkboxes
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                checkbox.checked = false;
+            // Uncheck all radio buttons except "Other" for Postgraduate
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                if (radio.name === 'level' && radio.value === 'other' && 
+                    document.getElementById('filter-type').value === 'Postgraduate') {
+                    radio.checked = true;
+                } else {
+                    radio.checked = false;
+                }
             });
             
             // Reload with cleared filters
@@ -338,11 +377,12 @@ $totalPages = ceil($totalProducts / $productsPerPage);
             
             // Add form data to params
             for (const [name, value] of formData.entries()) {
-                if (name === 'levels[]' || name === 'categories[]') {
-                    params.append(name, value);
-                } else {
-                    params.set(name, value);
-                }
+                params.set(name, value);
+            }
+            
+            // For Postgraduate, force level to "other"
+            if (params.get('type') === 'Postgraduate') {
+                params.set('level', 'other');
             }
             
             // Add pagination and AJAX flag
@@ -357,6 +397,40 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('course_filter').innerHTML = data;
+                    
+                    // Update UI for Postgraduate
+                    if (params.get('type') === 'Postgraduate') {
+                        // Disable non-relevant options
+                        document.querySelectorAll('input[name="level"]').forEach(radio => {
+                            if (radio.value !== 'other') {
+                                radio.disabled = true;
+                                radio.nextElementSibling.style.color = '#ccc';
+                            } else {
+                                radio.checked = true;
+                            }
+                        });
+                        
+                        // Add note
+                        const note = document.querySelector('#other + span');
+                        if (!note) {
+                            const otherLabel = document.querySelector('label[for="other"]');
+                            const noteSpan = document.createElement('span');
+                            noteSpan.style.fontSize = '0.8em';
+                            noteSpan.style.color = '#666';
+                            noteSpan.textContent = ' (Postgraduate programs always fall under "Other")';
+                            otherLabel.parentNode.insertBefore(noteSpan, otherLabel.nextSibling);
+                        }
+                    } else {
+                        // Enable all options for Undergraduate
+                        document.querySelectorAll('input[name="level"]').forEach(radio => {
+                            radio.disabled = false;
+                            radio.nextElementSibling.style.color = '';
+                        });
+                        
+                        // Remove note if exists
+                        const note = document.querySelector('#other + span');
+                        if (note) note.remove();
+                    }
                 });
         }
 
@@ -369,6 +443,8 @@ $totalPages = ceil($totalProducts / $productsPerPage);
         window.addEventListener('popstate', function() {
             const params = new URLSearchParams(window.location.search);
             const type = params.get('type');
+            const level = params.get('level');
+            const category = params.get('category');
             const page = params.get('page') || 1;
             
             // Update UI
@@ -384,20 +460,68 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                 document.getElementById('filter-type').value = type;
             }
             
-            // Update checkboxes
-            const levels = params.getAll('levels[]');
-            const categories = params.getAll('categories[]');
+            // Update radio buttons
+            if (level) {
+                document.querySelector(`input[name="level"][value="${level}"]`).checked = true;
+            } else if (type === 'Postgraduate') {
+                document.querySelector(`input[name="level"][value="other"]`).checked = true;
+            } else {
+                document.querySelectorAll('input[name="level"]').forEach(radio => {
+                    radio.checked = false;
+                });
+            }
             
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                if (checkbox.name === 'levels[]') {
-                    checkbox.checked = levels.includes(checkbox.value);
-                } else if (checkbox.name === 'categories[]') {
-                    checkbox.checked = categories.includes(checkbox.value);
-                }
-            });
+            if (category) {
+                document.querySelector(`input[name="category"][value="${category}"]`).checked = true;
+            } else {
+                document.querySelectorAll('input[name="category"]').forEach(radio => {
+                    radio.checked = false;
+                });
+            }
             
             // Reload course list
             loadCourseList(page);
+        });
+
+        // Add event listeners for live filtering
+        document.addEventListener('DOMContentLoaded', function() {
+            // Listen to level filter changes
+            document.querySelectorAll('input[name="level"]').forEach(radio => {
+                radio.addEventListener('change', () => {
+                    // For Postgraduate, keep "other" selected
+                    if (document.getElementById('filter-type').value === 'Postgraduate') {
+                        document.querySelector('input[name="level"][value="other"]').checked = true;
+                    } else {
+                        loadCourseList();
+                    }
+                });
+            });
+            
+            // Listen to category filter changes
+            document.querySelectorAll('input[name="category"]').forEach(radio => {
+                radio.addEventListener('change', () => {
+                    loadCourseList();
+                });
+            });
+            
+            // Initial setup for Postgraduate
+            if (document.getElementById('filter-type').value === 'Postgraduate') {
+                document.querySelector('input[name="level"][value="other"]').checked = true;
+                document.querySelectorAll('input[name="level"]').forEach(radio => {
+                    if (radio.value !== 'other') {
+                        radio.disabled = true;
+                        radio.nextElementSibling.style.color = '#ccc';
+                    }
+                });
+                
+                // Add note
+                const otherLabel = document.querySelector('label[for="other"]');
+                const noteSpan = document.createElement('span');
+                noteSpan.style.fontSize = '0.8em';
+                noteSpan.style.color = '#666';
+                noteSpan.textContent = ' (Postgraduate programs always fall under "Other")';
+                otherLabel.parentNode.insertBefore(noteSpan, otherLabel.nextSibling);
+            }
         });
     </script>
 </body>
