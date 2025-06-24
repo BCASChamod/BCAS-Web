@@ -1,0 +1,35 @@
+Category Table
+______________________________________________________
+
+ID 	SCHOOL
+______________________________________________________
+
+2	School of Computing
+3	School of Construction and Built Environment 
+4	School of Business
+5	School of Law
+6	School of Health and Services
+7	School of Languages and Education
+8	School of Hospitality and Built Environment
+
+
+
+_________________________________
+PRODUCTS TABLE
+_________________________________
+ID =			product id
+name = 			product name 
+study_type = 		Online, Physical, Online & Pysical
+description = 		detailed descriptiion about the course
+pre_requirement = 	entry qualification
+category_id = 		id of the schools
+vendor = 		awarding body
+credits = 		credits earned per course
+duration = 		course duration
+level = 		foun, dip, certificate, hnd, bsc, pgdip, msc
+course_overview = 	short description
+program_structure = 	modules
+career_path = 		career opportunities
+student_guidance = 
+program_type = 		undergraduate, postgraduate
+study_mode = 		full time, part time 

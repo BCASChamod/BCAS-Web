@@ -42,8 +42,8 @@ $levelOrder = [
 // Function to get filtered products with sorting
 function getFilteredProducts($conn, $programType, $categories, $levels, $page, $perPage, $levelOrder) {
     $offset = ($page - 1) * $perPage;
-
-    $query = "SELECT p.id, p.name, p.level, p.image_id FROM products p 
+    
+    $query = "SELECT p.id, p.name, p.level FROM products p 
               JOIN categories c ON p.category_id = c.id 
               WHERE p.program_type = ?";
     
@@ -157,8 +157,8 @@ if ($isAjax) {
     if ($filteredProducts && mysqli_num_rows($filteredProducts) > 0) {
         echo '<ul>';
         while ($product = mysqli_fetch_assoc($filteredProducts)) {
-            echo '<li>  <img id=' . htmlspecialchars($product['image_id']) . ' src="" alt="" /></li>';
-            echo '<li><a href="product_detail.php?id=' . $product['id'] . '">' .htmlspecialchars($product['name']) . '</a></li>';
+            echo '<li><a href="product_detail.php?id=' . $product['id'] . '">' . 
+                 htmlspecialchars($product['name']) . '</a></li>';
         }
         echo '</ul>';
         
@@ -218,10 +218,8 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                             <ul>
                                 <?php while ($product = mysqli_fetch_assoc($filteredProducts)): ?>
                                     <li><a href="product_detail.php?id=<?= $product['id'] ?>">
-                                        <img id="<?= htmlspecialchars($product['image_id']) ?>" src="" alt="" />
                                         <?= htmlspecialchars($product['name']) ?>
-                                    </a>
-                                </li>
+                                    </a></li>
                                 <?php endwhile; ?>
                             </ul>
                             
@@ -512,6 +510,6 @@ $totalPages = ceil($totalProducts / $productsPerPage);
             });
         });
     </script>
-    <script type="module" src="../cf-admin/dependencies/cfusion/cfusion.js"></script>
+    <script src="../cf-admin/dependencies/cfusion/"></script>
 </body>
 </html>
