@@ -43,7 +43,7 @@ $levelOrder = [
 function getFilteredProducts($conn, $programType, $categories, $levels, $page, $perPage, $levelOrder) {
     $offset = ($page - 1) * $perPage;
     
-    $query = "SELECT p.id, p.name, p.level FROM products p 
+    $query = "SELECT p.id, p.name, p.level, p.image_id FROM products p 
               JOIN categories c ON p.category_id = c.id 
               WHERE p.program_type = ?";
     
@@ -157,6 +157,8 @@ if ($isAjax) {
     if ($filteredProducts && mysqli_num_rows($filteredProducts) > 0) {
         echo '<ul>';
         while ($product = mysqli_fetch_assoc($filteredProducts)) {
+            // Show comment about image instead of displaying it
+            echo '<!-- Image would be loaded from database column image_id: ' . htmlspecialchars($product['image_id']) . ' -->';
             echo '<li><a href="product_detail.php?id=' . $product['id'] . '">' . 
                  htmlspecialchars($product['name']) . '</a></li>';
         }
@@ -189,16 +191,15 @@ $totalPages = ceil($totalProducts / $productsPerPage);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Programs</title>
-    <link rel="stylesheet" href="../stylesheets/programmes.css">
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
+    <div>
+        <div>
             <!-- Left Column -->
-            <div class="col-md-8">
+            <div>
                 <!-- Program Type Selection -->
-                <div class="row">
-                    <div class="col">
+                <div>
+                    <div>
                         <h1 class="program-type <?= $programType === 'Undergraduate' ? 'active' : '' ?>" 
                             onclick="switchProgramType('Undergraduate')">
                             Undergraduate
@@ -211,12 +212,13 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                 </div>
                 
                 <!-- Course Filter Results -->
-                <div class="row" id="course_filter">
-                    <div class="col">
+                <div id="course_filter">
+                    <div>
                         <h2><?= htmlspecialchars($programType) ?> Programs</h2>
                         <?php if ($filteredProducts && mysqli_num_rows($filteredProducts) > 0): ?>
                             <ul>
                                 <?php while ($product = mysqli_fetch_assoc($filteredProducts)): ?>
+                                    <?= htmlspecialchars($product['image_id']) ?>   
                                     <li><a href="product_detail.php?id=<?= $product['id'] ?>">
                                         <?= htmlspecialchars($product['name']) ?>
                                     </a></li>
@@ -241,7 +243,7 @@ $totalPages = ceil($totalProducts / $productsPerPage);
             </div>
             
             <!-- Right Column - Filter Form -->
-            <div class="col-md-4">
+            <div>
                 <form id="filter-form">
                     <input type="hidden" name="type" id="filter-type" value="<?= $programType ?>">
                     
@@ -263,7 +265,7 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                             <input type="radio" id="other" name="level" value="other" <?= in_array('other', $levelFilter) || $programType === 'Postgraduate' ? 'checked' : '' ?>>
                             <label for="other">Other</label>
                             <?php if ($programType === 'Postgraduate'): ?>
-                                <span style="font-size: 0.8em; color: #666;">(Required for Postgraduate)</span>
+                                <span>(Required for Postgraduate)</span>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -282,7 +284,7 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                                     <?= $isDefault ? 'checked' : '' ?>>
                                 <label for="cat_<?= $category['id'] ?>"><?= htmlspecialchars($category['name']) ?></label>
                                 <?php if ($isDefault): ?>
-                                    <span style="font-size: 0.8em; color: #666;">(Default)</span>
+                                    <span>(Default)</span>
                                 <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
@@ -510,6 +512,5 @@ $totalPages = ceil($totalProducts / $productsPerPage);
             });
         });
     </script>
-    <script src="../cf-admin/dependencies/cfusion/"></script>
 </body>
 </html>
