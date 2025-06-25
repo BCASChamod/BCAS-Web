@@ -64,6 +64,9 @@ $select_product_query = "SELECT * FROM `products`";
                         </div>
                         <div class="row program_result">
                          <!-- programs comes here -->
+
+                         <input type="submit" name="next_btn" id="next_btn" value="Next">
+                         <input type="submit" name="previous_btn" id="previous_btn" value="Previous">
                         </div>
 
                     </div>
@@ -71,14 +74,17 @@ $select_product_query = "SELECT * FROM `products`";
             </div>
             <div class="col-md-4">
                 <div class="row level_selection">
-                    <form method="post">
-                        <label><input type="radio" name="olevel" value="olevel"> Male</label><br>
-                        <label><input type="radio" name="alevel" value="alevel"> Female</label><br>
-                        <label><input type="radio" name="diploma" value="diploma"> Other</label><br>
-                        <label><input type="radio" name="other" value="other"> Other</label><br>
-
-                        <input type="submit" value="Submit">
-                    </form>
+                    <div class="row">
+                        <h2 class="level_heading">Are you after?</h2>
+                    </div>
+                    <div class="row level_selection_form"> 
+                        <form method="post">
+                            <label><input type="radio" name="olevel" value="olevel"> O Level</label><br>
+                            <label><input type="radio" name="alevel" value="alevel"> A Level</label><br>
+                            <label><input type="radio" name="diploma" value="diploma"> Diploma</label><br>
+                            <label><input type="radio" name="other" value="other"> Other</label><br>
+                        </form>
+                    </div>
 
 
                 </div>
