@@ -1,11 +1,24 @@
 <?php
 require './cf-admin/server/scripts/php/config.php';
 
-  $btnBarStmt = $conn->prepare("SELECT id, label, custom_styles, action, action_rest, helptext FROM ui_elements WHERE source = 'landing_btnbar' AND is_active = 1");
-  $btnBarStmt->execute();
-  $btnBarResult = $btnBarStmt->get_result();
+$btnBarStmt = $conn->prepare("SELECT id, label, custom_styles, action, action_rest, helptext FROM ui_elements WHERE source = 'landing_btnbar' AND is_active = 1");
+$eventStmt = $conn->prepare("SELECT title, date, location, created_at, coverimg FROM news_and_events WHERE is_active = 1 ORDER BY created_at DESC LIMIT 3");
+$productStmt = $conn->prepare("SELECT id, name, level, program_type FROM products WHERE is_active = 1");
 
+$btnBarStmt->execute();
+$btnBarResult = $btnBarStmt->get_result();
+
+$eventStmt->execute();
+$eventResult = $eventStmt->get_result();
+
+$productStmt->execute();
+$productResult = $productStmt->get_result();
+
+$productData = $productResult->fetch_all(MYSQLI_ASSOC);
 ?>
+<script>
+  window.productData = <?php echo json_encode($productData); ?>;
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +31,6 @@ require './cf-admin/server/scripts/php/config.php';
 
 </head>
 <body>
-  <div id="mainOverlay" class="main-overlay"></div>
   <main>
   <section id="landing" class="landing">
     <div class="landing-bg">
@@ -88,15 +100,24 @@ require './cf-admin/server/scripts/php/config.php';
           <div class="text-content">
             <p>Explore</p>
             <h2>Our Programmes</h2>
-          </div>
+          </div> 
           <img id="programmesMain" src="" alt="">
         </div>
         <div class="card card--top1">
           <div class="text-content">
-            <p>Latest Event</p>
-            <h2>Open Day Highlights</h2>
-          </div>
-          <img id="latestEvent" src="" alt="">
+            <?php
+            if ($eventRow = $eventResult->fetch_assoc()) {
+              echo '<p>Latest Event</p>';
+              echo '<h2>' . htmlspecialchars($eventRow['title']) . '</h2>';
+              echo '</div>';
+              $coverImg = !empty($eventRow['coverimg']) ? htmlspecialchars($eventRow['coverimg']) : '';
+              echo '<img id="' . $coverImg . '" src="" alt="">';
+            } else {
+              echo '<p>No events found</p>';
+              echo '</div>';
+              echo '<img id="placeholder" src="" alt="">';
+            }
+            ?>
         </div>
 
         <div class="card card--top2">

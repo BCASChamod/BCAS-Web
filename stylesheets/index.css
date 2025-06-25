@@ -607,7 +607,8 @@
     }
 
     form input[type="text"],
-    form input[type="email"] {
+    form input[type="email"],
+    form select {
       width: 100%;
       padding: 10px;
       font-size: 0.95rem;
