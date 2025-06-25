@@ -1,40 +1,19 @@
 <?php
 require '../cf-admin/server/scripts/php/config.php';
 
-//extracting category rows 
-$select_category_query = "SELECT * FROM `categories`";
-                $run_select_category_query=mysqli_query($conn, $select_category_query);
-                while($row=mysqli_fetch_assoc($run_select_category_query)){
-                    $category_id = $row['id'];
-                    $category_name = $row['name'];
-                  
-                }
+$getproduct = $conn->prepare("SELECT products.*, categories.name AS category_name FROM `products` LEFT JOIN `categories` ON products.category_id = categories.id WHERE products.is_active = 1");
+$getproduct->execute();
 
-//extracting products rows
-$select_product_query = "SELECT * FROM `products`";
-                $run_select_product_query=mysqli_query($conn, $select_product_query);
-                while($row=mysqli_fetch_assoc($run_select_product_query)){
-                  $product_id = $row['id'];
-                  $product_name = $row['name'];
-                  $product_description = $row['description'];
-                  $product_pre_requirements = $row['pre_requirements'];
-                  $Product_category_id = $row['category_id'];
-                  $Product_vendor = $row['vendor'];
-                  $Product_image_id = $row['image_id'];
-                  $Product_credits = $row['credits'];
-                  $Product_duration = $row['duration'];
-                  $Product_level = $row['level'];
-                  $Product_course_overview = $row['course_overview'];
-                  $Product_program_structure = $row['program_structure'];
-                  $Product_career_path = $row['career_path'];
-                  $Product_student_guidance = $row['student_guidance'];
-                  $Product_program_type = $row['program_type'];
-                  $Product_study_mode = $row['study_mode'];
-                  $Product_study_type = $row['study_type'];         
-                }
+$productsResult = $getproduct->get_result();
 
+$products = $productsResult->fetch_all(MYSQLI_ASSOC);
 
 ?>
+<script>
+    window.productAllData = <?php echo json_encode($products); ?>;
+    console.log(window.productAllData);
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,10 +42,9 @@ $select_product_query = "SELECT * FROM `products`";
                             <h2 class="pgpro">Postgraduate Programs</h2>
                         </div>
                         <div class="row program_result">
-                         <!-- programs comes here -->
-
-                         <input type="submit" name="next_btn" id="next_btn" value="Next">
-                         <input type="submit" name="previous_btn" id="previous_btn" value="Previous">
+                            <div id="programContainer">
+                                <!-- Programmes will be here -->
+                            </div>
                         </div>
 
                     </div>
@@ -85,14 +63,32 @@ $select_product_query = "SELECT * FROM `products`";
                             <label><input type="radio" name="other" value="other"> Other</label><br>
                         </form>
                     </div>
-
-
+                </div>
+                <div class="row cateogory_selection">
+                    <div class="row">
+                        <h2 class="category_selection_heading">Interested Field Of Study</h2>
+                    </div>
+                    <div class="row category_selection_form">
+                        <form method="post">
+                            <?php
+                            $select_category_query = "SELECT * FROM `categories`";
+                            $run_select_category_query = mysqli_query($conn, $select_category_query);
+                            while ($row = mysqli_fetch_assoc($run_select_category_query)) {
+                                $category_id = $row['id'];
+                                $category_name = $row['name'];
+                                echo "<label><input type='radio' name='category[]' value='$category_id'> $category_name</label><br>";
+                            }
+                            ?>
+                            <button type="reset" name="clear_btn" id="clear_btn"> Clear  Filters</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     </script>
-    <!-- <script type="module" src="../cf-admin/dependencies/cfusion/cfusion.js"></script> -->
+    <script type="module" src="../cf-admin/dependencies/cfusion/cfusion.js"></script>
+     <script src="../scripts/js/programmes.js"></script>
 </body>
 </html>

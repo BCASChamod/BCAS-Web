@@ -9,7 +9,7 @@ initializeTheme();
 loadMedia();
 checkAllMediaElements();
 injectDependencies('fontawesome', 'cfusion', 'gsap', 'bootstrapGrid');
-showLoadingOverlay();
+// showLoadingOverlay();
 console.log("CFusion Initiated!");
 
 const side = document.documentElement.getAttribute('data-side');
