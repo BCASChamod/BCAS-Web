@@ -375,6 +375,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+window.addEventListener('DOMContentLoaded', () => {
 
 const formArea = document.getElementById('formArea');
 let formStatus = formArea.getAttribute('data-submission') || 'pre';
@@ -395,12 +396,22 @@ if (formStatus === 'pre') {
 
             <div class="full-width">
                 <label for="qualification">Your Highest Academic Qualification</label>
-                <input type="text" id="qualification" />
+                <select id="qualification">
+                    <option value="">Select qualification</option>
+                    <option value="OL">O/L</option>
+                    <option value="AL">A/L</option>
+                    <option value="Diploma">Diploma</option>
+                    <option value="Degree">Degree</option>
+                    <option value="Masters">Masters</option>
+                    <option value="Other">Other</option>
+                </select>
             </div>
 
             <div class="full-width">
                 <label for="programme">Interested Programme</label>
-                <input type="text" id="programme" />
+                <select id="programme">
+                    <option value="">Select programme</option>
+                </select>
             </div>
 
             <div>
@@ -428,7 +439,19 @@ if (formStatus === 'pre') {
                 <button type="submit" class="submit">Submit</button>
             </div>
         </form>
-        `;
+    `;
+
+
+    const programmeSelect = document.getElementById('programme');
+    if (window.productData && Array.isArray(window.productData)) {
+        window.productData.forEach(product => {
+            const option = document.createElement('option');
+            option.value = product.id;
+            option.textContent = product.name;
+            console.log(option);
+            programmeSelect.appendChild(option);
+        });
+    }
     } else {
         document.querySelector('.form-success').classList.add('visible');
         document.querySelector('.form-pending').classList.add('hidden');
@@ -442,3 +465,4 @@ if (formStatus === 'pre') {
                         </form>
                     </div>`;
     };
+});
