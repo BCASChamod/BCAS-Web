@@ -1,53 +1,81 @@
+// Export so you can import elsewhere
+export async function loadMedia() {
+  try {
+    // 1) Grab media data
+    const res = await fetch('http://localhost/bcas-web/cf-admin/server/scripts/php/mediahandler.php');
+    const mediaData = await res.json();
 
-// Export the functions so they can be imported in other scripts
-export function loadMedia() {
-    fetch('http://localhost/bcas-web/cf-admin/server/scripts/php/mediahandler.php')
-        .then(response => response.json())
-        .then(mediaData => {
-            const mediaElements = document.querySelectorAll('img, video');
+    // 2) Eager elements: img/video without data-lazy="true"
+    const eagerEls = Array.from(
+      document.querySelectorAll('img:not([data-lazy="true"]), video:not([data-lazy="true"])')
+    );
 
-            mediaElements.forEach(element => {
-                const mediaItem = mediaData[element.id];
-                if (mediaItem) {
-                    if (mediaItem.is_active) {
-                        element.src = mediaItem.src;
-                        element.alt = mediaItem.alt;
-                        if (mediaItem.srcset) {
-                            element.srcset = mediaItem.srcset;
-                        }
-                    } else {
-                        console.log(`Element ID ${element.id} is not loaded with an image cause its disabled! Re-enable it or change it.`);
-                        element.id = 'placeholder_img';
-                        element.src = 'http://localhost/careercompass/resources/img/placeholder.webp';
-                        element.alt = 'Placeholder: Image is disabled!';
-                        if (element.srcset) {
-                            element.srcset = '';
-                        }
-                    }
-                }
-            });
+    let pending = eagerEls.length;
+    const checkDone = () => {
+      if (--pending <= 0) {
+        console.log('✅ All eager media loaded or errored');
+      }
+    };
 
-            checkAllMediaElements();
-        })
-        .catch(error => {
-            console.error("Error fetching media data:", error);
-        });
-}
+    eagerEls.forEach(el => {
+      const id = el.id;
+      const data = mediaData[id];
 
-export function checkAllMediaElements() {
-    console.log("Media checking...");
-    const mediaElements = document.querySelectorAll('img:not([data-lazy="true"]), video:not([data-lazy="true"])');
-    let allLoaded = true;
-
-    mediaElements.forEach(element => {
-        if (!element.hasAttribute('data-lazy') && !element.src) {
-            allLoaded = false;
-            loadMedia();
-            console.log("Media Element is not loaded!");
+      if (data && data.is_active) {
+        // wire up src/srcset/alt
+        if (el.tagName === 'VIDEO') {
+          el.src = data.src;
+          if (data.srcset) el.querySelector('source')?.setAttribute('srcset', data.srcset);
+        } else {
+          el.src = data.src;
+          if (data.srcset) el.srcset = data.srcset;
         }
+        el.alt = data.alt || '';
+      } else {
+        // disabled → placeholder
+        console.log(`⚠️ Element "${id}" is disabled; using placeholder.`);
+        el.classList.add('placeholder');
+        el.src = '/careercompass/resources/img/placeholder.webp';
+      }
+
+      // wait for each to finish
+      el.addEventListener('load',  checkDone, { once: true });
+      el.addEventListener('error', checkDone, { once: true });
     });
 
-    if (!allLoaded) {
-        setTimeout(checkAllMediaElements, 1000);
+    if (pending === 0) {
+      console.log('No eager media to load.');
     }
+
+    // 3) Lazy elements: watch for visibility
+    const lazyEls = document.querySelectorAll('[data-lazy="true"]');
+    const io = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        const el = entry.target;
+        const isVideo = el.tagName.toLowerCase() === 'video';
+        const srcAttr = el.getAttribute('data-src');
+        if (!srcAttr) return;
+
+        if (isVideo) {
+          // set <source> and trigger load()
+          const source = el.querySelector('source');
+          source?.setAttribute('src', srcAttr);
+          el.load();
+        } else {
+          el.src = srcAttr;
+        }
+
+        // cleanup
+        observer.unobserve(el);
+      });
+    }, { rootMargin: '100px' }); // preload a bit before fully in view
+
+    lazyEls.forEach(el => io.observe(el));
+  }
+  catch(err) {
+    console.error('❌ Error in loadMedia():', err);
+    // Optional: retry logic here with backoff
+  }
 }
