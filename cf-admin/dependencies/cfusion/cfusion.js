@@ -7,13 +7,8 @@ import { loadingOverlay } from './scripts/loading.js';
 initializeTheme();
 // setupThemeSwitch(document.getElementById('themeSwitch'));
 loadMedia();
-// checkAllMediaElements();
 injectDependencies('fontawesome', 'cfusion', 'gsap', 'bootstrapGrid');
-<<<<<<< Updated upstream
-// showLoadingOverlay();
-=======
 loadingOverlay();
->>>>>>> Stashed changes
 console.log("CFusion Initiated!");
 
 const side = document.documentElement.getAttribute('data-side');
