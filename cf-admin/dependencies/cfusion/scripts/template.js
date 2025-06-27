@@ -4,24 +4,83 @@ export function injectHeader() {
   const header = document.createElement("header");
   header.innerHTML = `
     <nav>
-      <a href="#" aria-label="BCAS Logo">
+    <div class="desktop-logo">
+      <a class="logo-container" href="#" aria-label="BCAS Logo">
         <img id="logo" src="" alt="" />
       </a>
-      <ul>
-        <li><a href="/">Programmes</a></li>
-        <li><a href="">About BCAS</a></li>
-        <li><a href="">Student Life</a></li>
-        <li><a href="">Help & Support</a></li>
-        <li><a href="">Insights</a></li>
-      <div>
-        <input type="checkbox" class="theme-switch" id="themeSwitch">
-        <label for="themeSwitch" class="theme-switch-label">
-          <i class="fa-solid fa-moon"></i>
-          <i class="fa-solid fa-sun-bright"></i>
-          <span class="ball"></span>
-        </label>
-      </div>
+    </div>
+      <ul class="desktop-nav-content">
+
+        <li class="dropdown"><a class="nav-gate" href="/">Programmes <i class="fa-regular fa-angle-down"></i></a></i>
+          <div class="dropdown-container">
+            <div class="dropdown-content">
+              <a class="nav-link" href="#">Undergraduate</a>
+              <hr>
+              <a class="nav-link" href="#">Postgraduate</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="dropdown"><a class="nav-gate" href="/">About BCAS <i class="fa-regular fa-angle-down"></i></a></i>
+          <div class="dropdown-container">
+            <div class="dropdown-content">
+              <a class="nav-link" href="#">About Us</a><hr>
+              <a class="nav-link" href="#">Board of Governers</a><hr>
+              <a class="nav-link" href="#">Head Staff</a><hr>
+              <a class="nav-link" href="#">Affliations & Partners</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="dropdown"><a class="nav-gate" href="/">Student Life <i class="fa-regular fa-angle-down"></i></a></i>
+          <div class="dropdown-container">
+            <div class="dropdown-content">
+              <a class="nav-link" href="#">Forum</a><hr>
+              <a class="nav-link" href="#">News & Events</a><hr>
+              <a class="nav-link" href="#">Facilities</a><hr>
+              <a class="nav-link" href="#">Clubs & Society</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="dropdown"><a class="nav-gate" href="/">Support & Services <i class="fa-regular fa-angle-down"></i></a></i>
+          <div class="dropdown-container">
+            <div class="dropdown-content">
+              <a class="nav-link" href="#">Virtual Learning Environment</a><hr>
+              <a class="nav-link" href="#">Student Support</a><hr>
+              <a class="nav-link" href="#">Certificate Verification</a><hr>
+              <a class="nav-link" href="#">Payments</a><hr>
+              <a class="nav-link" href="#">Careers</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="dropdown"><a class="nav-gate" href="/">Insights <i class="fa-regular fa-angle-down"></i></a></i>
+          <div class="dropdown-container">
+            <div class="dropdown-content">
+              <a class="nav-link" href="#">Blogs</a><hr>
+              <a class="nav-link" href="#">Career Guidance</a>
+            </div>
+          </div>
+        </li>
+
       </ul>
+
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+    <div class="desktop-theme-switch">
+      <input type="checkbox" class="theme-switch" id="themeSwitch">
+      <label for="themeSwitch" class="theme-switch-label">
+        <i class="fa-solid fa-moon"></i>
+        <i class="fa-solid fa-sun-bright"></i>
+        <span class="ball"></span>
+      </label>
+    </div>
+
     </nav>
   `;
   document.body.insertBefore(header, document.body.firstChild);
@@ -31,8 +90,50 @@ export function injectFooter() {
   console.log("Injecting Footer");
 
   const footer = document.createElement("footer");
+  footer.className = 'site-footer';
   footer.innerHTML = `
-    <p>&copy; <?php echo date("Y"); ?> BCAS Campus. All rights reserved.</p>
+    <div class="container-fluid footer-container">
+      <div class="row footer-row">
+        <div class="col-md-4 footer-col">
+          <h4>BCAS Campus</h4>
+          <p>Empowering tomorrow's leaders through world-class education for over 25 years.</p>
+          <ul class="footer-social">
+            <li><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a></li>
+            <li><a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a></li>
+            <li><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></li>
+            <li><a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a></li>
+          </ul>
+        </div>
+        <div class="col-md-4 footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/programmes">Programmes</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/news">News & Events</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4 footer-col">
+          <h4>Contact Us</h4>
+          <ul class="footer-contact">
+            <li><i class="fa-solid fa-location-dot"></i> 356, Galle Road, Colombo 03, Sri Lanka</li>
+            <li><i class="fa-solid fa-phone"></i> +94 117 999 300</li>
+            <li><i class="fa-solid fa-envelope"></i> info@bcas.lk</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center footer-bottom">
+          <p>&copy; <span id="footer-year"></span> BCAS Campus. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
   `;
   document.body.appendChild(footer);
+
+  const yearSpan = footer.querySelector('#footer-year');
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
 }

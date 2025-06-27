@@ -318,50 +318,6 @@ $productData = $productResult->fetch_all(MYSQLI_ASSOC);
   </main>
 
 
-  <footer class="site-footer">
-  <div class="slogan-container">
-    <h4><span>Building Careers</span><br><span>Transforming Lives</span></h4>
-  </div>
-    <div class="container-fluid footer-container">
-      <div class="row footer-row">
-        <div class="col-md-4 footer-col">
-          <h4>BCAS Campus</h4>
-          <p>Empowering tomorrow's leaders through world-class education for over 25 years.</p>
-          <ul class="footer-social">
-            <li><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a></li>
-            <li><a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a></li>
-            <li><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></li>
-            <li><a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a></li>
-          </ul>
-        </div>
-        <div class="col-md-4 footer-col">
-          <h4>Quick Links</h4>
-          <ul class="footer-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/programmes">Programmes</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/news">News & Events</a></li>
-            <li><a href="/contact">Contact</a></li>
-          </ul>
-        </div>
-        <div class="col-md-4 footer-col">
-          <h4>Contact Us</h4>
-          <ul class="footer-contact">
-            <li><i class="fa-solid fa-location-dot"></i> 256, Galle Road, Colombo 06, Sri Lanka</li>
-            <li><i class="fa-solid fa-phone"></i> +94 11 236 0978</li>
-            <li><i class="fa-solid fa-envelope"></i> info@bcas.lk</li>
-          </ul>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12 text-center footer-bottom">
-          <p>&copy; <?php echo date('Y'); ?> BCAS Campus. All rights reserved.</p>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-
   <script src="./scripts/js/index.js"></script>
   <script type='module' src='./cf-admin/dependencies/cfusion/cfusion.js'></script>
   <script src="./scripts/js/global.js"></script>
