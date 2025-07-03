@@ -99,29 +99,24 @@ $products = $productsResult->fetch_all(MYSQLI_ASSOC);
                 <input type="search" placeholder="Search programmes..." id="searchInput">
             </div>
 
-            <div class="filter-section">
-                <h6>Field </h6>
-                <ul id="fieldList" class="filter-list">
-                    <li data-filter="all">All Programmes</li>
-                </ul>
+            <div class="clear-filter-btn">
+                <button id="clearFiltersBtn"><i class="fa-solid fa-xmark me-2"></i> Clear Filters</button>
             </div>
 
             <div class="filter-section">
-                <h6>Duration</h6>
-                <ul class="filter-list">
-                    <li data-duration="all">Any Duration</li>
-                    <li data-duration="3">3 Years</li>
-                    <li data-duration="4">4 Years</li>
-                    <li data-duration="5">5+ Years</li>
+                <h6>Field of Studies</h6>
+                <ul id="fieldList" class="filter-list">
+                    <li data-filter="all">All Programmes</li>
                 </ul>
             </div>
         </aside>
     </div>
 </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script type="module" src="../cf-admin/dependencies/cfusion/cfusion.js"></script>
 <script src="../scripts/js/global.js"></script>
 <script src="../scripts/js/programmes.js"></script>
+
 </body>
 </html>

@@ -7,20 +7,26 @@ window.addEventListener('DOMContentLoaded', function () {
 
     const urlParams = new URLSearchParams(window.location.search);
 
-    // Default to Undergraduate Tab if not set
+    // Defaults
     if (!urlParams.has('activetab')) {
         urlParams.set('activetab', 'undergraduate');
     }
-    const activeTab = urlParams.get('activetab');
+
+    if (!urlParams.has('schoolid')) {
+        urlParams.set('schoolid', 'all');
+        urlParams.set('school', 'All Programmes');
+    }
 
     // Set Default Branch
     let branch = urlParams.get('branch');
-    if (!branch) {
-        const branchData = JSON.parse(sessionStorage.getItem('activeBranch') || 'null');
-        branch = branchData?.id || null;
-        if (branch) urlParams.set('branch', branch);
-        window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
-    }
+    const branchData = JSON.parse(sessionStorage.getItem('activeBranch') || 'null');
+    branch = branchData?.id || null;
+    console.log(branch);
+    urlParams.set('branch', branch);
+    window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
+
+
+    const activeTab = urlParams.get('activetab');
 
     // Listen for URL Changes
     function onUrlChange(callback) {
@@ -76,12 +82,24 @@ window.addEventListener('DOMContentLoaded', function () {
                 fieldList.appendChild(li);
             });
         }
+
+        function setActive() {
+            const currentSchoolId = urlParams.get('schoolid');
+            document.querySelectorAll('#fieldList li[data-filter]').forEach(li => {
+                li.classList.toggle('active', li.getAttribute('data-filter') === currentSchoolId);
+            });
+        }
         
-        const fieldItem = document.querySelectorAll('.filter-list li[data-filter]');
-        fieldItem.addEventListener('click', function() {
-            
+        document.getElementById('fieldList').addEventListener('click', function(e) {
+            const item = e.target.closest('li[data-filter]');
+            if (!item) return;
+            urlParams.set('schoolid', item.getAttribute('data-filter'));
+            urlParams.set('school', item.textContent);
+            window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
+            setActive();
         });
 
+        setActive();
     }
 
     populateFilters();
@@ -90,38 +108,58 @@ window.addEventListener('DOMContentLoaded', function () {
 
         const queries = {
             activetab: urlParams.get('activetab'),
+            schoolid: urlParams.get('schoolid'),
             school: urlParams.get('school'),
             duration: urlParams.get('duration'),
             studymode: urlParams.get('studymode'),
             branch: urlParams.get('branch')
         };
 
-
-
         let filtered = programmeData.filter(program => {
-            if (queries.activetab && program.program_type) {
-            if (program.program_type.toLowerCase() !== queries.activetab.toLowerCase()) return false;
+            // Filter by program type
+            if (queries.activetab && program.program_type && 
+                program.program_type.toLowerCase() !== queries.activetab.toLowerCase()) {
+                return false;
             }
-            // Filter by school (category_id or category_name)
-            // if (queries.school && program.category_name) {
-            // if (program.category_name.toLowerCase().indexOf(queries.school.toLowerCase()) === -1) return false;
-            // }
-            // Filter by duration (exact match or contains)
+            
+            // Filter by school (skip if 'all')
+            if (queries.schoolid !== 'all' && queries.schoolid && program.category_id && 
+                parseInt(program.category_id) !== parseInt(queries.schoolid)) {
+                return false;
+            }
+
+            // Filter by duration
             if (queries.duration && program.duration) {
-                if (String(program.duration) !== String(queries.duration)) return false;
+                const query = decodeURIComponent(String(queries.duration)).replace(/\s+$/, '+').trim();
+                const progDuration = parseInt(program.duration, 10);
+                
+                if (isNaN(progDuration)) return false;
+                
+                const queryNum = parseInt(query, 10);
+                if (isNaN(queryNum)) return false;
+                
+                if (query.endsWith('+')) {
+                    if (progDuration < queryNum) return false;
+                } else if (query.endsWith('-')) {
+                    if (progDuration > queryNum) return false;
+                } else {
+                    if (progDuration !== queryNum) return false;
+                }
             }
-            // Filter by studymode (study_mode)
-            if (queries.studymode && program.study_mode) {
-            if (program.study_mode.toLowerCase().indexOf(queries.studymode.toLowerCase()) === -1) return false;
+
+            // Filter by study mode
+            if (queries.studymode && program.study_mode && 
+                !program.study_mode.toLowerCase().includes(queries.studymode.toLowerCase())) {
+                return false;
             }
-            // Filter by branch (branch_id)
-            if (branch === 'any') {
-                // No Branch Filterations
-            } else {
-            if (queries.branch && program.branch_id) {
-            if (String(program.branch_id) !== String(queries.branch)) return false;
+
+            // Filter by branch (skip if 'any')
+            
+            if (branch !== 'any' && queries.branch && program.branch_id && 
+                !program.branch_id.split(',').includes(String(queries.branch))) {
+                return false;
             }
-            }
+
             return true;
         });
 
@@ -197,6 +235,16 @@ window.addEventListener('DOMContentLoaded', function () {
         window.currentIndex = endIndex;
     }
 
+
+    // Clear Filters
+
+    document.getElementById('clearFiltersBtn').addEventListener('click', function() {
+        window.history.replaceState({}, '', window.location.pathname);
+        var searchInput = document.getElementById('searchInput');
+        if (searchInput) searchInput.value = '';
+        window.location.reload();
+    });
+
     function setupInfiniteScroll() {
         const programmeContainer = document.getElementById('programsGrid');
         
@@ -257,11 +305,7 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-
     filterProgrammes();
-
-
-
 });
 
 

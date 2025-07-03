@@ -1,108 +1,243 @@
-/* #region Defaults */
- 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: var(--main-font);
-        line-height: 1.6;
-    }
+/* Dashboard CSS - Integrates with existing CFusion theme system */
 
-    html, body {
-        width: 100vw;
-        height: 100vh;
-        background: linear-gradient(135deg, var(--dark--bg-clr), var(--dark--offbg-clr));
-        color: #ffffff;
-        overflow: hidden;
-    }
+/* #region Dashboard Specific Variables */
+:root {
+    /* Dashboard specific measurements */
+    --dashboard-header-height: 140px;
+    --dashboard-sidebar-width: 280px;
+    --dashboard-border-radius: 1rem;
+    
+    /* Dashboard shadows using existing color system */
+    --dashboard-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --dashboard-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
 
-    a {
-        text-decoration: none;
-        color: inherit;
-    }
+/* Theme-specific dashboard shadows */
+:root[data-theme='light'] {
+    --dashboard-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --dashboard-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
 
+:root[data-theme='dark'] {
+    --dashboard-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    --dashboard-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
 
+/* #endregion */
+
+/* #region Base Overrides for Dashboard */
+html, body {
+    overflow-x: hidden;
+    height: 100vh;
+}
 
 /* #endregion */
 
 /* #region Header */
+header {
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: auto;
+    min-height: var(--dashboard-header-height);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--glassmorphism-bg);
+    backdrop-filter: var(--glassmorphism-filter);
+    box-shadow: var(--dashboard-shadow);
+    padding: var(--space-lg);
+    z-index: 99;
+    border-bottom: 1px solid rgba(var(--txt-clr), 0.1);
+}
 
-    header {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 150px;
-        display: flex;
-        justify-content: space-between;
-        background-color: var(--def-offbg);
-        box-shadow: 0px 10px 10px #0000004d;
-        padding: 20px;
-        z-index: 99;
-    }
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+}
 
-    header p {
-        text-align: right;
-    }
+header h1 {
+    font-size: var(--font-2xl);
+    margin-bottom: var(--space-sm);
+    color: rgb(var(--txt-clr));
+}
 
-    .main-panel {
-        position: absolute;
-        display: flex;
-        bottom: 0;
-        justify-content: space-evenly;
-        width: 100%;
-        align-items: center;
-        padding: 10px 25px;
-        gap: 20px;
-    }
+header p {
+    font-size: var(--font-base);
+    opacity: 0.9;
+    max-width: 400px;
+    color: rgb(var(--txt-clr));
+}
+
+.main-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.main-panel form {
+    display: contents;
+}
 
 /* #endregion */
 
+/* #region Main Layout */
 main {
     display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-around;
-    margin-top: 200px;
+    flex-direction: row;
+    gap: var(--space-lg);
+    margin-top: var(--dashboard-header-height);
+    padding: var(--space-lg);
+    min-height: calc(100vh - var(--dashboard-header-height));
 }
 
 .side-panel-container {
-    width: 20%;
-    min-width: 100px;
-    height: calc(100vh - 250px);
-    padding: 25px;
-    margin: 0 10px;
-    background: #0000004d;
-    box-shadow: inset 0px 0px 15px #0000004d;
-    border-left: 2px solid var(--def-clr-shadeb);
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
-    z-index: 999;
+    width: var(--dashboard-sidebar-width);
+    min-width: 250px;
+    height: fit-content;
+    max-height: calc(100vh - 180px);
+    padding: var(--space-lg);
+    background: var(--glassmorphism-bg);
+    backdrop-filter: var(--glassmorphism-filter);
+    border: 1px solid rgba(var(--txt-clr), 0.1);
+    border-radius: var(--dashboard-border-radius);
+    box-shadow: var(--dashboard-glass-shadow);
+    position: sticky;
+    top: calc(var(--dashboard-header-height) + var(--space-lg));
 }
 
 .side-panel-container ul {
     list-style: none;
-    color: var(--def-main-clr);
+    color: rgb(var(--txt-clr));
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--space-sm);
+}
+
+.side-panel-container ul li {
+    padding: var(--space-md);
+    border-radius: var(--dashboard-border-radius);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-size: var(--font-sm);
+    background: rgba(var(--offbg-clr), 0.3);
 }
 
 .side-panel-container ul li:hover {
-    text-decoration: underline;
+    background: rgba(var(--main-clr), 0.2);
+    border-color: rgba(var(--main-clr), 0.3);
+    transform: translateX(4px);
+    color: rgb(var(--main-clr));
 }
 
+.maincard-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    overflow-y: auto;
+    padding-bottom: var(--space-xl);
+}
+
+/* #endregion */
+
+/* #region Panel Styling */
+.option-panel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: var(--space-lg);
+    padding: var(--space-xl);
+    border: 1px solid rgba(var(--txt-clr), 0.2);
+    border-radius: var(--dashboard-border-radius);
+    background: var(--glassmorphism-bg);
+    backdrop-filter: var(--glassmorphism-filter);
+    box-shadow: var(--dashboard-glass-shadow);
+}
+
+.option-panel .list-labels {
+    text-align: center;
+    margin-bottom: var(--space-md);
+}
+
+.option-panel .list-labels h1 {
+    font-size: var(--font-2xl);
+    margin-bottom: var(--space-sm);
+    color: rgb(var(--txt-clr));
+}
+
+.option-panel .list-labels p {
+    opacity: 0.8;
+    font-size: var(--font-lg);
+    color: rgb(var(--txt-clr));
+}
+
+.option-panel .list-options {
+    width: 100%;
+}
+
+.option-panel .list-options ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-md);
+    padding: 0;
+    margin: 0;
+}
+
+.option-panel .list-options ul li {
+    padding: var(--space-lg);
+    background: rgba(var(--offbg-clr), 0.6);
+    border: 1px solid rgba(var(--txt-clr), 0.1);
+    border-radius: var(--dashboard-border-radius);
+    color: rgb(var(--txt-clr));
+    transition: all 0.3s ease;
+    text-align: center;
+    cursor: pointer;
+    font-size: var(--font-base);
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.option-panel .list-options ul li:hover {
+    background: rgba(var(--main-clr), 0.15);
+    transform: translateY(-4px);
+    box-shadow: var(--dashboard-glass-shadow);
+    border-color: rgba(var(--main-clr), 0.3);
+    color: rgb(var(--main-clr));
+}
+
+.option-panel .list-options ul li:active {
+    transform: translateY(-2px);
+}
+
+/* #endregion */
+
+/* #region Popup Styling */
 .popup-container {
     position: fixed;
     height: 100vh;
     width: 100vw;
     top: 0;
     left: 0;
-    pointer-events: visible;
     display: none;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.600);
+    background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
-    z-index: 999;
+    z-index: 1000;
 }
 
 .popup {
@@ -110,102 +245,167 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 10px;
-    height: 250px;
-    width: 400px;
-    background-color: var(--def-offbg);
-    box-shadow: 0px 0px 10px var(--dark--shadow-clr);
+    padding: var(--space-xl);
+    min-height: 250px;
+    width: 90%;
+    max-width: 400px;
+    background: var(--glassmorphism-bg);
+    backdrop-filter: var(--glassmorphism-filter);
+    border: 1px solid rgba(var(--txt-clr), 0.2);
+    border-radius: var(--dashboard-border-radius);
+    box-shadow: var(--dashboard-glass-shadow);
+    text-align: center;
 }
 
+.popup h3 {
+    margin-bottom: var(--space-md);
+    font-size: var(--font-xl);
+    color: rgb(var(--txt-clr));
+}
 
-
-/* #region Panel Styling */
-
-    .maincard-container {
-        position: relative;
-        height: calc(100vh - 250px);
-        width: 80%;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        overflow-y: scroll;
-        padding-bottom: 200px;
-    }
-
-    .option-panel {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        gap: 20px;
-        padding: 20px;
-        box-sizing: border-box;
-        border: 2px solid var(--def-main-clr);
-        border-radius: 25px;
-        background: rgba(141, 141, 141, 0.151);
-    }
-
-    .option-panel .list-labels {
-        flex: 1 1 25%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    .option-panel .list-options {
-        flex: 1 1 70%;
-        display: flex;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        gap: 20px;
-        padding: 10px;
-        border-radius: 10px;
-    }
-
-    .option-panel .list-options ul {
-        list-style: none;
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-wrap: wrap; /* Wrap items for responsiveness */
-        gap: 15px;
-        justify-content: center; /* Center items */
-    }
-
-    .option-panel .list-options ul li {
-        margin: 5px 0;
-        padding: 10px;
-        flex: 1 1 calc(30% - 10px);
-        max-width: 500px;
-        background: rgba(0, 0, 0, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        color: #ffffff;
-        transition: all 0.3s ease-in-out;
-        text-align: center;
-        cursor: pointer;
-        overflow: hidden;
-    }
-
-    .option-panel .list-options ul li:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: scale(1.05);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    }
+.popup p {
+    margin-bottom: var(--space-lg);
+    opacity: 0.9;
+    font-size: var(--font-base);
+    color: rgb(var(--txt-clr));
+}
 
 /* #endregion */
-
 
 /* #region Footer */
 footer {
     position: fixed;
-    bottom: 5px;
-    left: 5px;
+    bottom: var(--space-sm);
+    left: var(--space-sm);
+    background: var(--glassmorphism-bg);
+    backdrop-filter: var(--glassmorphism-filter);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--dashboard-border-radius);
+    font-size: var(--font-xs);
+    opacity: 0.7;
+    color: rgb(var(--txt-clr));
+    border: 1px solid rgba(var(--txt-clr), 0.1);
 }
 
+/* #endregion */
+
+/* #region Responsive Design */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+        margin-top: 160px;
+        padding: var(--space-md);
+    }
+    
+    .side-panel-container {
+        width: 100%;
+        position: static;
+        margin-bottom: var(--space-lg);
+    }
+    
+    .side-panel-container ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .side-panel-container ul li {
+        flex: 1;
+        min-width: 120px;
+        text-align: center;
+    }
+    
+    .option-panel {
+        padding: var(--space-lg);
+    }
+    
+    .option-panel .list-options ul {
+        grid-template-columns: 1fr;
+    }
+    
+    header {
+        padding: var(--space-md);
+    }
+    
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .main-panel {
+        margin-top: var(--space-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .option-panel .list-options ul li {
+        min-height: 60px;
+        padding: var(--space-md);
+    }
+    
+    .popup {
+        width: 95%;
+        margin: var(--space-md);
+    }
+}
+
+/* #endregion */
+
+/* #region Focus and Accessibility */
+button:focus,
+.option-panel .list-options ul li:focus,
+.side-panel-container ul li:focus {
+    outline: 2px solid rgb(var(--main-clr));
+    outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* #endregion */
+
+/* #region Dashboard Button Overrides */
+/* Use your existing button styles but with dashboard-specific adjustments */
+.main-panel button {
+    font-size: var(--font-sm);
+    padding: var(--space-sm) var(--space-md);
+}
+
+/* Ensure buttons in dashboard use your existing button styling from global CSS */
+header button,
+.popup button {
+    /* Your button styles will be inherited from global CSS */
+    margin: var(--space-xs);
+}
+
+/* #endregion */
+
+/* #region Animation Integration */
+/* Add shadow animation class for elements that need it */
+.shadow-animate {
+    animation: var(--shadow-animation);
+    animation-timeline: var(--shadow-timeline);
+    animation-range: var(--shadow-range-start) var(--shadow-range-end);
+}
+
+/* Optional: Add subtle animation to dashboard cards */
+.option-panel.shadow-animate {
+    animation: shadow-source 2s ease-in-out infinite;
+}
+
+@keyframes shadow-source {
+    0%, 100% {
+        box-shadow: var(--dashboard-glass-shadow);
+    }
+    50% {
+        box-shadow: var(--dashboard-glass-shadow), 0 0 20px rgba(var(--main-clr), 0.1);
+    }
+}
 
 /* #endregion */

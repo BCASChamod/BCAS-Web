@@ -8,7 +8,7 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-side="client">
 <head>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M5J1JQMTZC"></script>
@@ -60,7 +60,7 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {
                         <a href="#"><li>News and Events</li></a>
                         <a href="#"><li>Landing Pages</li></a>
                         <a href="#"><li>People</li></a>
-                        <a href="#"><li>Products</li></a>
+                        <a href="./view/product-management.html"><li>Products</li></a>
                         <a href="#"><li>Showcase</li></a>
                         <a href="#"><li>Media Library</li></a>
                     </ul>

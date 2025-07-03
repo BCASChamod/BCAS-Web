@@ -284,7 +284,6 @@ main {
 /* #region Sidebar Area */
 
     .sidebar {
-        background: rgb(var(--main-clr));
         border-left: 1px solid rgba(var(--offbg-clr), 0.1);
         padding: var(--space-sm);
         overflow-y: auto;
@@ -328,12 +327,16 @@ main {
         top: 50%;
         left: 18px;
         transform: translateY(-50%);
-        color: rgba(var(--main-clr, 0.6));
+        color: rgba(var(--txt-clr),  0.5);
         pointer-events: none;
         display: flex;
         align-items: center;
         height: 1rem;
         z-index: 2;
+    }
+
+    .clear-filter-btn button {
+        color: white;
     }
 
     .filter-section {
@@ -370,14 +373,14 @@ main {
     }
 
     .filter-list li:hover {
-        background: rgba(var(--alt-clr, 52, 152, 219), 0.1);
-        color: rgb(var(--alt-clr, 52, 152, 219));
-        transform: translateX(2px);
+        background: rgba(var(--alt-clr), 0.1);
+        color: rgb(var(--alt-clr,));
+        transform: translateX(4px);
     }
 
     .filter-list li.active {
-        background: rgb(var(--alt-clr, 52, 152, 219));
-        color: white;
+        background: rgba(var(--offbg-clr));
+        color: rgb(var(--main-clr));
     }
 
     /* MOBILE TOGGLE BUTTON */
