@@ -1,4 +1,4 @@
-/* #region Global Styling */
+  /* #region Global Styling */
 
 @keyframes shadow-source {
     from {
@@ -86,8 +86,6 @@ main {
 }
 /* #endregion */
 
-/* #region Navigation */
-
   /* #region Dropdown Menu */
 
     .dropdown {
@@ -108,7 +106,7 @@ main {
     }
 
     .dropdown-content {
-      background: white;
+      background: rgb(var(--offbg-clr));
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       border-radius: 0.5rem;
     }
@@ -120,10 +118,27 @@ main {
     }
 
     .dropdown-container a {
-      color: #374151;
       padding: 0.5rem 1rem;
       text-decoration: none;
       display: block;
+      background: linear-gradient(
+      to right,
+      rgba(var(--main-clr), 1),
+      rgba(var(--alt-clr), 1)
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: rgba(var(--txt-clr), 0.4);
+      -webkit-text-fill-color: rgba(var(--txt-clr), 0.4);
+      background-size: 0% 100%;
+      background-repeat: no-repeat;
+      transition: border-bottom 0.3s, transform 0.3s, color 0.3s, background-size 0.4s;
+    }
+
+    .dropdown-container a:hover {
+      border-bottom: 1px solid rgba(var(--main-clr), 0.2);
+      border-radius: 0.5rem;
+      background-size: 100% 100%;
     }
 
   /* #endregion */
@@ -161,7 +176,7 @@ main {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgb(var(--offbg-clr));
+    background: rgb(var(--offbg-clr));
     display: flex;
     flex-direction: row;
     width: 90%;
@@ -173,12 +188,15 @@ main {
     margin: 1rem 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     z-index: 99;
+    max-height: 120px;
   }
+
 
   nav .logo-container img {
     width: clamp(100px, 10vw, 150px);
     height: 100px;
     min-height: 100px;
+    margin: 10px 0;
   }
 
   nav .desktop-nav-content {
@@ -273,11 +291,215 @@ main {
 
   /* #endregion */
 
+  /* #region Geo Tracking Floating Modal */
+    
+    .geo-tracking-container {
+      position: fixed;
+      bottom: var(--space-lg);
+      right: 0;
+      height: auto;
+      min-height: 180px;
+      width: 380px;
+      transition: transform 0.2s;
+      transform: translateX(80%);
+      z-index: 9999;
+    }
 
+    .geo-tracking {
+      --margin-left: 30px;
 
-/* #endregion */
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      gap: var(--space-xl);
+      height: 100%;
+      width: calc(100% - var(--margin-left));
+      margin-right: var(--margin-left);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--glassmorphism-bg);
+      backdrop-filter: var(--glassmorphism-filter);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 1.5px 6px rgba(0,0,0,0.10);
+      border-radius: var(--space-xs);
+      border: 1px solid rgba(0,0,0,0.10);
+    }
 
-/* #region Footer */
+    .geo-tracking .content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+
+    .slide-in {
+      transform: translateX(0);
+    }
+
+    .geo-tracking .slider-trigger {
+      cursor: pointer;
+    }
+
+    .geo-tracking .slider-trigger .fa-arrow-left-to-line {
+      font-size: var(--font-2xl);
+      color: rgb(var(--txt-clr));
+      transform: scaleX(-1);
+      transition: transform 300ms ease-in-out;
+    }
+
+    .geo-tracking-container:hover {
+      transform: translateX(0);
+    }
+
+    .geo-tracking-container:hover .slider-trigger .fa-arrow-left-to-line {
+      transform: scaleX(-1) rotate(180deg);
+    }
+
+    .geo-tracking small {
+      color: rgb(var(--txt-clr));
+      font-size: var(--font-xs);
+      margin-bottom: var(--space-xs);
+      opacity: 0.85;
+      line-height: 1.4;
+    }
+
+    .geo-tracking label {
+      font-size: var(--font-base);
+      font-weight: 600;
+      color: rgb(var(--main-clr));
+      margin-bottom: var(--space-xs);
+      margin-top: var(--space-xs);
+    }
+
+    .geo-tracking p {
+      font-size: var(--font-sm);
+      color: rgb(var(--txt-clr));
+      margin: 0;
+      opacity: 0.85;
+    }
+
+    .geo-tracking select {
+      width: 100%;
+      padding: var(--space-sm);
+      font-size: var(--font-base);
+      border-radius: var(--space-xs);
+      border: 1.5px solid #ccc;
+      background: rgb(var(--bg-clr));
+      color: rgb(var(--txt-clr));
+      margin-top: var(--space-xs);
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .geo-tracking select:focus {
+      border: 1.5px solid rgb(var(--main-clr));
+      box-shadow: 0 0 0 2px rgba(var(--main-clr), 0.08);
+    }
+
+    /* Status indicator styles */
+    #branchOverrideStatus {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--space-xs);
+      font-size: var(--font-sm);
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    #branchOverrideStatus.auto-detected {
+      background: rgba(34, 197, 94, 0.1);
+      color: rgb(34, 197, 94);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+
+    #branchOverrideStatus.manual-override {
+      background: rgba(59, 130, 246, 0.1);
+      color: rgb(59, 130, 246);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .status-icon {
+      font-size: var(--font-base);
+    }
+
+    .status-text {
+      font-size: var(--font-xs);
+    }
+
+    /* Reset button styles */
+    #resetBranchSelection {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-xs);
+      color: #fff;
+      border: 1px solid rgba(rgb(var(--main-clr)), 0.2);
+      border-radius: var(--space-xs);
+      font-size: var(--font-xs);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      outline: none;
+      width: fit-content;
+      height: 28px;
+    }
+
+    #resetBranchSelection:hover {
+      border-color: rgba(rgb(var(--main-clr)), 0.3);
+    }
+
+    #resetBranchSelection:active {
+      transform: translateY(0);
+    }
+
+    #resetBranchSelection.hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .geo-tracking-container {
+        bottom: var(--space-md);
+        right: var(--space-md);
+        width: 300px;
+        height: auto;
+        min-height: 180px;
+      }
+      
+      .geo-tracking {
+        min-width: 160px;
+        padding: var(--space-md) var(--space-sm);
+      }
+      
+      .geo-tracking label,
+      .geo-tracking select {
+        font-size: var(--font-sm);
+      }
+      
+      .geo-tracking small,
+      .geo-tracking p {
+        font-size: var(--font-xs);
+      }
+      
+      #branchOverrideStatus,
+      #resetBranchSelection {
+        font-size: var(--font-xs);
+      }
+      
+      #resetBranchSelection {
+        width: 24px;
+        height: 24px;
+      }
+      
+      .status-text {
+        font-size: calc(var(--font-xs) * 0.9);
+      }
+    }
+
+  /* #endregion */
+
+  /* #region Footer */
 
 .site-footer {
   position: relative;

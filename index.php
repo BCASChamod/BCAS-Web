@@ -28,9 +28,11 @@ $productData = $productResult->fetch_all(MYSQLI_ASSOC);
   <title>BCAS Website</title>
   <link rel="stylesheet" href="./stylesheets/global.css">
   <link rel="stylesheet" href="./stylesheets/index.css">
+  
 
 </head>
 <body>
+  
   <main>
     <section id="landing" class="landing">
       <div class="landing-bg">
@@ -42,7 +44,7 @@ $productData = $productResult->fetch_all(MYSQLI_ASSOC);
         </div>
         <img id="landingSubjects" src="" alt="">
       </div>
-      <div id="btnBar" class="btn-bar">
+      <!-- <div id="btnBar" class="btn-bar">
         <?php
           while ($row = $btnBarResult->fetch_assoc()) {
             if (isset($row['is_active']) && !$row['is_active']) {
@@ -71,7 +73,7 @@ $productData = $productResult->fetch_all(MYSQLI_ASSOC);
             echo '<button class="" ' . $customStyles . $actionAttr . $helptext . '>' . htmlspecialchars($row['label']) . '</button>';
           }
           $btnBarStmt->close();
-        ?>
+        ?> -->
       </div>
       </div>
     </section>
@@ -242,8 +244,8 @@ $productData = $productResult->fetch_all(MYSQLI_ASSOC);
         </div>
       </section>
 
-      <section class="grd-con testimonial-section" id="testimonials">
-        <div class="grd-item testimonial-text">
+      <section class="testimonial-section" id="testimonials">
+        <div class="testimonial-text">
           <h2>One Story Closer to a Dream Career</h2>
           <p>Watch how our students turn their dreams into real career paths through practical learning, expert guidance, and industry-relevant skills at BCAS Campus.</p>
           <div class="testimonial-controls">
@@ -265,7 +267,7 @@ $productData = $productResult->fetch_all(MYSQLI_ASSOC);
             <input type="range" id="testimonialSeekbar" min="0" max="100" value="0" step="0.01" style="width: 100%;">
           </div>
         </div>
-        <div class="grd-item testimonial-video">
+        <div class="testimonial-video">
           <video id="testimonialVideo" data-lazy="true" data-src="http://localhost/bcas-web/resources/uploads/videos/testimonials_1.webm" autoplay muted>
             <source type="video/webm">
             <track kind="captions" src="http://localhost/bcas-web/resources/uploads/captions/testimonials_1.vtt" srclang="en" label="English" default>
@@ -275,14 +277,9 @@ $productData = $productResult->fetch_all(MYSQLI_ASSOC);
           </video>
         </div>
       </section>
-
     </div>
 
     <section class="guidance-section">
-      <div class="guidance-content" style="text-align: center;">
-        <h2>Guidance for Your Future</h2>
-        <p>At BCAS, we believe in nurturing the potential of every student. Our expert counselors are here to guide you through your educational journey, helping you make informed decisions about your future.</p>
-      </div>
       <div class="form-container">
           <div class="left-panel">
             <div class="left-panel-content">
@@ -295,7 +292,7 @@ $productData = $productResult->fetch_all(MYSQLI_ASSOC);
             </div>
           </div>
           <div id="formArea" data-submission="pre" class="form-section">
-          
+  
           </div>
       </div>
     </section>
@@ -316,7 +313,6 @@ $productData = $productResult->fetch_all(MYSQLI_ASSOC);
       </div>
     </section>
   </main>
-
 
   <script src="./scripts/js/index.js"></script>
   <script type='module' src='./cf-admin/dependencies/cfusion/cfusion.js'></script>

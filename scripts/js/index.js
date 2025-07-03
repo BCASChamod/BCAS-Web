@@ -63,27 +63,27 @@ timelineContainer.scrollLeft = 100;
 autoscroll(timelineContainer, true, 'right', 1.2);
 
 function animateLanding() {
-        const landingText = document.getElementById('landingText');
-        const landingSubs = document.getElementById('landingSubjects');
-        landingText.style.opacity = '1';
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY || window.pageYOffset;
-            const translateY = scrollY * 0.8;
-            
-            gsap.to(landingText, {
-                y: translateY,
-                ease: "power1.out",
-                duration: 0.3,
-                overwrite: 'auto'
-            });
+    const landingText = document.getElementById('landingText');
+    const landingSubs = document.getElementById('landingSubjects');
+    landingText.style.opacity = '1';
+    window.addEventListener('scroll', function() {
+        var scrollY = window.scrollY || window.pageYOffset;
+        var translateY = scrollY * 0.8;
 
-            gsap.to(landingSubs, {
-                scale: 1 + scrollY / 2000,
-                ease: "power1.out",
-                duration: 0.3,
-                overwrite: 'auto'
-            });
+        gsap.to(landingText, {
+            y: translateY,
+            ease: "power1.out",
+            duration: 0.3,
+            overwrite: 'auto'
         });
+
+        gsap.to(landingSubs, {
+            scale: 1 + scrollY / 2000,
+            ease: "power1.out",
+            duration: 0.3,
+            overwrite: 'auto'
+        });
+    });
 }
 
   const video = document.getElementById('testimonialVideo');
@@ -448,7 +448,6 @@ if (formStatus === 'pre') {
             const option = document.createElement('option');
             option.value = product.id;
             option.textContent = product.name;
-            console.log(option);
             programmeSelect.appendChild(option);
         });
     }
@@ -466,3 +465,4 @@ if (formStatus === 'pre') {
                     </div>`;
     };
 });
+

@@ -1,4 +1,9 @@
 export function loadingOverlay() {
+  // Debugging
+  let debug = false;
+
+  const log = (...args) => { if (debug) console.log(...args); };
+
   document.addEventListener('DOMContentLoaded', () => {
     const style = document.createElement('style');
     style.textContent = `
@@ -27,13 +32,13 @@ export function loadingOverlay() {
     overlay.id = 'loading-overlay';
     overlay.innerHTML = `<div class="loader"></div>`;
     document.body.appendChild(overlay);
-    console.log('[loadingOverlay] Overlay added to DOM');
+    log('[loadingOverlay] Overlay added to DOM');
   });
 
-window.addEventListener('load', () => {
+  window.addEventListener('load', () => {
     const overlay = document.getElementById('loading-overlay');
     if (!overlay) {
-      console.log('[loadingOverlay] Overlay not found');
+      log('[loadingOverlay] Overlay not found');
       return;
     }
 
@@ -47,20 +52,20 @@ window.addEventListener('load', () => {
     });
 
     let pending = medias.length;
-    console.log(`[loadingOverlay] Found ${pending} media elements`);
+    log(`[loadingOverlay] Found ${pending} media elements`);
     medias.forEach(m => {
-      console.log('[loadingOverlay] Media:', m, 'Loaded:', m.tagName === 'IMG' ? m.complete : m.readyState > 0);
+      log('[loadingOverlay] Media:', m, 'Loaded:', m.tagName === 'IMG' ? m.complete : m.readyState > 0);
     });
 
     const tryRemove = () => {
-      console.log(`[loadingOverlay] tryRemove called, pending: ${pending}`);
+      log(`[loadingOverlay] tryRemove called, pending: ${pending}`);
       if (pending <= 0) {
         overlay.style.opacity = '0';
-        console.log('[loadingOverlay] Overlay opacity set to 0');
+        log('[loadingOverlay] Overlay opacity set to 0');
         const removeOverlay = () => {
           if (overlay.parentNode) {
             overlay.remove();
-            console.log('[loadingOverlay] Overlay removed from DOM');
+            log('[loadingOverlay] Overlay removed from DOM');
           }
         };
         overlay.addEventListener('transitionend', removeOverlay);
@@ -72,10 +77,10 @@ window.addEventListener('load', () => {
       const loaded = m.tagName === 'IMG' ? m.complete : m.readyState > 0;
       if (loaded) {
         pending--;
-        console.log(`[loadingOverlay] Media already loaded:`, m);
+        log(`[loadingOverlay] Media already loaded:`, m);
       } else {
-        m.addEventListener('load',  () => { pending--; console.log('[loadingOverlay] Media loaded:', m); tryRemove(); });
-        m.addEventListener('error', () => { pending--; console.log('[loadingOverlay] Media error:', m); tryRemove(); });
+        m.addEventListener('load',  () => { pending--; log('[loadingOverlay] Media loaded:', m); tryRemove(); });
+        m.addEventListener('error', () => { pending--; log('[loadingOverlay] Media error:', m); tryRemove(); });
       }
     });
 
