@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-side="admin">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaManager | CFusion</title>
+    <link rel="stylesheet" href="../stylesheets/mediamanager.css">
+</head>
+<body>
+    <button data-modal-open="editMediaItem">Open Modal</button>
+
+  <div id="editMediaItem" class="edit-modal" data-modal="editMediaItem">
+        <div class="header">
+            <h3>Media Properties</h3>
+            <p>Replace & Edit Media and it's Data</p>
+            <img src="" alt="">
+        </div>
+        <form action="" class="content">
+            <div class="form-group">
+                <input type="id" hidden>
+            </div>
+
+            <div class="form-group">
+                <label for="type">Media Type</label>
+                <select name="type" id="mediaType">
+                    <option value="image">Image</option>
+                    <option value="svg">SVG Graphic</option>
+                    <option value="video">Video</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="srcInput">Upload Media</label>
+                <input type="file" name="Upload Image Here" id="mediaUpload">
+                <input id="srcInput" type="url" hidden required>
+            </div>
+
+            <div class="form-group">
+                <label for="altText">Alt Text for Media</label>
+                <input id="altText" type="text">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Title of Media</label>
+                <small>A Short Title to reflect what this media is about</small>
+                <input id="name" type="text">
+            </div>
+
+            <div class="form-group">
+                <label for="isActive">Status</label>
+                <input type="checkbox" name="isActive" id="isActive">
+            </div>
+
+            <div class="form-group">
+                <label for="Identifier">Identifier</label>
+                <input id="elementID" type="text" required>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+    
+<script src="../scripts/mediamanager.js"></script>
+<script type="module" src="../dependencies/cfusion/cfusion.js"></script>
+</body>
+</html>

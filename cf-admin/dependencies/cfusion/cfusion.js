@@ -21,7 +21,6 @@ if (side === 'admin') {
 
     document.addEventListener("DOMContentLoaded", () => {
 
-
     const forms = document.querySelectorAll('form');
 
     if (forms.length > 0) {

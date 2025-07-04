@@ -62,7 +62,7 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {
                         <a href="#"><li>People</li></a>
                         <a href="./view/product-management.html"><li>Products</li></a>
                         <a href="#"><li>Showcase</li></a>
-                        <a href="#"><li>Media Library</li></a>
+                        <a href="./view/mediamanager.html"><li>Media Library</li></a>
                     </ul>
                 </div>
             </section>
