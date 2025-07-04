@@ -17,14 +17,23 @@ window.addEventListener('DOMContentLoaded', function () {
         urlParams.set('school', 'All Programmes');
     }
 
-    // Set Default Branch
+    // Set Default Branch - FIXED
     let branch = urlParams.get('branch');
-    const branchData = JSON.parse(sessionStorage.getItem('activeBranch') || 'null');
-    branch = branchData?.id || null;
-    console.log(branch);
-    urlParams.set('branch', branch);
-    window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
+    if (branch === 'any') {
+        // If branch is not set or is 'any', do nothing (ignore this script)
+        return;
+    } else {
+        // If branch is something else, set it as active branch in the URL
+        urlParams.set('branch', branch);
+        window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
+    }
 
+    const branchData = JSON.parse(sessionStorage.getItem('activeBranch') || 'null');
+    if (branchData && branchData.id) {
+        branch = branchData.id;
+        urlParams.set('branch', branch);
+        window.history.replaceState({}, '', window.location.pathname + '?' + urlParams.toString());
+    }
 
     const activeTab = urlParams.get('activetab');
 
@@ -44,7 +53,6 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     onUrlChange(filterProgrammes);
-
 
 // #region Filter: Tab Switching
 
@@ -105,14 +113,16 @@ window.addEventListener('DOMContentLoaded', function () {
     populateFilters();
 
     function filterProgrammes() {
-
+        // Get fresh URL params each time - FIXED
+        const currentUrlParams = new URLSearchParams(window.location.search);
+        
         const queries = {
-            activetab: urlParams.get('activetab'),
-            schoolid: urlParams.get('schoolid'),
-            school: urlParams.get('school'),
-            duration: urlParams.get('duration'),
-            studymode: urlParams.get('studymode'),
-            branch: urlParams.get('branch')
+            activetab: currentUrlParams.get('activetab'),
+            schoolid: currentUrlParams.get('schoolid'),
+            school: currentUrlParams.get('school'),
+            duration: currentUrlParams.get('duration'),
+            studymode: currentUrlParams.get('studymode'),
+            branch: currentUrlParams.get('branch')
         };
 
         let filtered = programmeData.filter(program => {
@@ -153,20 +163,30 @@ window.addEventListener('DOMContentLoaded', function () {
                 return false;
             }
 
-            // Filter by branch (skip if 'any')
-            
-            if (branch !== 'any' && queries.branch && program.branch_id && 
-                !program.branch_id.split(',').includes(String(queries.branch))) {
-                return false;
+            // Filter by branch - FIXED
+            if (queries.branch && queries.branch !== 'any' && queries.branch !== 'all') {
+                // Handle case where branch_id might be null or undefined
+                if (!program.branch_id) {
+                    return false;
+                }
+                
+                // Convert branch_id to string and split by comma
+                const branchIds = String(program.branch_id).split(',').map(id => id.trim());
+                
+                // Check if the query branch exists in the program's branch list
+                if (!branchIds.includes(String(queries.branch))) {
+                    return false;
+                }
             }
-
+            
             return true;
         });
 
         populateProgrammes(filtered);
         console.log('Filtered Data:', filtered);
+        console.log('Applied Filters:', queries);
     }
-
+    
 // #endregion
 
     function populateProgrammes(data) {
@@ -235,9 +255,7 @@ window.addEventListener('DOMContentLoaded', function () {
         window.currentIndex = endIndex;
     }
 
-
     // Clear Filters
-
     document.getElementById('clearFiltersBtn').addEventListener('click', function() {
         window.history.replaceState({}, '', window.location.pathname);
         var searchInput = document.getElementById('searchInput');
@@ -305,11 +323,10 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+    
+    // Initial filter call
     filterProgrammes();
 });
-
-
-
 
 
 

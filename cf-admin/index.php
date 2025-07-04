@@ -8,7 +8,7 @@ if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en" data-side="client">
+<html lang="en" data-side="admin">
 <head>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M5J1JQMTZC"></script>

@@ -12,7 +12,7 @@ loadingOverlay();
 console.log("CFusion Initiated!");
 
 const side = document.documentElement.getAttribute('data-side');
-if (side === 'client') {
+if (side === 'admin') {
     // No Injections
 } else { 
     injectHeader();
