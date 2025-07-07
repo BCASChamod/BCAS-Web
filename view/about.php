@@ -1,477 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About BCAS</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      padding: 40px 20px;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .persona-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      margin-bottom: 60px;
-    }
-
-    .persona-card {
-      background: white;
-      border: 2px solid transparent;
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      position: relative;
-      overflow: visible;
-      opacity: 0;
-      transform: translateY(50px);
-      transition:
-        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 0.6s ease-in-out;
-    }
-
-    .persona-card::before {
-      content: '';
-      position: absolute;
-      top: -3px;
-      left: -3px;
-      right: -3px;
-      bottom: -3px;
-      border-radius: 23px;
-      background: conic-gradient(from 0deg, #e74c3c 0deg, transparent 0deg);
-      z-index: -1;
-      opacity: 0;
-    }
-
-    .persona-card::after {
-      content: '';
-      position: absolute;
-      top: -1px;
-      left: -1px;
-      right: -1px;
-      bottom: -1px;
-      border-radius: 21px;
-      background: white;
-      z-index: -1;
-    }
-
-    .persona-card.animate-border::before {
-      animation: drawBorder 1.5s cubic-bezier(0.5, 0.4, 0.4, 1) forwards;
-      opacity: 1;
-    }
-
-    .persona-card.animate-content {
-      animation: slideUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .persona-card h2 {
-      color: #333;
-      font-size: 1.3rem;
-      margin-bottom: 15px;
-      font-weight: bold;
-      opacity: 0;
-      transform: translateY(20px);
-      animation-fill-mode: forwards;
-      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .persona-card p,
-    .persona-card li {
-      color: #666;
-      font-size: 0.95rem;
-      margin-bottom: 10px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation-fill-mode: forwards;
-      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .persona-card ul {
-      padding-left: 20px;
-    }
-
-    .persona-card li {
-      margin-bottom: 8px;
-    }
-
-    .persona-card.animate-content h2 {
-      animation-name: slideUpText;
-      animation-duration: 0.8s;
-      animation-delay: 0.4s;
-    }
-
-    .persona-card.animate-content li:nth-child(1) {
-      animation-name: slideUpText;
-      animation-duration: 0.6s;
-      animation-delay: 0.5s;
-    }
-
-    .persona-card.animate-content li:nth-child(2) {
-      animation-name: slideUpText;
-      animation-duration: 0.6s;
-      animation-delay: 0.6s;
-    }
-
-    .persona-card.animate-content li:nth-child(3) {
-      animation-name: slideUpText;
-      animation-duration: 0.6s;
-      animation-delay: 0.7s;
-    }
-
-    .persona-card.animate-content li:nth-child(4) {
-      animation-name: slideUpText;
-      animation-duration: 0.6s;
-      animation-delay: 0.8s;
-    }
-
-    .persona-card.animate-content li:nth-child(5) {
-      animation-name: slideUpText;
-      animation-duration: 0.6s;
-      animation-delay: 0.9s;
-    }
-
-    .persona-card.animate-content li:nth-child(6) {
-      animation-name: slideUpText;
-      animation-duration: 0.6s;
-      animation-delay: 1s;
-    }
-
-    /* Center circle with logo */
-    .center-circle {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      width: 120px;
-      height: 120px;
-      background: #e74c3c;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-      z-index: 10;
-      animation: scaleIn 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-      opacity: 0;
-    }
-
-    .center-circle {
-      animation-delay: 0.3s;
-      animation-fill-mode: forwards;
-    }
-
-    .center-circle img {
-      width: 80px;
-      height: 80px;
-      object-fit: contain;
-      filter: brightness(0) invert(1);
-      opacity: 0;
-      transform: rotate(-180deg);
-      animation: logoAppear 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.9s forwards;
-    }
-
-    .center-text {
-      color: white;
-      font-weight: bold;
-      font-size: 1.1rem;
-      text-align: center;
-    }
-
-    /* Positioning for specific cards */
-    .about-card {
-      grid-column: 1;
-      grid-row: 1;
-    }
-
-    .history-card {
-      grid-column: 2;
-      grid-row: 1;
-    }
-
-    .mission-card {
-      grid-column: 1;
-      grid-row: 2;
-    }
-
-    .vision-card {
-      grid-column: 2;
-      grid-row: 2;
-    }
-
-    /* Animated connecting lines (only top two) */
-    .connecting-line {
-      position: absolute;
-      background: #e74c3c;
-      z-index: 5;
-      opacity: 0;
-    }
-
-    /* Animations */
-    @keyframes scaleIn {
-      from {
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 0;
-      }
-
-      to {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-      }
-    }
-
-    @keyframes logoAppear {
-      from {
-        opacity: 0;
-        transform: rotate(-180deg) scale(0.5);
-      }
-
-      to {
-        opacity: 1;
-        transform: rotate(0deg) scale(1);
-      }
-    }
-
-    @keyframes growVertical {
-      from {
-        opacity: 0;
-        transform: translateX(-50%) scaleY(0);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateX(-50%) scaleY(1);
-      }
-    }
-
-    @keyframes growVerticalRight {
-      from {
-        opacity: 0;
-        transform: translateX(50%) scaleY(0);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateX(50%) scaleY(1);
-      }
-    }
-
-    @keyframes drawBorder {
-      0% {
-        opacity: 1;
-        background: conic-gradient(from 0deg, #e74c3c 0deg, #e74c3c 0deg, transparent 0deg);
-      }
-
-      25% {
-        background: conic-gradient(from 0deg, #e74c3c 90deg, #e74c3c 90deg, transparent 90deg);
-      }
-
-      50% {
-        background: conic-gradient(from 0deg, #e74c3c 180deg, #e74c3c 180deg, transparent 180deg);
-      }
-
-      75% {
-        background: conic-gradient(from 0deg, #e74c3c 270deg, #e74c3c 270deg, transparent 270deg);
-      }
-
-      100% {
-        opacity: 1;
-        background: #e74c3c;
-      }
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes slideUpText {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Responsive design */
-    @media (max-width: 768px) {
-      .persona-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        margin-bottom: 40px;
-      }
-
-      .center-circle {
-        position: static;
-        transform: none;
-        margin: 20px auto;
-        animation: scaleInMobile 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-      }
-
-      @keyframes scaleInMobile {
-        from {
-          transform: scale(0);
-          opacity: 0;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - BCAS Campus</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        to {
-          transform: scale(1);
-          opacity: 1;
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: white;
+            color: black;
+            overflow-x: hidden;
         }
-      }
-
-      .about-card,
-      .history-card,
-      .mission-card,
-      .vision-card {
-        grid-column: 1;
-        grid-row: auto;
-      }
-
-      .connecting-line {
-        display: none;
-      }
-    }
-
-    hr {
-      border: none;
-      height: 2px;
-      background: #e74c3c;
-      margin: 40px 0;
-    }
-  </style>
+        
+        .hero-section {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background-image: url('./DJI_0856.JPG');
+            background-size: cover;
+            background-position: center;
+            will-change: transform;
+            z-index: 1;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .hero-title {
+            font-size: 8vw;
+            font-weight: 700;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            will-change: transform;
+            margin-bottom: 2rem;
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: white;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            color: white;
+            font-size: 14px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+        
+        .content-section {
+            padding: 100px 5%;
+            position: relative;
+            z-index: 4;
+            background-color: white;
+        }
+        
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            flex: 1 1 300px;
+            min-height: 400px;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-top: 4px solid #e63946;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #e63946;
+        }
+        
+        .card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #e63946;
+        }
+        
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            background-color: black;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 12vw;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+                padding: 0 20px;
+            }
+            
+            .card {
+                padding: 30px 20px;
+                min-height: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
 <body>
-  <div class="container">
-    <div class="persona-grid">
-      <!-- About Us Card -->
-      <div class="persona-card about-card">
-        <h2>About Us</h2>
-        <ul>
-          <li>Leading higher education institution in Sri Lanka</li>
-          <li>Internationally recognised programmes with top global universities</li>
-          <li>Accredited Pearson centre for Diplomas, HNDs, and degrees</li>
-          <li>Programmes in Business, Computing, Civil Engineering, Law, and more</li>
-          <li>Campuses in Colombo, Kandy, Kalmunai, and Jaffna</li>
-          <li>World-class education with expert faculty and modern facilities</li>
-        </ul>
-      </div>
-
-      <!-- Our History Card -->
-      <div class="persona-card history-card">
-        <h2>Our History</h2>
-        <ul>
-          <li>Founded in 1999 with mission of providing basic computer education</li>
-          <li>Started with teaching English and IT to school leavers</li>
-          <li>Created flagship "Access Programme" for post-AL students</li>
-          <li>Over 10,000 students gained admission to UK universities</li>
-          <li>First in Sri Lanka to obtain ECDL/ICDL franchise</li>
-          <li>Focused on preparing students for modern job market</li>
-        </ul>
-      </div>
-
-      <!-- Center Circle with Logo -->
-      <div class="center-circle">
-        <div class="center-text">BCAS</div>
-      </div>
-
-      <!-- Mission Card -->
-      <div class="persona-card mission-card">
-        <h2>Mission</h2>
-        <ul>
-          <li>Produce market-relevant quality human resources</li>
-          <li>Focus on ethics and social responsibility</li>
-          <li>Innovation, research and skills development</li>
-          <li>Serve the nation and humanity at large</li>
-          <li>Prepare students for competitive job market</li>
-          <li>Provide globally respected education</li>
-        </ul>
-      </div>
-
-      <!-- Vision Card -->
-      <div class="persona-card vision-card">
-        <h2>Vision</h2>
-        <ul>
-          <li>Become the premier private university in South Asian Region</li>
-          <li>Revolutionize the way people learn and see the world</li>
-          <li>Make education engaging and accessible to everyone</li>
-          <li>Use cutting-edge technology and creative teaching methods</li>
-          <li>Help learners understand and retain information effectively</li>
-          <li>Unlock students' full potential for success</li>
-        </ul>
-      </div>
+    <div class="hero-section">
+        <div class="hero-image" id="heroImage"></div>
+        <div class="hero-content" id="heroContent">
+            <h1 class="hero-title">About Us</h1>
+            <p class="hero-subtitle">Sri Lanka's premier institution for internationally recognized higher education</p>
+        </div>
+        <div class="scroll-indicator">Scroll down</div>
     </div>
-  </div>
-
-  <script>
-    // Animation sequence controller
-    class AnimationController {
-      constructor() {
-        this.init();
-      }
-
-      init() {
-        window.addEventListener('load', () => {
-          this.startAnimationSequence();
+    
+    <div class="content-section">
+        <div class="cards-container">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-university"></i></div>
+                <h2>Who We Are</h2>
+                <p>Leading higher education provider in Sri Lanka offering Pearson-accredited programs in Business, Computing, Engineering, Law and more across four campuses.</p>
+                <p>Our globally recognized qualifications combine academic excellence with practical skills for career success.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-history"></i></div>
+                <h2>Our Journey</h2>
+                <p>Founded in 1999 to provide computer and English education, we've grown into a pathway for 10,000+ students to UK higher education.</p>
+                <p>Pioneers of Sri Lanka's first ECDL/ICDL certification program.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+                <h2>Our Mission</h2>
+                <p>To develop ethical, skilled professionals through innovative education that serves both national needs and global humanity.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-eye"></i></div>
+                <h2>Our Vision</h2>
+                <p>To be South Asia's top private university, transforming education through technology and creative teaching methods.</p>
+                <p>We make learning engaging and accessible for all.</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2023 British College of Applied Studies. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+            const heroImage = document.getElementById('heroImage');
+            const heroContent = document.getElementById('heroContent');
+            const heroTitle = document.querySelector('.hero-title');
+            const heroSubtitle = document.querySelector('.hero-subtitle');
+            
+            // Enhanced parallax with perspective effect
+            heroImage.style.transform = `translateY(${scrollPosition * 0.4}px) scale(${1 + scrollPosition * 0.0005})`;
+            heroImage.style.filter = `brightness(${1 - scrollPosition * 0.002})`;
+            
+            // Staggered content movement
+            heroContent.style.transform = `translate(-50%, calc(-50% + ${Math.min(scrollPosition * 0.5, 200)}px))`;
+            heroTitle.style.transform = `translateY(${Math.min(scrollPosition * 0.3, 100)}px)`;
+            heroSubtitle.style.transform = `translateY(${Math.min(scrollPosition * 0.4, 120)}px)`;
+            
+            // Fade and scale effects
+            const fadeProgress = Math.min(scrollPosition / 300, 1);
+            heroContent.style.opacity = 1 - fadeProgress * 0.8;
+            heroTitle.style.fontSize = `${8 - fadeProgress * 2}vw`;
+            
+            // Background darkening
+            heroImage.style.backgroundColor = `rgba(0,0,0,${fadeProgress * 0.3})`;
         });
-      }
-
-      startAnimationSequence() {
-        // Step 1: Center circle appears (CSS handles this)
-        // Step 2: Animate borders and content together for smoothness
-        setTimeout(() => {
-          this.animateCards();
-        }, 800); // Slightly delayed to let circle appear
-      }
-
-      animateCards() {
-        const cards = document.querySelectorAll('.persona-card');
-        cards.forEach((card, index) => {
-          setTimeout(() => {
-            card.classList.add('animate-border', 'animate-content');
-            // Smooth pulse effect using CSS transition
-            card.style.boxShadow = '0 4px 18px rgba(231,76,60,0.16)';
-            setTimeout(() => {
-              card.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
-            }, 600);
-          }, index * 600 + 800); // stagger with 600ms delay and initial offset
-        });
-      }
-    }
-    new AnimationController();
-  </script>
+    </script>
 </body>
-
 </html>
