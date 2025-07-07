@@ -88,7 +88,6 @@
             will-change: transform;
             z-index: 3;
             transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-            opacity: 0.8;
         }
         
         .scroll-indicator {
@@ -275,16 +274,13 @@
             heroTitle.style.transform = `translateY(${Math.min(scrollPosition * 0.4, 150)}px)`;
             heroSubtitle.style.transform = `translateY(${Math.min(scrollPosition * 0.5, 180)}px)`;
             
-            // Top overlay image (z-index: 3) - moves up 
+            // Top overlay image (z-index: 3) - moves up with constant opacity
             heroOverlayImage.style.transform = `translateY(${-scrollPosition * 0.5}px) scale(${1 + scrollPosition * 0.0004})`;
             
             // Fade effects
             const fadeProgress = Math.min(scrollPosition / 400, 1);
             heroContent.style.opacity = 1 - fadeProgress * 0.9;
             heroTitle.style.fontSize = `${8 - fadeProgress * 2}vw`;
-            
-            // Overlay image fade
-            heroOverlayImage.style.opacity = 0.8 - fadeProgress * 0.3;
             
             // Background darkening
             heroBgImage.style.backgroundColor = `rgba(0,0,0,${fadeProgress * 0.2})`;
