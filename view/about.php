@@ -45,7 +45,7 @@
         /* Text content layer (z-index: 2) */
         .hero-content {
             position: absolute;
-            top: 50%;
+            top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 2;
@@ -177,12 +177,7 @@
             color: #e63946;
         }
         
-        footer {
-            padding: 40px 5%;
-            text-align: center;
-            background-color: black;
-            color: white;
-        }
+
         
         @media (max-width: 768px) {
             .hero-title {
@@ -250,10 +245,7 @@
             </div>
         </div>
     </div>
-    
-    <footer>
-        <p>© 2023 British College of Applied Studies. All rights reserved.</p>
-    </footer>
+
     
     <script>
         window.addEventListener('scroll', function() {
