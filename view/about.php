@@ -133,30 +133,54 @@
         }
         
         .cards-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 30px;
             max-width: 1400px;
             margin: 0 auto;
         }
         
         .card {
-            flex: 1 1 300px;
-            min-height: 400px;
-            padding: 40px;
+            display: flex;
+            min-height: 300px;
             border-radius: 8px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             background-color: white;
             border-top: 4px solid #e63946;
-            display: flex;
-            flex-direction: column;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
         }
         
         .card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-content {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-image {
+            width: 40%;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Alternating image positions */
+        .cards-container .card:nth-child(odd) .card-content {
+            order: 2;
+        }
+        .cards-container .card:nth-child(odd) .card-image {
+            order: 1;
+        }
+        .cards-container .card:nth-child(even) .card-content {
+            order: 1;
+        }
+        .cards-container .card:nth-child(even) .card-image {
+            order: 2;
         }
         
         .card h2 {
@@ -177,7 +201,19 @@
             color: #e63946;
         }
         
-
+        /* Set different background images for each card */
+        .card:nth-child(1) .card-image {
+            background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');
+        }
+        .card:nth-child(2) .card-image {
+            background-image: url('https://images.unsplash.com/photo-1541178735493-479c1a27ed24?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');
+        }
+        .card:nth-child(3) .card-image {
+            background-image: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');
+        }
+        .card:nth-child(4) .card-image {
+            background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');
+        }
         
         @media (max-width: 768px) {
             .hero-title {
@@ -189,9 +225,24 @@
                 padding: 0 20px;
             }
             
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
             .card {
-                padding: 30px 20px;
+                flex-direction: column;
                 min-height: auto;
+            }
+            
+            .card-image {
+                width: 100%;
+                height: 200px;
+            }
+            
+            /* Reset order for mobile */
+            .cards-container .card:nth-child(n) .card-content,
+            .cards-container .card:nth-child(n) .card-image {
+                order: initial;
             }
         }
     </style>
@@ -218,30 +269,42 @@
         <h1 class="section-title" id="sectionTitle">About Us</h1>
         <div class="cards-container">
             <div class="card">
-                <div class="card-icon"><i class="fas fa-university"></i></div>
-                <h2>Who We Are</h2>
-                <p>Leading higher education provider in Sri Lanka offering Pearson-accredited programs in Business, Computing, Engineering, Law and more across four campuses.</p>
-                <p>Our globally recognized qualifications combine academic excellence with practical skills for career success.</p>
+                <div class="card-content">
+                    <div class="card-icon"><i class="fas fa-university"></i></div>
+                    <h2>Who We Are</h2>
+                    <p>Leading higher education provider in Sri Lanka offering Pearson-accredited programs in Business, Computing, Engineering, Law and more across four campuses.</p>
+                    <p>Our globally recognized qualifications combine academic excellence with practical skills for career success.</p>
+                </div>
+                <div class="card-image"></div>
             </div>
             
             <div class="card">
-                <div class="card-icon"><i class="fas fa-history"></i></div>
-                <h2>Our Journey</h2>
-                <p>Founded in 1999 to provide computer and English education, we've grown into a pathway for 10,000+ students to UK higher education.</p>
-                <p>Pioneers of Sri Lanka's first ECDL/ICDL certification program.</p>
+                <div class="card-content">
+                    <div class="card-icon"><i class="fas fa-history"></i></div>
+                    <h2>Our Journey</h2>
+                    <p>Founded in 1999 to provide computer and English education, we've grown into a pathway for 10,000+ students to UK higher education.</p>
+                    <p>Pioneers of Sri Lanka's first ECDL/ICDL certification program.</p>
+                </div>
+                <div class="card-image"></div>
             </div>
             
             <div class="card">
-                <div class="card-icon"><i class="fas fa-bullseye"></i></div>
-                <h2>Our Mission</h2>
-                <p>To develop ethical, skilled professionals through innovative education that serves both national needs and global humanity.</p>
+                <div class="card-content">
+                    <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+                    <h2>Our Mission</h2>
+                    <p>To develop ethical, skilled professionals through innovative education that serves both national needs and global humanity.</p>
+                </div>
+                <div class="card-image"></div>
             </div>
             
             <div class="card">
-                <div class="card-icon"><i class="fas fa-eye"></i></div>
-                <h2>Our Vision</h2>
-                <p>To be South Asia's top private university, transforming education through technology and creative teaching methods.</p>
-                <p>We make learning engaging and accessible for all.</p>
+                <div class="card-content">
+                    <div class="card-icon"><i class="fas fa-eye"></i></div>
+                    <h2>Our Vision</h2>
+                    <p>To be South Asia's top private university, transforming education through technology and creative teaching methods.</p>
+                    <p>We make learning engaging and accessible for all.</p>
+                </div>
+                <div class="card-image"></div>
             </div>
         </div>
     </div>
