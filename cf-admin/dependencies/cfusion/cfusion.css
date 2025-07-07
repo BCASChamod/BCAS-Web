@@ -29,6 +29,32 @@
     --space-xl: clamp(2rem, 1.5rem + 2.5vw, 5rem);
 }
 
+/* Baked in Animations */
+
+    @keyframes strobe-loop {
+        0%   { --valuexd: 1; }
+        5%   { --valuexd: 0.95; }
+        10%  { --valuexd: 0.9; }
+        15%  { --valuexd: 0.85; }
+        20%  { --valuexd: 0.8; }
+        25%  { --valuexd: 0.75; }
+        30%  { --valuexd: 0.7; }
+        35%  { --valuexd: 0.65; }
+        40%  { --valuexd: 0.6; }
+        45%  { --valuexd: 0.55; }
+        50%  { --valuexd: 0.5; }
+        55%  { --valuexd: 0.55; }
+        60%  { --valuexd: 0.6; }
+        65%  { --valuexd: 0.65; }
+        70%  { --valuexd: 0.7; }
+        75%  { --valuexd: 0.75; }
+        80%  { --valuexd: 0.8; }
+        85%  { --valuexd: 0.85; }
+        90%  { --valuexd: 0.9; }
+        95%  { --valuexd: 0.95; }
+        100% { --valuexd: 1; }
+    }
+
 *,
 *::before,
 *::after {

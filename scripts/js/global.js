@@ -610,5 +610,5 @@ window.BranchTracker = {
 
 // Only needed if you're using Font Awesome with JS (SVG version)
 if (window.FontAwesome) {
-  FontAwesome.dom.i2svg(); // this will replace <i> tags with SVGs
+  FontAwesome.dom.i2svg();
 }

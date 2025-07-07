@@ -2,7 +2,7 @@
 require './cf-admin/server/scripts/php/config.php';
 
 $btnBarStmt = $conn->prepare("SELECT id, label, custom_styles, action, action_rest, helptext FROM ui_elements WHERE source = 'landing_btnbar' AND is_active = 1");
-$eventStmt = $conn->prepare("SELECT title, date, location, created_at, coverimg FROM news_and_events WHERE is_active = 1 ORDER BY created_at DESC LIMIT 3");
+$eventStmt = $conn->prepare("SELECT title, date, created_at, coverimg FROM newsfeed WHERE is_active = 1 ORDER BY created_at DESC LIMIT 3");
 $productStmt = $conn->prepare("SELECT id, name, level, program_type FROM products WHERE is_active = 1");
 
 $btnBarStmt->execute();
@@ -29,10 +29,9 @@ $productData = $productResult->fetch_all(MYSQLI_ASSOC);
   <link rel="stylesheet" href="./stylesheets/global.css">
   <link rel="stylesheet" href="./stylesheets/index.css">
   
-
 </head>
 <body>
-  
+
   <main>
     <section id="landing" class="landing">
       <div class="landing-bg">

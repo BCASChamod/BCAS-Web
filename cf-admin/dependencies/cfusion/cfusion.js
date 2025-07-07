@@ -1,8 +1,9 @@
-import { initializeTheme, setupThemeSwitch } from './scripts/theme.js';
-import { injectHeader, injectFooter } from './scripts/template.js';
+import { initializeTheme } from './scripts/theme.js';
+import { injectHeader, injectFooter, injectFavicons } from './scripts/template.js';
 import { injectDependencies } from './scripts/inject_deps.js';
 import { loadMedia } from './scripts/media_handler.js';
 import { loadingOverlay } from './scripts/loading.js';
+import ScrollAnimationFramework from './scripts/animate.js';
 
 initializeTheme();
 // setupThemeSwitch(document.getElementById('themeSwitch'));
@@ -10,6 +11,11 @@ loadMedia();
 injectDependencies('fontawesome', 'cfusion', 'gsap', 'bootstrapGrid');
 loadingOverlay();
 console.log("CFusion Initiated!");
+const scrollFramework = new ScrollAnimationFramework();
+
+window.addEventListener('DOMContentLoaded', () => {
+    scrollFramework.refresh();
+});
 
 const side = document.documentElement.getAttribute('data-side');
 if (side === 'admin') {
@@ -17,6 +23,7 @@ if (side === 'admin') {
 } else { 
     injectHeader();
     injectFooter();
+    injectFavicons();
 }
 
     document.addEventListener("DOMContentLoaded", () => {

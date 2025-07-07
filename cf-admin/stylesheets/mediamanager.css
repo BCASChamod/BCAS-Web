@@ -11,6 +11,9 @@
             padding: var(--space-md);
         }
 
+
+/* #region Modal */
+
         .edit-modal {
             position: fixed;
             top: 50%;
@@ -34,6 +37,10 @@
         }
 
         .edit-modal .header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
             background: linear-gradient(135deg, 
                 rgba(var(--offbg-clr), 0.9) 0%, 
                 rgba(var(--main-clr), 0.1) 100%);
@@ -41,6 +48,10 @@
             border-bottom: 1px solid rgba(var(--txt-clr), 0.1);
             position: relative;
             overflow: hidden;
+        }
+
+        .edit-modal div {
+            flex: 3;
         }
 
         .edit-modal .header::before {
@@ -54,7 +65,7 @@
                 transparent 0%, 
                 rgba(var(--main-clr), 0.1) 50%, 
                 transparent 100%);
-            animation: shimmer 20s ease-in-out infinite;
+            animation: shimmer 5s ease-in-out infinite;
         }
 
         @keyframes shimmer {
@@ -79,9 +90,14 @@
         }
 
         .edit-modal .header img {
-            margin-top: var(--space-md);
-            width: 100%;
-            height: auto;
+            flex: 1;
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+            border: 2px solid rgb(var(--main-clr));
+            border-radius: var(--space-xs);
+            animation: strobe-loop 2s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(var(--main-clr), var(--valuexd));
         }
 
         .edit-modal .content {
@@ -298,3 +314,83 @@
                 padding: var(--space-sm);
             }
         }
+
+/* #endregion */
+
+/* #region Gallery */
+
+/* THE GRID STUFF */
+
+.supporter-list {
+	display: grid;
+	gap: 4px;
+	grid-auto-flow: row dense;
+	grid-template-columns: repeat(auto-fill, 40px);
+
+	a {
+		&.gold {
+			grid-column: span 2;
+			grid-row: span 2;
+		}
+
+		img {
+			display: block;
+		}
+	}
+}
+
+/* OTHER STYLE STUFF */
+
+:root {
+	--bg: #18151f;
+	--text-muted: #79777e;
+}
+
+body {
+	background: var(--bg);
+	color: var(--text-muted);
+	display: flex;
+	flex-direction: column;
+	font-family: system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+		"Segoe UI Symbol";
+	gap: 20px;
+	min-block-size: 100dvb;
+	place-content: center;
+	place-items: center;
+}
+
+p {
+	margin: 0;
+}
+
+a {
+	color: inherit;
+}
+
+.supporter-list {
+	inline-size: 100%;
+	justify-content: start;
+	max-inline-size: 480px;
+
+	a {
+		border-radius: 3px;
+		opacity: 0.85;
+		outline: 1px solid transparent;
+		transition-duration: 150ms;
+		transition-timing-function: linear;
+		transition-property: outline-color, opacity;
+
+		&:has(:hover, :active, :focus) {
+			opacity: 1;
+			outline: 1px solid var(--text-muted);
+		}
+	}
+
+	img {
+		border-radius: 3px;
+	}
+}
+
+
+
+/* #endregion */

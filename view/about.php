@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - BCAS Campus</title>
+    <link rel="stylesheet" href="../stylesheets/global.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -15,8 +16,8 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: white;
-            color: black;
+            background: rgb(var(--bg-clr));
+            color: rgb(var(--txt-clr));
             overflow-x: hidden;
         }
         
@@ -45,7 +46,7 @@
         /* Text content layer (z-index: 2) */
         .hero-content {
             position: absolute;
-            top: 40%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 2;
@@ -309,7 +310,7 @@
         </div>
     </div>
 
-    
+    <script type="module" src="../cf-admin/dependencies/cfusion/cfusion.js"></script>
     <script>
         window.addEventListener('scroll', function() {
             const scrollPosition = window.scrollY;

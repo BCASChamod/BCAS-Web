@@ -4,81 +4,81 @@ export function injectHeader() {
   const header = document.createElement("header");
   header.innerHTML = `
     <nav>
-    <div class="desktop-logo">
-      <a class="logo-container" href="#" aria-label="BCAS Logo">
-        <img id="logo" class="logo" src="" alt="" />
-      </a>
-    </div>
-      <ul class="desktop-nav-content">
+      <div class="desktop-logo">
+        <a class="logo-container" href="#" aria-label="BCAS Logo">
+          <img id="logo" class="logo" src="" alt="" />
+        </a>
+      </div>
+        <ul class="desktop-nav-content">
 
-        <li class="dropdown"><span class="nav-gate">Programmes <i class="fa-regular fa-angle-down"></i></span>
-          <div class="dropdown-container">
-            <div class="dropdown-content">
-              <a class="nav-link" href="http://localhost/bcas-web/view/programmes.php?activetab=undergraduate">Undergraduate</a>
-              <a class="nav-link" href="http://localhost/bcas-web/view/programmes.php?activetab=postgraduate">Postgraduate</a>
+          <li class="dropdown"><span class="nav-gate">Programmes <i class="fa-regular fa-angle-down"></i></span>
+            <div class="dropdown-container">
+              <div class="dropdown-content">
+                <a class="nav-link" href="http://localhost/bcas-web/view/programmes.php?activetab=undergraduate">Undergraduate</a>
+                <a class="nav-link" href="http://localhost/bcas-web/view/programmes.php?activetab=postgraduate">Postgraduate</a>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
 
-        <li class="dropdown"><a class="nav-gate" href="/">About BCAS <i class="fa-regular fa-angle-down"></i></a></i>
-          <div class="dropdown-container">
-            <div class="dropdown-content">
-              <a class="nav-link" href="#">About Us</a>
-              <a class="nav-link" href="#">Board of Governers</a>
-              <a class="nav-link" href="#">Head Staff</a>
-              <a class="nav-link" href="#">Affliations & Partners</a>
+          <li class="dropdown"><a class="nav-gate" href="/">About BCAS <i class="fa-regular fa-angle-down"></i></a></i>
+            <div class="dropdown-container">
+              <div class="dropdown-content">
+                <a class="nav-link" href=""http://localhost/bcas-web/view/about.php">About Us</a>
+                <a class="nav-link" href="#">Board of Governers</a>
+                <a class="nav-link" href="#">Head Staff</a>
+                <a class="nav-link" href="#">Affliations & Partners</a>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
 
-        <li class="dropdown"><a class="nav-gate" href="/">Student Life <i class="fa-regular fa-angle-down"></i></a></i>
-          <div class="dropdown-container">
-            <div class="dropdown-content">
-              <a class="nav-link" href="#">Forum</a>
-              <a class="nav-link" href="#">News & Events</a>
-              <a class="nav-link" href="#">Facilities</a>
-              <a class="nav-link" href="#">Clubs & Society</a>
+          <li class="dropdown"><a class="nav-gate" href="/">Student Life <i class="fa-regular fa-angle-down"></i></a></i>
+            <div class="dropdown-container">
+              <div class="dropdown-content">
+                <a class="nav-link" href="#">Forum</a>
+                <a class="nav-link" href="http://localhost/bcas-web/view/news-feed.php">News & Events</a>
+                <a class="nav-link" href="#">Facilities</a>
+                <a class="nav-link" href="#">Clubs & Society</a>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
 
-        <li class="dropdown"><a class="nav-gate" href="/">Support & Services <i class="fa-regular fa-angle-down"></i></a></i>
-          <div class="dropdown-container">
-            <div class="dropdown-content">
-              <a class="nav-link" href="#">Virtual Learning Environment</a>
-              <a class="nav-link" href="#">Student Support</a>
-              <a class="nav-link" href="#">Certificate Verification</a>
-              <a class="nav-link" href="#">Payments</a>
-              <a class="nav-link" href="#">Careers</a>
+          <li class="dropdown"><a class="nav-gate" href="/">Support & Services <i class="fa-regular fa-angle-down"></i></a></i>
+            <div class="dropdown-container">
+              <div class="dropdown-content">
+                <a class="nav-link" href="#">Virtual Learning Environment</a>
+                <a class="nav-link" href="#">Student Support</a>
+                <a class="nav-link" href="#">Certificate Verification</a>
+                <a class="nav-link" href="#">Payments</a>
+                <a class="nav-link" href="#">Careers</a>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
 
-        <li class="dropdown"><a class="nav-gate" href="/">Insights <i class="fa-regular fa-angle-down"></i></a></i>
-          <div class="dropdown-container">
-            <div class="dropdown-content">
-              <a class="nav-link" href="#">Blogs</a>
-              <a class="nav-link" href="#">Career Guidance</a>
+          <li class="dropdown"><a class="nav-gate" href="/">Insights <i class="fa-regular fa-angle-down"></i></a></i>
+            <div class="dropdown-container">
+              <div class="dropdown-content">
+                <a class="nav-link" href="#">Blogs</a>
+                <a class="nav-link" href="#">Career Guidance</a>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
 
-      </ul>
+        </ul>
 
-      <button class="nav-toggle" aria-label="Toggle navigation">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
+        <button class="nav-toggle" aria-label="Toggle navigation">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
 
-    <div class="desktop-theme-switch">
-      <input type="checkbox" class="theme-switch" id="themeSwitch">
-      <label for="themeSwitch" class="theme-switch-label">
-        <i class="fa-solid fa-moon"></i>
-        <i class="fa-solid fa-sun-bright"></i>
-        <span class="ball"></span>
-      </label>
-    </div>
+      <div class="desktop-theme-switch">
+        <input type="checkbox" class="theme-switch" id="themeSwitch">
+        <label for="themeSwitch" class="theme-switch-label">
+          <i class="fa-solid fa-moon"></i>
+          <i class="fa-solid fa-sun-bright"></i>
+          <span class="ball"></span>
+        </label>
+      </div>
 
     </nav>
   `;
@@ -135,4 +135,69 @@ export function injectFooter() {
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
   }
+}
+
+// faviconInjector.js
+
+export function injectFavicons() {
+
+  let location = "http://localhost/bcas-web/resources/assets/favicons/"
+  let appTitle = "BCAS"
+
+  const tags = [
+    {
+      tag: 'link',
+      attrs: {
+        rel: 'icon',
+        type: 'image/png',
+        href: `${location}favicon-96x96.png`,
+        sizes: '96x96'
+      }
+    },
+    {
+      tag: 'link',
+      attrs: {
+        rel: 'icon',
+        type: 'image/svg+xml',
+        href: `${location}favicon.svg`
+      }
+    },
+    {
+      tag: 'link',
+      attrs: {
+        rel: 'shortcut icon',
+        href: `${location}favicon.ico`
+      }
+    },
+    {
+      tag: 'link',
+      attrs: {
+        rel: 'apple-touch-icon',
+        sizes: '180x180',
+        href: `${location}apple-touch-icon.png`
+      }
+    },
+    {
+      tag: 'meta',
+      attrs: {
+        name: 'apple-mobile-web-app-title',
+        content: appTitle
+      }
+    },
+    {
+      tag: 'link',
+      attrs: {
+        rel: 'manifest',
+        href: `${location}site.webmanifest`
+      }
+    }
+  ];
+
+  tags.forEach(({ tag, attrs }) => {
+    const element = document.createElement(tag);
+    Object.entries(attrs).forEach(([key, value]) => {
+      element.setAttribute(key, value);
+    });
+    document.head.appendChild(element);
+  });
 }

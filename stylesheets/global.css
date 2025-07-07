@@ -107,7 +107,8 @@ main {
 
     .dropdown-content {
       background: rgb(var(--offbg-clr));
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+      outline: 1px solid rgb(var(--txt-clr), 0.2);
       border-radius: 0.5rem;
     }
 
@@ -210,11 +211,31 @@ main {
   }
 
   nav .desktop-nav-content li .nav-gate {
-    text-decoration: none;
-    color: rgba(var(--txt-clr), 0.4) !important;
     position: relative;
-    transition: color 1s;
+    font-weight: 500;
+    font-size: var(--font-base);
+    text-decoration: none;
+    display: block;
+    background: linear-gradient(
+    to right,
+    rgba(var(--main-clr), 1),
+    rgba(var(--alt-clr), 1)
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: rgba(var(--txt-clr), 0.4);
+    -webkit-text-fill-color: rgba(var(--txt-clr), 0.4);
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
   }
+
+  nav .desktop-nav-content li .nav-gate:hover {
+      background-size: 100% 100%;
+  }
+
+.dropdown:hover .nav-gate {
+      background-size: 100% 100%;
+}
 
   /* #endregion */
 
