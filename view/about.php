@@ -27,13 +27,14 @@
             overflow: hidden;
         }
         
-        .hero-image {
+        /* Background image layer (z-index: 1) */
+        .hero-bg-image {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 120%;
-            background-image: url('./DJI_0856.JPG');
+            background-image: url('index1bg.jpg');
             background-size: cover;
             background-position: center;
             will-change: transform;
@@ -41,6 +42,7 @@
             transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
         
+        /* Text content layer (z-index: 2) */
         .hero-content {
             position: absolute;
             top: 50%;
@@ -56,7 +58,7 @@
             font-size: 8vw;
             font-weight: 700;
             color: white;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
             will-change: transform;
             margin-bottom: 2rem;
             transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
@@ -68,8 +70,25 @@
             opacity: 0.9;
             max-width: 800px;
             margin: 0 auto;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
             transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        /* Top overlay image layer (z-index: 3) */
+        .hero-overlay-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background-image: url('index3bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            will-change: transform;
+            z-index: 3;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            opacity: 0.8;
         }
         
         .scroll-indicator {
@@ -77,10 +96,11 @@
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 3;
+            z-index: 4;
             color: white;
             font-size: 14px;
             animation: bounce 2s infinite;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
         }
         
         @keyframes bounce {
@@ -98,8 +118,19 @@
         .content-section {
             padding: 100px 5%;
             position: relative;
-            z-index: 4;
+            z-index: 5;
             background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #e63946;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(50px);
+            will-change: transform, opacity;
         }
         
         .cards-container {
@@ -174,15 +205,23 @@
 </head>
 <body>
     <div class="hero-section">
-        <div class="hero-image" id="heroImage"></div>
+        <!-- Background image layer (z-index: 1) -->
+        <div class="hero-bg-image" id="heroBgImage"></div>
+        
+        <!-- Text content layer (z-index: 2) -->
         <div class="hero-content" id="heroContent">
             <h1 class="hero-title">About Us</h1>
             <p class="hero-subtitle">Sri Lanka's premier institution for internationally recognized higher education</p>
         </div>
+        
+        <!-- Top overlay image layer (z-index: 3) -->
+        <div class="hero-overlay-image" id="heroOverlayImage"></div>
+        
         <div class="scroll-indicator">Scroll down</div>
     </div>
     
     <div class="content-section">
+        <h1 class="section-title" id="sectionTitle">About Us</h1>
         <div class="cards-container">
             <div class="card">
                 <div class="card-icon"><i class="fas fa-university"></i></div>
@@ -220,27 +259,50 @@
     <script>
         window.addEventListener('scroll', function() {
             const scrollPosition = window.scrollY;
-            const heroImage = document.getElementById('heroImage');
+            const heroBgImage = document.getElementById('heroBgImage');
             const heroContent = document.getElementById('heroContent');
+            const heroOverlayImage = document.getElementById('heroOverlayImage');
             const heroTitle = document.querySelector('.hero-title');
             const heroSubtitle = document.querySelector('.hero-subtitle');
+            const sectionTitle = document.getElementById('sectionTitle');
             
-            // Enhanced parallax with perspective effect
-            heroImage.style.transform = `translateY(${scrollPosition * 0.4}px) scale(${1 + scrollPosition * 0.0005})`;
-            heroImage.style.filter = `brightness(${1 - scrollPosition * 0.002})`;
+            // Background image (z-index: 1) - moves up 
+            heroBgImage.style.transform = `translateY(${-scrollPosition * 0.3}px) scale(${1 + scrollPosition * 0.0003})`;
+            heroBgImage.style.filter = `brightness(${1 - scrollPosition * 0.001})`;
             
-            // Staggered content movement
-            heroContent.style.transform = `translate(-50%, calc(-50% + ${Math.min(scrollPosition * 0.5, 200)}px))`;
-            heroTitle.style.transform = `translateY(${Math.min(scrollPosition * 0.3, 100)}px)`;
-            heroSubtitle.style.transform = `translateY(${Math.min(scrollPosition * 0.4, 120)}px)`;
+            // Text content (z-index: 2) - moves down 
+            heroContent.style.transform = `translate(-50%, calc(-50% + ${Math.min(scrollPosition * 0.6, 300)}px))`;
+            heroTitle.style.transform = `translateY(${Math.min(scrollPosition * 0.4, 150)}px)`;
+            heroSubtitle.style.transform = `translateY(${Math.min(scrollPosition * 0.5, 180)}px)`;
             
-            // Fade and scale effects
-            const fadeProgress = Math.min(scrollPosition / 300, 1);
-            heroContent.style.opacity = 1 - fadeProgress * 0.8;
+            // Top overlay image (z-index: 3) - moves up 
+            heroOverlayImage.style.transform = `translateY(${-scrollPosition * 0.5}px) scale(${1 + scrollPosition * 0.0004})`;
+            
+            // Fade effects
+            const fadeProgress = Math.min(scrollPosition / 400, 1);
+            heroContent.style.opacity = 1 - fadeProgress * 0.9;
             heroTitle.style.fontSize = `${8 - fadeProgress * 2}vw`;
             
+            // Overlay image fade
+            heroOverlayImage.style.opacity = 0.8 - fadeProgress * 0.3;
+            
             // Background darkening
-            heroImage.style.backgroundColor = `rgba(0,0,0,${fadeProgress * 0.3})`;
+            heroBgImage.style.backgroundColor = `rgba(0,0,0,${fadeProgress * 0.2})`;
+            
+            // Section title animation - appears progressively on scroll
+            const contentSection = document.querySelector('.content-section');
+            const contentSectionTop = contentSection.offsetTop;
+            const windowHeight = window.innerHeight;
+            
+            // Calculate progress based on scroll position relative to content section
+            const scrollProgress = Math.max(0, Math.min(1, (scrollPosition + windowHeight - contentSectionTop) / (windowHeight * 0.5)));
+            
+            // Apply progressive animation
+            sectionTitle.style.opacity = scrollProgress;
+            sectionTitle.style.transform = `translateY(${50 * (1 - scrollProgress)}px)`;
+            
+            // Optional: Add slight scale effect
+            sectionTitle.style.transform += ` scale(${0.8 + 0.2 * scrollProgress})`;
         });
     </script>
 </body>
